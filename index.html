@@ -11,7 +11,7 @@
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="icon" href="icon-192.png">
 <link rel="manifest" href="manifest.json">
-<script>window.VOS_API = 'https://script.google.com/macros/s/AKfycbzSbgwrfqHnrHizQl3Ng3BcmHB-44yM-MWj9uHjlTViWkU7HS_0f8nOLyPEN--NjQsS/exec';</script>
+<script>window.VOS_API = 'https://dbilaugtfkeeiuflzqtd.supabase.co/functions/v1/versile'; window.VOS_GAS = 'https://script.google.com/macros/s/AKfycbzSbgwrfqHnrHizQl3Ng3BcmHB-44yM-MWj9uHjlTViWkU7HS_0f8nOLyPEN--NjQsS/exec';</script>
 <style>
 body{padding-top:env(safe-area-inset-top)}
 #vscan{position:fixed;inset:0;background:#000;z-index:100;display:none;flex-direction:column}
@@ -144,8 +144,9 @@ var S = { labSize: get('vos_labsize') || 's', token: get('vos_token'), user: (fu
 function get(k){ try { return localStorage.getItem(k); } catch(e){ return null; } }
 function put(k,v){ try { if (v===null) localStorage.removeItem(k); else localStorage.setItem(k,v); } catch(e){} }
 function call(action, p){
-  if (window.VOS_API) {   /* phone app: talk to the Versile OS server directly (no Google login cookies, so no multi-account errors) */
-    return fetch(window.VOS_API, { method:'POST', credentials:'omit', redirect:'follow', headers:{ 'Content-Type':'text/plain;charset=utf-8' },
+  if (window.VOS_API) {   /* phone app: talk to the Versile OS server directly. Courier booking still runs on Google (VOS_GAS). */
+    var GAS_ONLY = { shipQuote: 1, bookShip: 1, shipLabel: 1, cancelShip: 1 };
+    return fetch(GAS_ONLY[action] && window.VOS_GAS ? window.VOS_GAS : window.VOS_API, { method:'POST', credentials:'omit', redirect:'follow', headers:{ 'Content-Type':'text/plain;charset=utf-8' },
         body: JSON.stringify({ app:1, token:S.token, action:action, p:p||{} }) })
       .then(function(r){ return r.json(); })
       .then(function(r){ if (r && r.error === 'LOGIN') { logoutLocal(); return new Promise(function(){}); } return r || {}; })
