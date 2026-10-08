@@ -299,9 +299,11 @@ function key(k){
 function tryLogin(){
   if (pinBuf.length<4) return;
   var p = pinBuf; document.getElementById('perr').textContent = '…';
-  call('login', { pin: p }).then(function(r){
+  call('login', { pin: p, home: 1 }).then(function(r){
     if (!r.token) return renderLogin(r.error==='Wrong PIN' ? w().wrong : r.error);
-    S.token = r.token; put('vos_token', r.token); S.user = r.user; put('vos_user', JSON.stringify(r.user)); start();
+    S.token = r.token; put('vos_token', r.token); S.user = r.user; put('vos_user', JSON.stringify(r.user));
+    if (r.home && !r.home.error) { if (r.home.owner) cput('ownerHome', r.home.od); else cput('staffHome', r.home.data); }
+    start();
   });
 }
 function langPills(){
@@ -559,8 +561,13 @@ function staffCard(task, o, bare){
 }
 function advance(id, from){
   S.busy = true;
+  if (!S.view && S.data && S.data.tasks) {   // instant: take the card off the list now, save in the background
+    Object.keys(S.data.tasks).forEach(function(k){ S.data.tasks[k] = (S.data.tasks[k]||[]).filter(function(o){ return o.id !== id; }); });
+    try { renderStaff(); } catch(e) {}
+  }
+  syncing(true);
   call('advance', { id: id, from: from }).then(function(r){
-    S.busy = false;
+    S.busy = false; syncing(false);
     if (r.error) { toast(r.error); return refresh(); }
     delete S.ticks[id];
     var msg = r.shelfTill ? w().shelfTill+' '+r.shelfTill : w().done;
