@@ -821,7 +821,8 @@ function orderSheet(id){
     '<label class="f">Move to status<select id="stageSel">'+STAGES.map(function(s){ return '<option'+(s===o.stage?' selected':'')+'>'+esc(s)+'</option>'; }).join('')+'</select></label>' +
     '<button class="btn plum" data-act="setstage" data-id="'+esc(o.id)+'">Save status</button>' +
     '<button class="btn line" data-act="undoorder" data-id="'+esc(o.id)+'">Undo last step</button>' +
-    (o.icarryId ? '<button class="btn line" data-act="cancelship" data-id="'+esc(o.id)+'" style="color:var(--wine)">Cancel courier booking</button>' : ''));
+    (o.icarryId ? '<button class="btn line" data-act="cancelship" data-id="'+esc(o.id)+'" style="color:var(--wine)">Cancel courier booking</button>' : '') +
+    '<button class="btn line" data-act="delorder" data-id="'+esc(o.id)+'" style="color:var(--wine)">Delete this order</button>');
 }
 function addSheet(pre){
   pre = pre || {}; S.addPre = pre;
@@ -1007,6 +1008,9 @@ document.addEventListener('click', function(e){
     case 'saveorder': saveOrder(); break;
     case 'saveedit': call('editOrder', { id:id, expdel: document.getElementById('e_exp').value, photos: document.getElementById('e_photos').value }).then(function(r){ closeSheet(); toast(r.error||'Saved'); ownerLoad(true); }); break;
     case 'setstage': call('setStage', { id:id, stage: document.getElementById('stageSel').value }).then(function(r){ closeSheet(); toast(r.error||'Status saved'); ownerLoad(true); }); break;
+    case 'delorder': if (b.getAttribute('data-sure') !== '1') { b.setAttribute('data-sure','1'); b.textContent = 'Tap again to delete '+id+' for ever'; b.style.background = 'var(--wine)'; b.style.color = '#fff'; return; }
+      b.disabled = true; b.textContent = 'Deleting…';
+      call('deleteOrder', { id:id }).then(function(r){ closeSheet(); toast(r.error || (id+' deleted')); ownerLoad(true); }); break;
     case 'undoorder': call('undo', { id:id }).then(function(r){ closeSheet(); toast(r.error||'Undone'); ownerLoad(true); }); break;
     case 'restock': var pid = b.getAttribute('data-p'); ask('How many arrived?', function(v){ call('restock', { partId:pid, qty:v }).then(function(r){ closeSheet(); toast(r.error||'Stock added'); ownerLoad(true); }); }); break;
     case 'count': var pid2 = b.getAttribute('data-p'); ask('Exact count on the shelf now?', function(v){ call('setStock', { partId:pid2, qty:v }).then(function(r){ closeSheet(); toast(r.error||'Count saved'); ownerLoad(true); }); }); break;
