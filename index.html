@@ -1,131 +1,1058 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
 <title>Versile OS</title>
-<meta name="theme-color" content="#2b1b3d">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="Versile OS">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="icon" href="icon-192.png">
 <link rel="manifest" href="manifest.json">
+<script>window.VOS_API = 'https://script.google.com/macros/s/AKfycbzSbgwrfqHnrHizQl3Ng3BcmHB-44yM-MWj9uHjlTViWkU7HS_0f8nOLyPEN--NjQsS/exec';</script>
 <style>
-  html,body{margin:0;height:100%;background:#2b1b3d;font-family:-apple-system,system-ui,Segoe UI,Roboto,sans-serif;overflow:hidden}
-  #app{position:fixed;left:0;right:0;bottom:0;top:env(safe-area-inset-top);width:100%;height:calc(100% - env(safe-area-inset-top));border:0;background:#faf7fb}
-  #splash{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;color:#fff;z-index:5;transition:opacity .3s}
-  #splash img{width:96px;height:96px;border-radius:22px}
-  #splash b{font-size:22px}
-  #scan{position:fixed;inset:0;background:#000;z-index:50;display:none;flex-direction:column}
-  #scan video{flex:1;width:100%;object-fit:cover}
-  #scan .frame{position:absolute;left:50%;top:45%;width:64vw;height:64vw;max-width:300px;max-height:300px;transform:translate(-50%,-50%);border:4px solid #f06292;border-radius:22px;box-shadow:0 0 0 100vmax rgba(0,0,0,.45)}
-  #scan .msg{position:absolute;top:calc(env(safe-area-inset-top) + 24px);left:0;right:0;text-align:center;color:#fff;font-size:20px;font-weight:800}
-  #scan button{position:absolute;bottom:calc(env(safe-area-inset-bottom) + 28px);left:50%;transform:translateX(-50%);padding:16px 40px;font-size:19px;font-weight:800;border:none;border-radius:40px;background:#fff;color:#2b1b3d}
-  #install{position:fixed;left:12px;right:12px;bottom:calc(env(safe-area-inset-bottom) + 12px);z-index:40;background:#fff;border-radius:18px;padding:16px;box-shadow:0 10px 30px rgba(0,0,0,.35);display:none;flex-direction:column;gap:10px;color:#2b1b3d}
-  #install b{font-size:18px}
-  #install p{margin:0;font-size:16px;line-height:1.45}
-  #install .row{display:flex;gap:10px}
-  #install button{flex:1;padding:14px;font-size:17px;font-weight:800;border-radius:12px;border:none}
-  .go{background:#f06292;color:#fff}.no{background:#eee;color:#2b1b3d}
+body{padding-top:env(safe-area-inset-top)}
+#vscan{position:fixed;inset:0;background:#000;z-index:100;display:none;flex-direction:column}
+#vscan video{flex:1;width:100%;object-fit:cover}
+#vscan .fr{position:absolute;left:50%;top:45%;width:64vw;height:64vw;max-width:300px;max-height:300px;transform:translate(-50%,-50%);border:4px solid #C8326B;border-radius:22px;box-shadow:0 0 0 100vmax rgba(0,0,0,.45)}
+#vscan .m{position:absolute;top:calc(env(safe-area-inset-top) + 24px);left:0;right:0;text-align:center;color:#fff;font-size:20px;font-weight:800}
+#vscan button{position:absolute;bottom:calc(env(safe-area-inset-bottom) + 28px);left:50%;transform:translateX(-50%);padding:16px 40px;font-size:19px;font-weight:800;border:none;border-radius:40px;background:#fff;color:#3A1F5D}
+#vinst{position:fixed;left:12px;right:12px;bottom:calc(env(safe-area-inset-bottom) + 12px);z-index:90;background:#fff;border-radius:18px;padding:16px;box-shadow:0 10px 30px rgba(0,0,0,.35);display:none;flex-direction:column;gap:10px;color:#3A1F5D}
+#vinst b{font-size:18px}#vinst p{margin:0;font-size:16px;line-height:1.45}
+#vinst .r{display:flex;gap:10px}#vinst button{flex:1;padding:14px;font-size:17px;font-weight:800;border-radius:12px;border:none}
+#vinst .go{background:#C8326B;color:#fff}#vinst .no{background:#eee;color:#3A1F5D}
+</style>
+
+<meta name="theme-color" content="#3A1F5D">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Noto+Sans+Kannada:wght@500;700&family=Noto+Sans+Devanagari:wght@500;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
+<style>
+:root{--plum:#3A1F5D;--pink:#C8326B;--ink:#1E1530;--muted:#6B6478;--bg:#F5F3F8;--card:#FFFFFF;--line:#E7E1EE;--green:#1F7A4D;--greenbg:#E6F6EE;--amber:#8A5300;--amberbg:#FFF1D6;--wine:#9D1B4E;--winebg:#FDE7EF}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;background:var(--bg);color:var(--ink);font-family:'Plus Jakarta Sans','Noto Sans Kannada','Noto Sans Devanagari',sans-serif}
+button,input,select,textarea{font-family:inherit;font-size:16px;color:var(--ink)}
+button{cursor:pointer}
+button:disabled{opacity:.55}
+a{color:var(--plum)}
+.app{max-width:520px;margin:0 auto;min-height:100vh;position:relative;padding-bottom:90px}
+.h1{font-family:Sora,sans-serif;font-weight:700;font-size:22px;margin:0}
+.muted{color:var(--muted)}
+.row{display:flex;align-items:center;gap:10px}
+.between{justify-content:space-between}
+.pad{padding:18px 16px}
+.card{background:var(--card);border-radius:20px;padding:14px;display:flex;flex-direction:column;gap:10px}
+.btn{min-height:60px;border-radius:16px;border:none;font-size:18px;font-weight:800;display:flex;align-items:center;justify-content:center;gap:8px;width:100%;text-decoration:none;padding:0 12px;text-align:center}
+.btn.green{background:var(--green);color:#fff}.btn.soft{background:var(--greenbg);color:var(--green)}
+.btn.plum{background:var(--plum);color:#fff}.btn.grey{background:#ECE8F1;color:var(--muted)}
+.btn.line{background:#fff;border:2px solid var(--line);color:var(--ink);min-height:50px;font-size:16px;font-weight:700}
+.btn.pink{background:var(--pink);color:#fff}
+.btn.wa{background:#E7F7EE;color:#14663B;min-height:50px;font-size:16px}
+.icon-btn{width:52px;height:52px;border-radius:16px;border:none;background:#fff;color:var(--plum);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.pill{height:38px;padding:0 14px;border-radius:19px;border:1px solid var(--line);background:#fff;font-weight:700;font-size:14px;white-space:nowrap}
+.pill.on{background:var(--plum);color:#fff;border-color:var(--plum)}
+.avatar{width:52px;height:52px;border-radius:26px;background:var(--plum);color:#fff;font-family:Sora;font-weight:700;font-size:20px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.tiles{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.tile{height:92px;border-radius:18px;background:#fff;border:2px solid var(--line);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:6px;text-align:center}
+.tile b{font-family:Sora;font-size:28px;line-height:1}
+.tile span{font-size:13px;font-weight:800;line-height:1.2}
+.banner{border-radius:16px;padding:12px 14px;font-size:15px;font-weight:600}
+.thumbs{width:56px;height:56px;border-radius:14px;background:#EFE8F5;display:grid;grid-template-columns:1fr 1fr;gap:3px;padding:6px;flex-shrink:0}
+.thumbs i{border-radius:4px;background:#D8CCE6}.thumbs i:nth-child(2n){background:#E9C9D6}.thumbs i:nth-child(3){background:#CFDDF2}
+.oname{font-weight:800;font-size:18px}.osub{font-size:14px;color:var(--muted)}
+.tag{font-size:13px;font-weight:800;padding:5px 10px;border-radius:10px;display:inline-block;margin:2px 2px 2px 0}
+.step{min-height:54px;border-radius:14px;border:2px solid var(--line);background:#fff;display:flex;align-items:center;gap:12px;padding:0 12px;text-align:left;font-size:16px;font-weight:700;width:100%}
+.step.on{border-color:var(--green);background:var(--greenbg)}
+.box{width:30px;height:30px;border-radius:9px;border:2px solid #B9AECB;display:flex;align-items:center;justify-content:center;flex-shrink:0;background:#fff}
+.step.on .box{background:var(--green);border-color:var(--green)}
+.urgent{box-shadow:inset 0 0 0 3px var(--wine)}
+.list{display:flex;flex-direction:column;gap:12px;padding:0 16px 16px}
+.toast{position:fixed;left:50%;bottom:96px;transform:translateX(-50%);background:var(--ink);color:#fff;border-radius:16px;padding:12px 14px;display:flex;align-items:center;gap:14px;font-weight:700;z-index:50;max-width:92vw;box-shadow:0 10px 30px rgba(0,0,0,.25)}
+.toast button{background:#fff;color:var(--ink);border:none;border-radius:10px;height:40px;padding:0 14px;font-weight:800}
+.scanfab{position:fixed;right:14px;bottom:86px;z-index:30;width:60px;height:60px;border-radius:50%;border:none;background:#2b1b3d;color:#fff;font-size:26px;box-shadow:0 6px 18px rgba(0,0,0,.28);display:flex;align-items:center;justify-content:center}
+.nav{position:fixed;left:0;right:0;bottom:0;background:#fff;border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(6,1fr);height:72px;z-index:20;max-width:520px;margin:0 auto}
+.nav button{border:none;background:none;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;font-size:11px;font-weight:700;color:var(--muted)}
+.nav button.on{color:var(--pink)}
+.fab{position:fixed;right:max(18px,calc(50vw - 242px));bottom:90px;width:62px;height:62px;border-radius:20px;border:none;background:var(--pink);color:#fff;box-shadow:0 10px 24px rgba(200,50,107,.35);display:flex;align-items:center;justify-content:center;z-index:21}
+.stat{display:flex;flex-direction:column}.stat small{font-size:12px;color:var(--muted)}.stat b{font-size:16px}
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px 14px}
+.bar{height:10px;border-radius:5px;background:#EFE8F5;overflow:hidden}.bar i{display:block;height:100%;border-radius:5px;background:var(--plum)}
+.hero{background:var(--plum);color:#fff;border-radius:0 0 28px 28px;padding:22px 16px 76px}
+.lift{margin:-60px 16px 0;box-shadow:0 10px 30px rgba(58,31,93,.14)}
+.ring{width:96px;height:96px;border-radius:48px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.ring>div{width:76px;height:76px;border-radius:38px;background:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.chips{display:flex;gap:8px;overflow-x:auto;padding:2px 16px 8px}
+.sheet-bg{position:fixed;inset:0;background:rgba(30,21,48,.45);z-index:40;display:flex;align-items:flex-end;justify-content:center}
+.sheet{background:var(--bg);width:100%;max-width:520px;max-height:92vh;overflow-y:auto;border-radius:24px 24px 0 0;padding:18px 16px 28px;display:flex;flex-direction:column;gap:12px}
+label.f{display:flex;flex-direction:column;gap:6px;font-size:14px;font-weight:700}
+label.f input,label.f select,label.f textarea{height:50px;border-radius:14px;border:1px solid var(--line);background:#fff;padding:0 14px;font-weight:500}
+label.f textarea{height:80px;padding:12px 14px}
+.chk{display:flex;align-items:center;gap:10px;font-weight:700;font-size:15px}
+.chk input{width:24px;height:24px}
+.keypad{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;width:100%;max-width:320px}
+.keypad button{height:72px;border-radius:20px;border:none;background:#fff;font-family:Sora;font-size:28px;font-weight:700}
+.dots{display:flex;gap:14px;justify-content:center;height:24px}
+.dots i{width:18px;height:18px;border-radius:9px;border:2px solid var(--plum)}.dots i.f{background:var(--plum)}
+.err{color:var(--wine);font-weight:700;text-align:center;min-height:22px}
+.loading{padding:60px 16px;text-align:center;color:var(--muted);font-weight:600}
+.dot{width:10px;height:10px;border-radius:5px;flex-shrink:0}
+.prow{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid #F1ECF6}
+.badge{border-radius:20px;padding:16px;display:flex;align-items:center;gap:14px}
+.badge b{font-family:Sora;font-size:22px;line-height:1.15}
+.badge .num{width:52px;height:52px;border-radius:26px;background:rgba(255,255,255,.25);font-family:Sora;font-size:24px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.prog{display:grid;grid-template-columns:repeat(10,1fr);gap:4px}.prog i{height:8px;border-radius:4px;background:#E2DAEC}.prog i.f{background:var(--green)}
+.need{display:flex;align-items:center;gap:12px;min-height:56px;border-radius:14px;padding:0 14px;font-size:16px;font-weight:700;border:none;width:100%;text-align:left}
+.need.ok{background:var(--greenbg);color:var(--green)}.need.no{background:var(--amberbg);color:var(--amber)}
+.need .ic{width:30px;height:30px;border-radius:15px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-weight:800}
+.need.ok .ic{background:var(--green);color:#fff}.need.no .ic{background:#fff;border:2px solid var(--amber)}
+.big-id{font-family:Sora;font-size:40px;font-weight:700;letter-spacing:.5px;line-height:1}
+.thumb{width:100%;max-height:260px;object-fit:cover;border-radius:16px;background:#EFE8F5}
+.labrow{display:flex;align-items:center;gap:12px;padding:10px 4px;border-bottom:1px solid #F1ECF6}
+.labrow input{width:24px;height:24px;flex-shrink:0}
+#printArea{display:none}
+@media print{
+  @page{size:A4;margin:0}
+  html,body{background:#fff!important;margin:0!important;padding:0!important}
+  .app,#overlay,.toast,.nav,.fab,.scan-pill,.demo-bar{display:none!important}
+  #printArea{display:block!important}
+  .sheetpage{position:relative;width:210mm;height:296mm;overflow:hidden;page-break-after:always;break-after:page}
+  .sheetpage:last-child{page-break-after:auto;break-after:auto}
+  .lab{position:absolute;box-sizing:border-box;display:flex;align-items:center;overflow:hidden;color:#000;font-family:Arial,sans-serif}
+  .lab .qr svg{display:block;width:100%;height:100%}
+  .sheetpage.cut .lab{border:0.25mm dashed #8a8a8a}
+  .lab .t{display:flex;flex-direction:column;min-width:0;overflow:hidden}
+  .lab .id{font-weight:700;line-height:1;white-space:nowrap}
+  .lab .n,.lab .d{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .lab.s{padding:1.3mm 1.4mm;gap:1.4mm}.lab.s .qr{width:18.5mm;height:18.5mm;flex-shrink:0}
+  .lab.s .id{font-size:9.5pt}.lab.s .n{font-size:6.5pt;margin-top:1mm}.lab.s .d{font-size:6pt}
+  .lab.m{padding:3mm;gap:3mm}.lab.m .qr{width:26mm;height:26mm;flex-shrink:0}
+  .lab.m .id{font-size:15pt}.lab.m .n{font-size:9pt;margin-top:1.5mm;font-weight:700}.lab.m .d{font-size:8pt;margin-top:1mm}
+}
 </style>
 </head>
 <body>
-<div id="splash"><img src="icon-192.png" alt=""><b>Versile OS</b><span>Loading…</span></div>
-<iframe id="app" title="Versile OS" allow="clipboard-write"></iframe>
-
-<div id="scan"><video id="cam" playsinline muted></video><div class="frame"></div><div class="msg">Point at the jar's QR</div><button id="scanClose">Close</button></div>
-
-<div id="install">
-  <b>Install Versile OS on this phone</b>
-  <p id="instText"></p>
-  <div class="row"><button class="go" id="instGo">Install</button><button class="no" id="instNo">Later</button></div>
-</div>
-
+<div class="app" id="app"><div class="loading">Loading…</div></div>
+<div id="overlay"></div>
+<div id="printArea"></div>
 <script>
-/* The Versile OS app (Google Apps Script). Everything else lives there; this page only makes it a phone app. */
-var APP = 'https://script.google.com/macros/s/AKfycbzSbgwrfqHnrHizQl3Ng3BcmHB-44yM-MWj9uHjlTViWkU7HS_0f8nOLyPEN--NjQsS/exec';
-
-var q = new URLSearchParams(location.search), o = (q.get('o') || '').toUpperCase();
-var frame = document.getElementById('app');
-frame.src = APP + '?shell=1' + (o ? '&o=' + encodeURIComponent(o) : '');
-frame.onload = function(){ var s = document.getElementById('splash'); s.style.opacity = 0; setTimeout(function(){ s.style.display = 'none'; }, 300); };
-if (o && history.replaceState) history.replaceState(null, '', location.pathname);
-
-/* ---------- Scan a jar QR with the phone camera ---------- */
-var appWin = null, stream = null, timer = null, detector = null, canvas = document.createElement('canvas'), ctx = canvas.getContext('2d', { willReadFrequently: true });
-window.addEventListener('message', function(e){
-  var d = e.data || {};
-  if (d.versile === 'ready') appWin = e.source;
-  if (d.versile === 'scan') { appWin = e.source; openScanner(); }
-});
-function idFrom(text){
-  var m = String(text || '').match(/[?&]o=(VJ\d+)/i) || String(text || '').match(/^(VJ\d+)$/i);
-  return m ? m[1].toUpperCase() : '';
-}
-function loadJsQR(){
+/* ============================================================ state & server */
+var S = { labSize: get('vos_labsize') || 's', token: get('vos_token'), user: null, lang: get('vos_lang') || 'en', tab: null, task: null, data: null,
+          ticks: {}, filter: 'All', q: '', busy: false, openId: null, view: null };
+function get(k){ try { return localStorage.getItem(k); } catch(e){ return null; } }
+function put(k,v){ try { if (v===null) localStorage.removeItem(k); else localStorage.setItem(k,v); } catch(e){} }
+function call(action, p){
+  if (window.VOS_API) {   /* phone app: talk to the Versile OS server directly (no Google login cookies, so no multi-account errors) */
+    return fetch(window.VOS_API, { method:'POST', credentials:'omit', redirect:'follow', headers:{ 'Content-Type':'text/plain;charset=utf-8' },
+        body: JSON.stringify({ app:1, token:S.token, action:action, p:p||{} }) })
+      .then(function(r){ return r.json(); })
+      .then(function(r){ if (r && r.error === 'LOGIN') { logoutLocal(); return new Promise(function(){}); } return r || {}; })
+      .catch(function(e){ return { error: 'No internet? ' + (e && e.message || '') }; });
+  }
   return new Promise(function(res){
-    if (window.jsQR) return res();
-    var s = document.createElement('script'); s.src = 'https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js'; s.onload = res; s.onerror = res; document.head.appendChild(s);
+    google.script.run.withSuccessHandler(function(r){
+      if (r && r.error === 'LOGIN') { logoutLocal(); return; }
+      res(r || {});
+    }).withFailureHandler(function(e){ res({ error: 'No internet? ' + (e && e.message || '') }); })
+      .api(S.token, action, p || {});
   });
 }
-function openScanner(){
-  var box = document.getElementById('scan'), v = document.getElementById('cam');
-  box.style.display = 'flex';
-  if ('BarcodeDetector' in window) { try { detector = new BarcodeDetector({ formats: ['qr_code'] }); } catch (e) { detector = null; } }
-  (detector ? Promise.resolve() : loadJsQR()).then(function(){
-    return navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' }, audio: false });
-  }).then(function(s){
-    stream = s; v.srcObject = s; return v.play();
-  }).then(function(){ tick(); }).catch(function(){
-    closeScanner(); alert('Camera not allowed. Please allow camera for Versile OS in phone settings.');
-  });
-}
-function tick(){
-  var v = document.getElementById('cam');
-  timer = setTimeout(function(){
-    if (!stream) return;
-    if (detector) {
-      detector.detect(v).then(function(r){ if (r && r[0]) found(r[0].rawValue); else tick(); }).catch(tick);
-    } else if (window.jsQR && v.videoWidth) {
-      var w = Math.min(v.videoWidth, 720), h = Math.round(v.videoHeight * w / v.videoWidth);
-      canvas.width = w; canvas.height = h; ctx.drawImage(v, 0, 0, w, h);
-      var r = jsQR(ctx.getImageData(0, 0, w, h).data, w, h, { inversionAttempts: 'dontInvert' });
-      if (r) found(r.data); else tick();
-    } else tick();
-  }, 180);
-}
-function found(text){
-  var id = idFrom(text);
-  if (!id) { tick(); return; }
-  if (navigator.vibrate) navigator.vibrate(80);
-  closeScanner();
-  if (appWin) appWin.postMessage({ versile: 'open', id: id }, '*');
-  else frame.src = APP + '?shell=1&o=' + encodeURIComponent(id);
-}
-function closeScanner(){
-  clearTimeout(timer);
-  if (stream) stream.getTracks().forEach(function(t){ t.stop(); });
-  stream = null; document.getElementById('scan').style.display = 'none';
-}
-document.getElementById('scanClose').onclick = closeScanner;
+function esc(s){ return String(s===undefined||s===null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];}); }
+function inr(v){ return typeof v==='number' ? (v<0?'−':'')+'₹'+Math.abs(Math.round(v)).toLocaleString('en-IN') : esc(v); }
+function el(){ return document.getElementById('app'); }
+function isOwner(){ return S.user && S.user.roles.indexOf('owner')>=0; }
+function isDesk(){ return S.user && (S.user.roles.indexOf('processor')>=0 || isOwner()); }
+function wa(phone, msg){ var p = String(phone||'').replace(/\D/g,''); if (p.length===10) p='91'+p; return p ? 'https://wa.me/'+p+(msg?'?text='+encodeURIComponent(msg):'') : ''; }
 
-/* ---------- "Install this app" help (shown only in the browser, not inside the installed app) ---------- */
-var standalone = window.matchMedia('(display-mode: standalone)').matches || navigator.standalone === true;
-var ios = /iphone|ipad|ipod/i.test(navigator.userAgent), deferred = null;
-function seen(){ try { return localStorage.getItem('vos_inst') === 'later'; } catch (e) { return false; } }
-function showInstall(text, canClick){
-  if (standalone || seen()) return;
-  document.getElementById('instText').innerHTML = text;
-  document.getElementById('instGo').style.display = canClick ? '' : 'none';
-  document.getElementById('install').style.display = 'flex';
+/* ============================================================ words (staff screens) */
+var W = {
+ en:{hi:'Hi',start:'Start work',end:'End work',since:'Working since',tap:'Tap a box to see the work',doneToday:'done today',
+  t:{edit:'Edit & print',make:'Make jars',video:'Send video',pay:'Get payment',pack:'Pack',ship:'Dispatch',review:'Get review',chase:'Chase customers'},
+  help:{edit:'Open the photos, edit and print them, then press the green button.',make:'Do all 4 steps, then press the green button.',video:'Record the ready jar with its voice, send it on WhatsApp, then press the green button.',pay:'Check the money has come, then press the green button.',pack:'Press "I will pack this", pack it, then press the green button.',ship:'Ship it in iCarry (Unassigned → find this Shopify order), stick the label and hand it over. It moves to Dispatched by itself within 15 minutes.',review:'When the parcel reaches, ask for a photo or video review.',chase:'These customers have not sent something. Tap WhatsApp to remind them.'},
+  b:{edit:'Edited & printed',make:'Jar is ready',video:'Video sent',pay:'Money received',pack:'Packed',ship:'Dispatched',reached:'Parcel reached',reviewed:'Review received'},
+  claim:'I will pack this',leave:'Leave it',packing:'is packing',open:'Open photos',nophoto:'No photos yet',collect:'Collect',first:'Do first',deliver:'Deliver by',shipby:'Ship by',
+  nothing:'No work here. Well done!',done:'Done! Well done.',undo:'Undo',steps:['Cut the photos','Stick the photos in the jar','Put the chocolate and SD card','Close the jar and check'],
+  finish:'Finish all 4 steps first',tickEach:'Tick each step when finished',out:'Something running out?',tell:'Tap it to tell Indra',told:'Indra has been told',logout:'Log out',
+  pin:'Enter your PIN',wrong:'Wrong PIN, try again',order:'Order',left:'left',
+  voiceMissing:'Voice clip not received',voiceGot:'Voice clip received',waitVoice:'Waiting for voice clip',remind:'WhatsApp reminder',
+  shelf:'waiting on the shelf for their date',shipIc:'Tap Book courier, pick the cheapest, print the label and stick it on the box. Tracking updates by itself.',shelfTill:'Keep on the shelf till',onShelf:'On shelf till',
+  needDetails:'Photos & message',needVoice:'Voice clip',needBalance:'Balance paid',days:'days at this step',today:'Started today',
+  nextBy:'Next step',myWork:'My work',home:'Home',labels:'Print QR labels',msg:'Message on jar',
+  roles:{processor:'Gagan',maker:'Jar making team',packer:'Packing team'},
+  stillQ:'You started work at {t}. Are you still working?',stillYes:'Yes, still working',forgotEnd:'I forgot to end work',leftAtQ:'What time did you leave?',todayW:'Today',now:'now',
+  payT:'My pay',thisM:'This month',lastM:'Last month',earnedL:'Earned from work',bonusL:'Bonus',advanceL:'Advance taken',deductionL:'Deduction',paidL:'Already paid',dueL:'To be paid',overL:'Advance is more than earned so far',shiftsL:'shifts',openL:"didn't log off — tell Indra",tapDays:'Tap to see each day',
+  workQ:'What work did you do today?',logoff:'Log off',doneDay:'Done for today ✓',needNote:'Please write what you did (a few words)',
+  myMonth:'My month',daysW:'days worked',hrs:'hours',earned:'earned',forgot:'You did not log off on {d}. Tell Indra what time you left.',
+  logoffHelp:'Check or change the words below, then press Log off.'},
+ kn:{hi:'ನಮಸ್ಕಾರ',start:'ಕೆಲಸ ಶುರು',end:'ಕೆಲಸ ಮುಗಿಸಿ',since:'ಕೆಲಸ ಶುರುವಾದ ಸಮಯ',tap:'ಕೆಲಸ ನೋಡಲು ಬಾಕ್ಸ್ ಒತ್ತಿ',doneToday:'ಇಂದು ಮುಗಿದಿದೆ',
+  t:{edit:'ಎಡಿಟ್ & ಪ್ರಿಂಟ್',make:'ಜಾರ್ ತಯಾರಿಸಿ',video:'ವಿಡಿಯೋ ಕಳುಹಿಸಿ',pay:'ಹಣ ಪಡೆಯಿರಿ',pack:'ಪ್ಯಾಕ್',ship:'ಡಿಸ್ಪ್ಯಾಚ್',review:'ರಿವ್ಯೂ ಪಡೆಯಿರಿ',chase:'ಗ್ರಾಹಕರಿಗೆ ನೆನಪಿಸಿ'},
+  help:{edit:'ಫೋಟೋ ಎಡಿಟ್ ಮಾಡಿ ಪ್ರಿಂಟ್ ಮಾಡಿ, ನಂತರ ಹಸಿರು ಬಟನ್ ಒತ್ತಿ.',make:'4 ಹಂತಗಳನ್ನು ಮುಗಿಸಿ, ನಂತರ ಹಸಿರು ಬಟನ್ ಒತ್ತಿ.',video:'ಜಾರ್ ವಿಡಿಯೋ ಮಾಡಿ ವಾಟ್ಸಾಪ್‌ನಲ್ಲಿ ಕಳುಹಿಸಿ, ನಂತರ ಹಸಿರು ಬಟನ್ ಒತ್ತಿ.',pay:'ಹಣ ಬಂದಿದೆಯೇ ನೋಡಿ, ನಂತರ ಹಸಿರು ಬಟನ್ ಒತ್ತಿ.',pack:'"ನಾನು ಪ್ಯಾಕ್ ಮಾಡುತ್ತೇನೆ" ಒತ್ತಿ, ಪ್ಯಾಕ್ ಮಾಡಿ, ನಂತರ ಹಸಿರು ಬಟನ್ ಒತ್ತಿ.',ship:'iCarry ಯಲ್ಲಿ ಈ Shopify ಆರ್ಡರ್ ಶಿಪ್ ಮಾಡಿ, ಲೇಬಲ್ ಅಂಟಿಸಿ ಕೊರಿಯರ್‌ಗೆ ಕೊಡಿ. 15 ನಿಮಿಷದಲ್ಲಿ ತಾನಾಗಿಯೇ ಡಿಸ್ಪ್ಯಾಚ್ ಆಗುತ್ತದೆ.',review:'ಪಾರ್ಸೆಲ್ ತಲುಪಿದ ಮೇಲೆ ಫೋಟೋ ಅಥವಾ ವಿಡಿಯೋ ರಿವ್ಯೂ ಕೇಳಿ.',chase:'ಈ ಗ್ರಾಹಕರು ಏನೋ ಕಳುಹಿಸಿಲ್ಲ. ವಾಟ್ಸಾಪ್ ಒತ್ತಿ ನೆನಪಿಸಿ.'},
+  b:{edit:'ಎಡಿಟ್ & ಪ್ರಿಂಟ್ ಆಯಿತು',make:'ಜಾರ್ ರೆಡಿ',video:'ವಿಡಿಯೋ ಕಳುಹಿಸಿದೆ',pay:'ಹಣ ಬಂದಿದೆ',pack:'ಪ್ಯಾಕ್ ಆಯಿತು',ship:'ಡಿಸ್ಪ್ಯಾಚ್ ಆಯಿತು',reached:'ಪಾರ್ಸೆಲ್ ತಲುಪಿದೆ',reviewed:'ರಿವ್ಯೂ ಬಂದಿದೆ'},
+  claim:'ನಾನು ಪ್ಯಾಕ್ ಮಾಡುತ್ತೇನೆ',leave:'ಬಿಡಿ',packing:'ಪ್ಯಾಕ್ ಮಾಡುತ್ತಿದ್ದಾರೆ',open:'ಫೋಟೋ ತೆರೆಯಿರಿ',nophoto:'ಫೋಟೋ ಇನ್ನೂ ಬಂದಿಲ್ಲ',collect:'ಪಡೆಯಬೇಕು',first:'ಮೊದಲು ಮಾಡಿ',deliver:'ಡೆಲಿವರಿ',shipby:'ಕಳುಹಿಸುವ ದಿನ',
+  nothing:'ಇಲ್ಲಿ ಕೆಲಸ ಇಲ್ಲ. ಚೆನ್ನಾಗಿದೆ!',done:'ಮುಗಿಯಿತು! ಚೆನ್ನಾಗಿದೆ.',undo:'ವಾಪಸ್',steps:['ಫೋಟೋ ಕತ್ತರಿಸಿ','ಫೋಟೋಗಳನ್ನು ಜಾರ್‌ಗೆ ಅಂಟಿಸಿ','ಚಾಕೊಲೇಟ್ ಮತ್ತು SD ಕಾರ್ಡ್ ಹಾಕಿ','ಜಾರ್ ಮುಚ್ಚಿ ಪರಿಶೀಲಿಸಿ'],
+  finish:'ಮೊದಲು 4 ಹಂತ ಮುಗಿಸಿ',tickEach:'ಪ್ರತಿ ಹಂತ ಮುಗಿದಾಗ ಟಿಕ್ ಮಾಡಿ',out:'ಏನಾದರೂ ಮುಗಿಯುತ್ತಿದೆಯೇ?',tell:'ಇಂದ್ರಾಗೆ ತಿಳಿಸಲು ಒತ್ತಿ',told:'ಇಂದ್ರಾಗೆ ತಿಳಿಸಲಾಗಿದೆ',logout:'ಲಾಗ್ ಔಟ್',
+  pin:'ನಿಮ್ಮ ಪಿನ್ ಹಾಕಿ',wrong:'ತಪ್ಪು ಪಿನ್, ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ',order:'ಆರ್ಡರ್',left:'ಉಳಿದಿದೆ',
+  voiceMissing:'ವಾಯ್ಸ್ ಕ್ಲಿಪ್ ಬಂದಿಲ್ಲ',voiceGot:'ವಾಯ್ಸ್ ಕ್ಲಿಪ್ ಬಂದಿದೆ',waitVoice:'ವಾಯ್ಸ್ ಕ್ಲಿಪ್‌ಗಾಗಿ ಕಾಯುತ್ತಿದೆ',remind:'ವಾಟ್ಸಾಪ್ ನೆನಪು',
+  shelf:'ಪಾರ್ಸೆಲ್‌ಗಳು ದಿನಕ್ಕಾಗಿ ಶೆಲ್ಫ್‌ನಲ್ಲಿವೆ',shipIc:'ಕೊರಿಯರ್ ಬುಕ್ ಒತ್ತಿ, ಕಡಿಮೆ ಬೆಲೆಯದು ಆರಿಸಿ, ಲೇಬಲ್ ಪ್ರಿಂಟ್ ಮಾಡಿ ಬಾಕ್ಸ್‌ಗೆ ಅಂಟಿಸಿ.',shelfTill:'ಈ ದಿನದವರೆಗೆ ಶೆಲ್ಫ್‌ನಲ್ಲಿ ಇಡಿ',onShelf:'ಶೆಲ್ಫ್‌ನಲ್ಲಿ',
+  needDetails:'ಫೋಟೋ & ಸಂದೇಶ',needVoice:'ವಾಯ್ಸ್ ಕ್ಲಿಪ್',needBalance:'ಬಾಕಿ ಹಣ',days:'ದಿನ ಈ ಹಂತದಲ್ಲಿ',today:'ಇಂದು ಶುರು',
+  nextBy:'ಮುಂದಿನ ಹಂತ',myWork:'ನನ್ನ ಕೆಲಸ',home:'ಹೋಮ್',labels:'QR ಲೇಬಲ್ ಪ್ರಿಂಟ್',msg:'ಜಾರ್ ಮೇಲಿನ ಸಂದೇಶ',
+  roles:{processor:'ಗಗನ್',maker:'ಜಾರ್ ತಂಡ',packer:'ಪ್ಯಾಕಿಂಗ್ ತಂಡ'},
+  stillQ:'ನೀವು {t} ಕ್ಕೆ ಕೆಲಸ ಶುರು ಮಾಡಿದ್ದೀರಿ. ಇನ್ನೂ ಕೆಲಸ ಮಾಡುತ್ತಿದ್ದೀರಾ?',stillYes:'ಹೌದು, ಇನ್ನೂ ಕೆಲಸ ಮಾಡುತ್ತಿದ್ದೇನೆ',forgotEnd:'ಕೆಲಸ ಮುಗಿಸಲು ಮರೆತೆ',leftAtQ:'ನೀವು ಎಷ್ಟು ಗಂಟೆಗೆ ಹೊರಟಿರಿ?',todayW:'ಇಂದು',now:'ಈಗ',
+  payT:'ನನ್ನ ಸಂಬಳ',thisM:'ಈ ತಿಂಗಳು',lastM:'ಹಿಂದಿನ ತಿಂಗಳು',earnedL:'ಕೆಲಸದಿಂದ ಸಂಪಾದನೆ',bonusL:'ಬೋನಸ್',advanceL:'ಮುಂಗಡ ಪಡೆದದ್ದು',deductionL:'ಕಡಿತ',paidL:'ಈಗಾಗಲೇ ಕೊಟ್ಟಿದ್ದು',dueL:'ಕೊಡಬೇಕಾದದ್ದು',overL:'ಮುಂಗಡ ಸಂಪಾದನೆಗಿಂತ ಹೆಚ್ಚು',shiftsL:'ಶಿಫ್ಟ್',openL:'ಲಾಗ್ ಆಫ್ ಮಾಡಿಲ್ಲ — ಇಂದ್ರಾಗೆ ತಿಳಿಸಿ',tapDays:'ಪ್ರತಿ ದಿನ ನೋಡಲು ಒತ್ತಿ',
+  workQ:'ಇಂದು ಏನು ಕೆಲಸ ಮಾಡಿದಿರಿ?',logoff:'ಲಾಗ್ ಆಫ್',doneDay:'ಇಂದಿನ ಕೆಲಸ ಮುಗಿದಿದೆ ✓',needNote:'ದಯವಿಟ್ಟು ಮಾಡಿದ ಕೆಲಸ ಬರೆಯಿರಿ',
+  myMonth:'ನನ್ನ ತಿಂಗಳು',daysW:'ದಿನ ಕೆಲಸ',hrs:'ಗಂಟೆ',earned:'ಸಂಪಾದನೆ',forgot:'{d} ರಂದು ನೀವು ಲಾಗ್ ಆಫ್ ಮಾಡಿಲ್ಲ. ಹೊರಟ ಸಮಯವನ್ನು ಇಂದ್ರಾಗೆ ತಿಳಿಸಿ.',
+  logoffHelp:'ಕೆಳಗಿನ ಪದಗಳನ್ನು ನೋಡಿ ಅಥವಾ ಬದಲಿಸಿ, ನಂತರ ಲಾಗ್ ಆಫ್ ಒತ್ತಿ.'},
+ hi:{hi:'नमस्ते',start:'काम शुरू',end:'काम खत्म',since:'काम शुरू हुआ',tap:'काम देखने के लिए बॉक्स दबाएं',doneToday:'आज पूरे',
+  t:{edit:'एडिट & प्रिंट',make:'जार बनाएं',video:'वीडियो भेजें',pay:'पैसे लें',pack:'पैक',ship:'डिस्पैच',review:'रिव्यू लें',chase:'ग्राहकों को याद दिलाएं'},
+  help:{edit:'फोटो एडिट और प्रिंट करें, फिर हरा बटन दबाएं।',make:'चारों काम करें, फिर हरा बटन दबाएं।',video:'जार का वीडियो बनाकर व्हाट्सऐप पर भेजें, फिर हरा बटन दबाएं।',pay:'पैसे आए हैं, देखें, फिर हरा बटन दबाएं।',pack:'"मैं पैक करूंगी" दबाएं, पैक करें, फिर हरा बटन दबाएं।',ship:'iCarry में यह Shopify ऑर्डर शिप करें, लेबल लगाकर कूरियर को दें। 15 मिनट में अपने आप डिस्पैच हो जाएगा।',review:'पार्सल पहुंचने पर फोटो या वीडियो रिव्यू मांगें।',chase:'इन ग्राहकों ने कुछ नहीं भेजा। व्हाट्सऐप दबाकर याद दिलाएं।'},
+  b:{edit:'एडिट & प्रिंट हो गया',make:'जार तैयार',video:'वीडियो भेज दिया',pay:'पैसे मिल गए',pack:'पैक हो गया',ship:'डिस्पैच हो गया',reached:'पार्सल पहुंच गया',reviewed:'रिव्यू मिल गया'},
+  claim:'मैं पैक करूंगी',leave:'छोड़ें',packing:'पैक कर रही हैं',open:'फोटो खोलें',nophoto:'फोटो अभी नहीं आई',collect:'लेना है',first:'पहले करें',deliver:'डिलीवरी',shipby:'भेजने की तारीख',
+  nothing:'यहाँ कोई काम नहीं। शाबाश!',done:'हो गया! शाबाश।',undo:'वापस',steps:['फोटो काटें','फोटो जार में चिपकाएं','चॉकलेट और SD कार्ड रखें','जार बंद करके जांचें'],
+  finish:'पहले चारों काम पूरे करें',tickEach:'हर काम पूरा होने पर टिक करें',out:'कुछ खत्म हो रहा है?',tell:'इंद्रा को बताने के लिए दबाएं',told:'इंद्रा को बता दिया',logout:'लॉग आउट',
+  pin:'अपना पिन डालें',wrong:'गलत पिन, फिर से डालें',order:'ऑर्डर',left:'बाकी',
+  voiceMissing:'वॉइस क्लिप नहीं आई',voiceGot:'वॉइस क्लिप आ गई',waitVoice:'वॉइस क्लिप का इंतज़ार',remind:'व्हाट्सऐप याद दिलाएं',
+  shelf:'पार्सल अपनी तारीख तक शेल्फ पर',shipIc:'कूरियर बुक दबाएं, सबसे सस्ता चुनें, लेबल प्रिंट करके बॉक्स पर लगाएं।',shelfTill:'इस तारीख तक शेल्फ पर रखें',onShelf:'शेल्फ पर',
+  needDetails:'फोटो & मैसेज',needVoice:'वॉइस क्लिप',needBalance:'बाकी पैसे',days:'दिन इस स्टेप पर',today:'आज शुरू',
+  nextBy:'अगला काम',myWork:'मेरा काम',home:'होम',labels:'QR लेबल प्रिंट',msg:'जार पर मैसेज',
+  roles:{processor:'गगन',maker:'जार टीम',packer:'पैकिंग टीम'},
+  stillQ:'आपने {t} पर काम शुरू किया। क्या अभी भी काम कर रहे हैं?',stillYes:'हाँ, अभी काम कर रहा/रही हूँ',forgotEnd:'काम खत्म करना भूल गया/गई',leftAtQ:'आप कितने बजे गए थे?',todayW:'आज',now:'अभी',
+  payT:'मेरी सैलरी',thisM:'इस महीने',lastM:'पिछला महीना',earnedL:'काम से कमाई',bonusL:'बोनस',advanceL:'एडवांस लिया',deductionL:'कटौती',paidL:'पहले ही दिया',dueL:'देना बाकी',overL:'एडवांस कमाई से ज़्यादा',shiftsL:'शिफ्ट',openL:'लॉग ऑफ नहीं किया — इंद्रा को बताएं',tapDays:'हर दिन देखने के लिए दबाएं',
+  workQ:'आज क्या काम किया?',logoff:'लॉग ऑफ',doneDay:'आज का काम पूरा ✓',needNote:'कृपया किया हुआ काम लिखें',
+  myMonth:'मेरा महीना',daysW:'दिन काम',hrs:'घंटे',earned:'कमाई',forgot:'{d} को आपने लॉग ऑफ नहीं किया। इंद्रा को जाने का समय बताएं।',
+  logoffHelp:'नीचे के शब्द देखें या बदलें, फिर लॉग ऑफ दबाएं।'}
+};
+function w(){ return W[S.lang] || W.en; }
+var STAGES = ['Waiting for details','Details received','Photos edited','Jar ready','Video sent','Balance received','Packed','Dispatched','Delivered','Review received','Cancelled','RTO'];
+var STAGE_NAME = {
+  kn:{'Waiting for details':'ಫೋಟೋಗಾಗಿ ಕಾಯುತ್ತಿದೆ','Details received':'ಎಡಿಟ್ ಮಾಡಬೇಕು','Photos edited':'ಜಾರ್ ಮಾಡಬೇಕು','Jar ready':'ಜಾರ್ ರೆಡಿ','Video sent':'ವಿಡಿಯೋ ಕಳುಹಿಸಿದೆ','Balance received':'ಪ್ಯಾಕ್ ಮಾಡಬೇಕು','Packed':'ಪ್ಯಾಕ್ ಆಗಿದೆ','Dispatched':'ಕಳುಹಿಸಲಾಗಿದೆ','Delivered':'ತಲುಪಿದೆ','Review received':'ಮುಗಿದಿದೆ','Cancelled':'ರದ್ದು','RTO':'ವಾಪಸ್'},
+  hi:{'Waiting for details':'फोटो का इंतज़ार','Details received':'एडिट करना है','Photos edited':'जार बनाना है','Jar ready':'जार तैयार','Video sent':'वीडियो भेजा','Balance received':'पैक करना है','Packed':'पैक हो गया','Dispatched':'भेज दिया','Delivered':'पहुंच गया','Review received':'पूरा','Cancelled':'रद्द','RTO':'वापस'}
+};
+function stName(s){ return (STAGE_NAME[S.lang]||{})[s] || s; }
+var TASKS = ['edit','make','video','pay','pack','ship','review','chase'];
+var TCOL = {edit:['#3A1F5D','#EFE8F5'],make:['#9D1B4E','#FDE7EF'],video:['#1D4ED8','#E0ECFF'],pay:['#8A5300','#FFF1D6'],
+            pack:['#0F6674','#E3F4F7'],ship:['#7C2D12','#FFEDD5'],review:['#1F7A4D','#E6F6EE'],chase:['#B4235A','#FCE7F0']};
+var STAGE_TONE = {'Waiting for details':['#FFF1D6','#8A5300'],'Details received':['#EFE8F5','#3A1F5D'],'Photos edited':['#FDE7EF','#9D1B4E'],'Jar ready':['#E0ECFF','#1D4ED8'],
+  'Video sent':['#FFF1D6','#8A5300'],'Balance received':['#E3F4F7','#0F6674'],'Packed':['#EDEFF3','#374151'],'Dispatched':['#FFEDD5','#7C2D12'],
+  'Delivered':['#E6F6EE','#1F7A4D'],'Review received':['#E6F6EE','#1F7A4D'],'Cancelled':['#EEE','#555'],'RTO':['#FDE7EF','#9D1B4E']};
+var BADGE = {'Waiting for details':'#B45309','Details received':'#3A1F5D','Photos edited':'#9D1B4E','Jar ready':'#1D4ED8','Video sent':'#B45309',
+  'Balance received':'#0F6674','Packed':'#374151','Dispatched':'#7C2D12','Delivered':'#1F7A4D','Review received':'#1F7A4D','Cancelled':'#555','RTO':'#9D1B4E'};
+var ICON = {
+ check:'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>',
+ speak:'<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H2v6h4l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M19 5a10 10 0 0 1 0 14"/></svg>',
+ plus:'<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>',
+ back:'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="m15 18-6-6 6-6"/></svg>',
+ home:'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"/></svg>',
+ orders:'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/></svg>',
+ box:'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8 12 3 3 8v8l9 5 9-5z"/><path d="m3 8 9 5 9-5M12 13v8"/></svg>',
+ money:'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 4h12M6 9h12M14 4c3 0 4 2 4 5s-2 5-6 5H7l8 7"/></svg>',
+ team:'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="4"/><path d="M2 21c0-4 3-6 7-6s7 2 7 6"/><circle cx="18" cy="9" r="3"/></svg>',
+ qr:'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 14h3v3M21 14v.01M14 21h7v-4"/></svg>'
+};
+
+/* ============================================================ start */
+function start(){
+  if (!S.token) return renderLogin();
+  el().innerHTML = '<div class="loading">Loading…</div>';
+  call('me').then(function(r){
+    if (!r.user) return renderLogin();
+    S.user = r.user;
+    if (S.openId) { var id = S.openId; S.openId = null; return openOrder(id); }
+    home();
+  });
 }
-document.getElementById('instNo').onclick = function(){ document.getElementById('install').style.display = 'none'; try { localStorage.setItem('vos_inst', 'later'); } catch (e) {} };
-window.addEventListener('beforeinstallprompt', function(e){ e.preventDefault(); deferred = e; showInstall('Tap <b>Install</b>. The Versile OS icon will appear on your home screen.', true); });
-document.getElementById('instGo').onclick = function(){ if (deferred) { deferred.prompt(); deferred = null; } document.getElementById('install').style.display = 'none'; };
-if (ios) setTimeout(function(){ showInstall('In Safari tap the <b>Share</b> button <span style="font-size:20px">&#11014;&#xFE0E;</span> at the bottom, then <b>Add to Home Screen</b>.', false); }, 1500);
-if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(function(){});
+function home(){ S.view = null; if (isOwner()) { S.tab = S.tab || 'home'; ownerLoad(); } else staffLoad(); }
+function logoutLocal(){ put('vos_token', null); S.token = null; S.user = null; S.data = null; renderLogin(); }
+
+/* ============================================================ login */
+var pinBuf = '';
+function renderLogin(msg){
+  pinBuf = '';
+  el().innerHTML = '<div class="pad" style="display:flex;flex-direction:column;align-items:center;gap:22px;padding-top:40px">' +
+    '<div class="avatar" style="width:72px;height:72px;border-radius:24px;font-size:28px">V</div>' +
+    '<div class="h1">Store Versile</div>' + langPills() +
+    '<div style="font-size:18px;font-weight:700">' + esc(w().pin) + '</div>' +
+    '<div class="dots" id="dots">' + dots() + '</div><div class="err" id="perr">' + esc(msg||'') + '</div>' +
+    '<div class="keypad">' + [1,2,3,4,5,6,7,8,9].map(function(n){return '<button data-act="key" data-k="'+n+'">'+n+'</button>';}).join('') +
+    '<button data-act="key" data-k="del" aria-label="Delete">⌫</button><button data-act="key" data-k="0">0</button>' +
+    '<button data-act="key" data-k="ok" aria-label="Enter" style="background:var(--green);color:#fff">' + ICON.check + '</button></div></div>';
+}
+function dots(){ var s=''; for (var i=0;i<Math.max(4,pinBuf.length);i++) s+='<i class="'+(i<pinBuf.length?'f':'')+'"></i>'; return s; }
+function key(k){
+  if (k==='del') pinBuf = pinBuf.slice(0,-1);
+  else if (k==='ok') return tryLogin();
+  else if (pinBuf.length<6) pinBuf += k;
+  document.getElementById('dots').innerHTML = dots();
+  document.getElementById('perr').textContent = '';
+}
+function tryLogin(){
+  if (pinBuf.length<4) return;
+  var p = pinBuf; document.getElementById('perr').textContent = '…';
+  call('login', { pin: p }).then(function(r){
+    if (!r.token) return renderLogin(r.error==='Wrong PIN' ? w().wrong : r.error);
+    S.token = r.token; put('vos_token', r.token); S.user = r.user; start();
+  });
+}
+function langPills(){
+  return '<div class="row" style="gap:6px">' + [['en','English'],['kn','ಕನ್ನಡ'],['hi','हिंदी']].map(function(l){
+    return '<button class="pill'+(S.lang===l[0]?' on':'')+'" data-act="lang" data-l="'+l[0]+'">'+l[1]+'</button>'; }).join('') + '</div>';
+}
+
+/* ============================================================ staff */
+var poll = null;
+function staffLoad(quiet){
+  S.view = null;
+  if (!quiet && !S.data) el().innerHTML = '<div class="loading">Loading…</div>';
+  call('staffHome').then(function(r){
+    if (r.error) return toast(r.error);
+    S.data = r;
+    var mine = myTasks();
+    if (!S.task || mine.indexOf(S.task)<0) S.task = mine.filter(function(t){ return t==='chase' ? r.chaseCount : (r.tasks[t]||[]).length; })[0] || mine[0];
+    if (S.task === 'chase') return loadChase();
+    renderStaff();
+  });
+  clearInterval(poll); poll = setInterval(function(){ if (!S.view && !document.querySelector('.sheet-bg') && !S.busy) staffLoad(true); }, 60000);
+}
+function myTasks(){
+  var r = S.user.roles, own = r.indexOf('owner')>=0, out = [];
+  if (r.indexOf('processor')>=0 || own) out = out.concat(['edit','video','pay','ship','review','chase']);
+  if (r.indexOf('maker')>=0 || own) out.push('make');
+  if (r.indexOf('packer')>=0 || own) out.push('pack');
+  return TASKS.filter(function(t){ return out.indexOf(t)>=0; });
+}
+function countFor(k){ return k==='chase' ? (S.data.chaseCount||0) : (S.data.tasks[k]||[]).length; }
+function staffTop(){
+  var d = S.data, t = w(), mine = myTasks(), cur = S.task;
+  var h = '<div class="pad" style="display:flex;flex-direction:column;gap:12px">' +
+    '<div class="row between"><div class="row"><div class="avatar">'+esc(S.user.name.charAt(0))+'</div><div><div class="h1">'+esc(t.hi)+', '+esc(S.user.name)+'</div>' +
+    '<div style="font-size:14px;font-weight:700;color:'+(d.punchedIn?'var(--green)':'var(--muted)')+'">'+(d.punchedIn? esc(t.since)+' '+esc(d.punchedIn.split(', ')[1]||d.punchedIn) : '&nbsp;')+'</div></div></div>' +
+    '<button class="icon-btn" data-act="speak" aria-label="Read aloud">'+ICON.speak+'</button></div>' +
+    punchBtn(d) + shiftLine(d) + longBanner(d) + (d.forgot ? '<div class="banner" style="background:var(--amberbg);color:var(--amber)">'+esc(t.forgot.replace('{d}', d.forgot))+'</div>' : '') + langPills();
+  if (mine.length > 1) {
+    h += '<div style="font-size:16px;font-weight:800">'+esc(t.tap)+'</div><div class="tiles" style="grid-template-columns:repeat('+(mine.length<=2?2:3)+',minmax(0,1fr))">' +
+      mine.map(function(k){ var c=TCOL[k], n=countFor(k), on=k===cur;
+        return '<button class="tile" data-act="task" data-t="'+k+'" style="'+(on?'background:'+c[0]+';border-color:'+c[0]+';color:#fff':'border-color:'+c[1]+';color:'+c[0])+'"><b>'+n+'</b><span>'+esc(t.t[k])+'</span></button>'; }).join('') + '</div>';
+  }
+  var c = TCOL[cur];
+  h += '<div class="banner" style="background:'+c[1]+';color:'+c[0]+'"><div style="font-weight:800;font-size:17px;margin-bottom:2px">'+esc(t.t[cur])+' · '+countFor(cur)+'</div>'+esc(cur==='ship' && d.icarry ? t.shipIc : t.help[cur]) +
+    (cur==='ship' && d.shelf ? '<div style="margin-top:6px;font-weight:800">'+d.shelf+' '+esc(t.shelf)+'</div>' : '') + '</div></div>';
+  return h;
+}
+function punchBtn(d){
+  var t = w();
+  if (d.punchedIn) return '<button class="btn line" data-act="logoff" style="min-height:54px">'+esc(t.end)+'</button>';
+  return '<button class="btn pink" data-act="punch" style="min-height:54px">'+esc(t.start)+'</button>';
+}
+function shiftLine(d){
+  var t = w(); if (!d.todayShifts || !d.todayShifts.length) return '';
+  return '<div class="osub" style="font-weight:700">'+esc(t.todayW)+': '+d.todayShifts.map(function(x){ return esc(x.inAt)+'–'+(x.outAt?esc(x.outAt):esc(t.now)); }).join(' · ')+'</div>';
+}
+function longBanner(d){
+  var t = w(); if (!d.openLong || S.dismissLong === d.openLong) return '';
+  return '<div class="card" style="background:var(--amberbg);color:var(--amber)"><b style="font-size:16px">'+esc(t.stillQ.replace('{t}', d.openLong))+'</b>' +
+    '<div class="grid2"><button class="btn soft" data-act="stillworking" style="min-height:52px;font-size:15px">'+esc(t.stillYes)+'</button>' +
+    '<button class="btn line" data-act="forgotend" style="min-height:52px;font-size:15px">'+esc(t.forgotEnd)+'</button></div></div>';
+}
+function forgotSheet(){
+  var t = w(), d = S.data || {};
+  sheet('<div class="h1" style="font-size:20px">'+esc(t.leftAtQ)+'</div>' +
+    '<input type="time" id="lo_time" aria-label="'+esc(t.leftAtQ)+'" style="height:60px;border-radius:14px;border:1px solid var(--line);padding:0 14px;font-size:24px">' +
+    '<div class="h1" style="font-size:17px">'+esc(t.workQ)+'</div>' +
+    '<textarea id="lo_note" style="min-height:100px;border-radius:14px;border:1px solid var(--line);padding:12px 14px;font-size:17px">'+esc(d.todaySummary||'')+'</textarea>' +
+    '<button class="btn green" data-act="dologoff" data-left="1">'+ICON.check+esc(t.logoff)+'</button><button class="btn line" data-act="close">'+esc(t.leave)+'</button>');
+}
+function monthKeys(){
+  var n = new Date(), p = new Date(n.getFullYear(), n.getMonth()-1, 1), k = function(d){ return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0'); };
+  return [k(n), k(p)];
+}
+function payBreakdown(tt, t){
+  var line = function(label, v, sign, strong){ return '<div class="row between" style="padding:4px 0'+(strong?';border-top:2px solid var(--line);padding-top:10px;margin-top:4px':'')+'"><span style="'+(strong?'font-weight:800;font-size:17px':'')+'">'+esc(label)+'</span><b style="'+(strong?'font-size:22px;color:var(--green)':'')+'">'+sign+inr(v)+'</b></div>'; };
+  return line(t.earnedL, tt.earned, '') + (tt.bonus?line(t.bonusL, tt.bonus, '+ '):'') + (tt.advance?line(t.advanceL, tt.advance, '− '):'') +
+    (tt.deduction?line(t.deductionL, tt.deduction, '− '):'') + (tt.paid?line(t.paidL, tt.paid, '− '):'') + (tt.due < 0 ? line(t.overL, -tt.due, '', true) : line(t.dueL, tt.due, '', true));
+}
+function myPaySheet(key){
+  var t = w(), ks = monthKeys(); key = key || ks[0];
+  call('myPay', { month: key }).then(function(r){
+    if (r.error) return toast(r.error);
+    sheet('<div class="row between"><div class="h1" style="font-size:20px">'+esc(t.payT)+'</div><button class="pill" data-act="close">✕</button></div>' +
+      '<div class="row" style="gap:8px"><button class="pill'+(key===ks[0]?' on':'')+'" data-act="mypaym" data-m="'+ks[0]+'">'+esc(t.thisM)+'</button><button class="pill'+(key===ks[1]?' on':'')+'" data-act="mypaym" data-m="'+ks[1]+'">'+esc(t.lastM)+'</button></div>' +
+      '<div class="card"><div class="osub" style="font-weight:700">'+esc(r.monthLabel)+' · '+r.daysWorked+' '+esc(t.daysW)+' · '+r.hours+' '+esc(t.hrs)+'</div>'+payBreakdown(r.totals, t)+'</div>' +
+      (r.payments.length ? '<div class="card" style="gap:4px">'+r.payments.map(function(x){ return '<div class="row between osub"><span>'+esc(x.date)+' · '+esc(x.type)+(x.note?' · '+esc(x.note):'')+'</span><b>'+inr(x.amount)+'</b></div>'; }).join('')+'</div>' : '') +
+      '<div class="card" style="gap:0">' + (r.days.length ? r.days.map(function(x){
+        return '<div class="prow"><div style="flex:1"><b>'+esc(x.date)+'</b><div class="osub">'+x.shifts+' '+esc(t.shiftsL)+' · '+hm(x.mins)+(x.open?' · <span style="color:var(--wine);font-weight:700">'+esc(t.openL)+'</span>':'')+'</div></div><b>'+inr(x.pay)+'</b></div>'; }).join('') : '<div class="muted">–</div>') + '</div>');
+  });
+}
+function payrollSheet(key){
+  var ks = monthKeys(); key = key || ks[0];
+  call('payroll', { month: key }).then(function(r){
+    if (r.error) return toast(r.error);
+    S.payroll = r;
+    sheet('<div class="row between"><div class="h1" style="font-size:20px">Payroll · '+esc(r.monthLabel)+'</div><button class="pill" data-act="close">✕</button></div>' +
+      '<div class="row" style="gap:8px"><button class="pill'+(key===ks[0]?' on':'')+'" data-act="payrollm" data-m="'+ks[0]+'">This month</button><button class="pill'+(key===ks[1]?' on':'')+'" data-act="payrollm" data-m="'+ks[1]+'">Last month</button></div>' +
+      '<div class="card" style="background:var(--plum);color:#fff"><div style="font-size:13px;color:#D9CDEA">Total still to pay</div><div style="font-family:Sora;font-size:28px;font-weight:700">'+inr(r.total)+'</div></div>' +
+      r.rows.map(function(p, i){
+        return '<div class="card"><div class="row between"><b style="font-size:17px">'+esc(p.name)+'</b><span class="osub">'+p.days+' day'+(p.days===1?'':'s')+' · '+p.hours+' h · of '+inr(p.monthly)+'/mo</span></div>' +
+          payBreakdown(p.totals, W.en) +
+          '<div class="grid2"><button class="btn line" data-act="payform" data-i="'+i+'" style="min-height:48px;font-size:15px">+ Advance / other</button>' +
+          (p.totals.due > 0 ? '<button class="btn green" data-act="paynow" data-i="'+i+'" style="min-height:48px;font-size:15px">Paid '+inr(p.totals.due)+'</button>' : '<button class="btn soft" data-act="noop" style="min-height:48px;font-size:15px">'+(p.totals.paid > 0 ? 'Settled ✓' : 'Nothing due')+'</button>') + '</div></div>';
+      }).join('') +
+      '<div class="osub">Everything is saved in the Payments tab of the sheet. Staff see their own numbers in "My month".</div>');
+  });
+}
+function payForm(i){
+  var r = S.payroll, p = r.rows[i];
+  sheet('<div class="row between"><div class="h1" style="font-size:20px">'+esc(p.name)+' · '+esc(r.monthLabel)+'</div><button class="pill" data-act="close">✕</button></div>' +
+    '<label class="f">Type<select id="pf_type"><option>Advance</option><option>Deduction</option><option>Bonus</option><option>Salary paid</option></select></label>' +
+    '<label class="f">Amount ₹<input id="pf_amt" type="number" min="1" inputmode="numeric"></label>' +
+    '<label class="f">Note<input id="pf_note" placeholder="e.g. cash, UPI, reason"></label>' +
+    '<button class="btn plum" data-act="savepay" data-i="'+i+'">Save</button><button class="btn line" data-act="payrollback">Back</button>');
+}
+
+var BK = {};
+function bookSheet(id, step){
+  var o = BK.o || {}; step = step || 'start';
+  if (step === 'start') {
+    var it = []; Object.keys(S.data.tasks||{}).forEach(function(k){ (S.data.tasks[k]||[]).forEach(function(x){ if (x.id===id) it.push(x); }); });
+    BK = { id: id, o: it[0] || { id: id, name: '' }, mode: (it[0] && it[0].urgent) ? 'E' : 'S', weight: '', addr: null };
+    o = BK.o;
+  }
+  var addrForm = !o.hasAddr || step === 'addr';
+  var h = '<div class="row between"><div class="h1" style="font-size:20px">Book courier · '+esc(id)+'</div><button class="pill" data-act="close">✕</button></div>' +
+    '<div class="osub">'+esc(o.name||'')+(o.shopify?' · Shopify '+esc(o.shopify):'')+'</div>';
+  if (addrForm) {
+    h += '<div class="banner" style="background:var(--amberbg);color:var(--amber)">No address from Shopify yet. Type it from the WhatsApp chat:</div>' +
+      '<label class="f">Receiver name<input id="ba_name" value="'+esc(o.name||'')+'"></label><label class="f">Receiver phone (10 digits)<input id="ba_phone" inputmode="tel"></label>' +
+      '<label class="f">Address<textarea id="ba_addr"></textarea></label><div class="grid2"><label class="f">City<input id="ba_city"></label><label class="f">Pincode<input id="ba_pin" inputmode="numeric" maxlength="6"></label></div>' +
+      '<label class="f">State code (e.g. KA, TN, MH)<input id="ba_state" maxlength="2" style="text-transform:uppercase"></label>';
+  } else {
+    h += '<div style="background:#F3F7FF;border-radius:12px;padding:10px 12px"><div class="osub" style="font-weight:700">Ship to</div><div style="font-weight:700">'+esc(o.receiver||'')+'</div></div>';
+  }
+  h += '<div class="row" style="gap:8px"><button class="pill'+(BK.mode==='S'?' on':'')+'" data-act="bkmode" data-m="S">Surface (cheaper)</button><button class="pill'+(BK.mode==='E'?' on':'')+'" data-act="bkmode" data-m="E">Air (faster)</button></div>' +
+    '<label class="f">Weight in grams (leave empty for the usual)<input id="bk_w" type="number" inputmode="numeric" value="'+esc(BK.weight)+'"></label>' +
+    '<button class="btn plum" data-act="bkquote">Show courier prices</button><div id="bk_q"></div>';
+  sheet(h);
+}
+function bookAddr(){
+  var v = function(i){ return (document.getElementById(i)||{}).value || ''; };
+  if (!document.getElementById('ba_addr')) return null;
+  return { name: v('ba_name'), phone: v('ba_phone'), address: v('ba_addr'), city: v('ba_city'), pincode: v('ba_pin'), state: v('ba_state').toUpperCase() };
+}
+function bookQuote(){
+  BK.weight = document.getElementById('bk_w').value; BK.addr = bookAddr();
+  var box = document.getElementById('bk_q'); box.innerHTML = '<div class="osub">Getting prices…</div>';
+  if (BK.addr) { box.innerHTML = '<button class="btn green" data-act="bkbook" data-c="">Book (iCarry picks the courier)</button>'; return; }
+  call('shipQuote', { id: BK.id, mode: BK.mode, weight: BK.weight }).then(function(r){
+    if (r.error) { box.innerHTML = '<div class="banner" style="background:var(--winebg);color:var(--wine)">'+esc(r.error)+'</div>'; if (r.needAddr) bookSheet(BK.id, 'addr'); return; }
+    if (!r.quotes.length) { box.innerHTML = '<div class="osub">No courier serves this pincode in this mode. Try the other mode.</div>'; return; }
+    box.innerHTML = '<div class="osub" style="font-weight:700">Tap a courier to book (cheapest first)</div>' + r.quotes.slice(0, 6).map(function(q, i){
+      return '<button class="btn '+(i===0?'green':'line')+'" data-act="bkbook" data-c="'+esc(q.id)+'" style="justify-content:space-between;padding:0 16px"><span>'+esc(q.name)+(i===0?' · cheapest':'')+'</span><span>'+inr(q.cost)+'</span></button>'; }).join('');
+  });
+}
+function bookNow(courier){
+  var box = document.getElementById('bk_q'); box.innerHTML = '<div class="osub">Booking…</div>';
+  call('bookShip', { id: BK.id, mode: BK.mode, weight: BK.weight, courier: courier, addr: BK.addr }).then(function(r){
+    if (r.error) { box.innerHTML = '<div class="banner" style="background:var(--winebg);color:var(--wine)">'+esc(r.error)+'</div>'; return; }
+    sheet('<div class="h1" style="font-size:22px;color:var(--green)">✓ Booked</div><div style="font-size:17px;font-weight:700">'+esc(r.courier||'')+' · AWB '+esc(r.awb)+'</div>' +
+      (r.cost?'<div class="osub">Courier charge about '+inr(r.cost)+'</div>':'') +
+      (r.label ? '<a class="btn plum" href="'+esc(r.label)+'" target="_blank" rel="noopener">Print courier label</a>' : '<button class="btn plum" data-act="getlabel" data-id="'+esc(BK.id)+'">Print courier label</button>') +
+      '<div class="osub">Stick the label on the box. The courier picks it up; tracking updates by itself.</div><button class="btn line" data-act="close">Done</button>');
+    refresh();
+  });
+}
+
+function logoffSheet(){
+  var t = w(), d = S.data || {};
+  sheet('<div class="h1" style="font-size:20px">'+esc(t.workQ)+'</div><div class="osub">'+esc(t.logoffHelp)+'</div>' +
+    '<textarea id="lo_note" aria-label="'+esc(t.workQ)+'" style="min-height:120px;border-radius:14px;border:1px solid var(--line);padding:12px 14px;font-size:17px">'+esc(d.todaySummary||'')+'</textarea>' +
+    '<button class="btn green" data-act="dologoff">'+ICON.check+esc(t.logoff)+'</button><button class="btn line" data-act="close">'+esc(t.leave)+'</button>');
+}
+function staffBottom(){
+  var t = w(), d = S.data;
+  return '<div class="pad" style="padding-top:0;display:flex;flex-direction:column;gap:10px">' +
+    (isDesk() ? '<button class="btn pink" data-act="add">'+ICON.plus+' New order</button><button class="btn line" data-act="labels">'+ICON.qr+' '+esc(t.labels)+'</button>' : '') +
+    '<button class="btn line" data-act="outlist">'+esc(t.out)+'</button>' +
+    (d.myMonth ? '<button class="card" data-act="mypay" style="border:none;text-align:left;width:100%"><div class="row between"><b>'+esc(t.myMonth)+'</b><span class="osub">'+esc(t.tapDays)+' ›</span></div><div class="grid2" style="grid-template-columns:repeat(3,minmax(0,1fr))">' +
+      '<div class="stat"><b style="font-size:20px">'+d.myMonth.days+'</b><small>'+esc(t.daysW)+'</small></div>' +
+      '<div class="stat"><b style="font-size:20px">'+d.myMonth.hours+'</b><small>'+esc(t.hrs)+'</small></div>' +
+      '<div class="stat"><b style="font-size:20px">'+inr(d.myMonth.pay)+'</b><small>'+esc(t.earned)+'</small></div></div>' +
+      (d.myPayNow && d.myPayNow.due !== d.myPayNow.earned ? '<div class="row between" style="border-top:1px solid var(--line);padding-top:8px"><b>'+esc(t.dueL)+'</b><b style="font-size:18px;color:var(--green)">'+inr(d.myPayNow.due)+'</b></div>' : '') +
+      '</button>' : '') +
+    '<div class="row between" style="margin-top:4px"><span class="muted" style="font-weight:700">'+d.doneToday+' '+esc(t.doneToday)+'</span>' +
+    '<button class="pill" data-act="logout">'+esc(t.logout)+'</button></div></div>' + (isOwner() ? ownerNav() : '');
+}
+function renderStaff(){
+  var d = S.data, t = w(), mine = myTasks(), cur = S.task;
+  if (!mine.length) { el().innerHTML = '<div class="pad" style="display:flex;flex-direction:column;gap:14px;padding-top:40px"><div class="h1">'+esc(t.hi)+', '+esc(S.user.name)+'</div>' +
+    punchBtn(d) +
+    '<div class="card muted" style="font-weight:600">No jobs are set for you yet. Please ask Indra.</div><button class="pill" data-act="logout">'+esc(t.logout)+'</button></div>'; return; }
+  var items = (d.tasks[cur] || []);
+  var h = staffTop() + '<div class="list">';
+  if (!items.length) h += '<div class="card" style="align-items:center;padding:30px 14px;font-size:17px;font-weight:700;color:var(--green)">'+esc(t.nothing)+'</div>';
+  items.forEach(function(o){ h += staffCard(cur, o); });
+  el().innerHTML = h + '</div>' + staffBottom();
+}
+function staffCard(task, o, bare){
+  var t = w();
+  var head = bare ? '' : '<div class="row"><div class="thumbs"><i></i><i></i><i></i><i></i></div><div style="flex:1;min-width:0"><div class="oname">'+esc(o.name)+'</div>' +
+    '<div class="osub">'+esc(o.id)+' · '+esc(o.what)+'</div>' + (o.city?'<div class="osub">'+esc(o.city)+'</div>':'') + '</div></div>';
+  var tags = '';
+  if (!bare) {
+    if (o.urgent) tags += '<span class="tag" style="background:var(--wine);color:#fff">'+esc(t.first)+'</span>';
+    if (task==='ship' && o.shipBy) tags += '<span class="tag" style="background:#FFEDD5;color:#7C2D12">'+esc(t.shipby)+' '+esc(o.shipBy)+'</span>';
+    else if (o.due) tags += '<span class="tag" style="background:#F1ECF6;color:var(--plum)">'+esc(t.deliver)+' '+esc(o.due)+'</span>';
+  }
+  if (task==='ship') {
+    tags += (o.hasAddr ? '' : '') + o.shopify ? '<span class="tag" style="background:#E0ECFF;color:#1D4ED8">Shopify '+esc(o.shopify)+'</span>' : '<span class="tag" style="background:var(--amberbg);color:var(--amber)">Address not filled yet</span>';
+  }
+  if (task==='pay' && o.balance) tags += '<span class="tag" style="background:var(--amberbg);color:var(--amber);font-size:15px">'+esc(t.collect)+' '+inr(o.balance)+'</span>';
+  var body = (tags?'<div>'+tags+'</div>':'');
+  if (task==='ship' && o.receiver) body += '<div style="background:#F3F7FF;border-radius:12px;padding:10px 12px"><div class="osub" style="font-weight:700">Ship to</div><div style="font-weight:700">'+esc(o.receiver)+'</div></div>';
+  if ((task==='edit' || task==='make') && o.msg) body += '<div style="background:#FFF8E6;border-radius:12px;padding:10px 12px"><div class="osub" style="font-weight:700">'+esc(t.msg)+'</div><div style="font-weight:700;font-size:16px;white-space:pre-line">'+esc(o.msg)+'</div></div>';
+  if (o.notes && !bare) body += '<div class="osub" style="color:var(--ink);background:#FFF8E6;border-radius:10px;padding:8px 10px">'+esc(o.notes)+'</div>';
+  var act = '';
+  if (task==='edit') body += o.photos ? '<a class="btn line" href="'+esc(o.photos)+'" target="_blank" rel="noopener">'+esc(t.open)+'</a>' : '<div class="osub">'+esc(t.nophoto)+'</div>';
+  if (task==='make') {
+    var tk = S.ticks[o.id] || [false,false,false,false], all = tk.every(Boolean);
+    body += '<div class="osub" style="font-weight:700">'+esc(t.tickEach)+'</div>' + t.steps.map(function(s,i){
+      return '<button class="step'+(tk[i]?' on':'')+'" data-act="tick" data-id="'+esc(o.id)+'" data-i="'+i+'"><span class="box">'+(tk[i]?'<span style="color:#fff">'+ICON.check+'</span>':'')+'</span>'+(i+1)+'. '+esc(s)+'</button>'; }).join('');
+    act = '<button class="btn '+(all?'green':'grey')+'" data-act="'+(all?'adv':'noop')+'" data-id="'+esc(o.id)+'" data-from="'+esc(o.stage)+'">'+(all?ICON.check+esc(t.b.make):esc(t.finish))+'</button>';
+  } else if (task==='pack') {
+    if (o.claimedBy && o.claimedBy !== S.user.name) act = '<button class="btn grey" data-act="noop">'+esc(o.claimedBy)+' '+esc(t.packing)+'</button>';
+    else if (o.claimedBy === S.user.name || bare) act = '<button class="btn green" data-act="adv" data-id="'+esc(o.id)+'" data-from="'+esc(o.stage)+'">'+ICON.check+esc(t.b.pack)+'</button>' + (bare?'':'<button class="btn line" data-act="release" data-id="'+esc(o.id)+'">'+esc(t.leave)+'</button>');
+    else act = '<button class="btn plum" data-act="claim" data-id="'+esc(o.id)+'">'+esc(t.claim)+'</button>';
+  } else if (task==='video' && o.block==='voice') {
+    body += '<div class="need no"><span class="ic">!</span>'+esc(t.voiceMissing)+'</div>';
+    act = '<button class="btn soft" data-act="tickvoice" data-id="'+esc(o.id)+'">'+ICON.check+esc(t.voiceGot)+'</button>' +
+      (o.phone ? '<a class="btn wa" href="'+esc(wa(o.phone,'Hi '+o.name.split(' ')[0]+', please send the voice clip or song for your gift here on WhatsApp. (Order '+o.id+')'))+'" target="_blank" rel="noopener">'+esc(t.remind)+'</a>' : '') +
+      '<button class="btn grey" data-act="noop">'+esc(t.waitVoice)+'</button>';
+  } else if (task==='ship' && o.block!=='hold' && S.data && S.data.icarry) {
+    act = '<button class="btn plum" data-act="book" data-id="'+esc(o.id)+'">🚚 Book courier</button>' +
+      '<button class="pill" data-act="adv" data-id="'+esc(o.id)+'" data-from="'+esc(o.stage)+'" style="align-self:center">Shipped outside the app</button>';
+  } else if (task==='ship' && o.block==='hold') {
+    act = '<button class="btn grey" data-act="noop">'+esc(t.onShelf)+' '+esc(o.shipBy)+'</button>';
+  } else {
+    var label = task==='review' ? (o.stage==='Dispatched' ? t.b.reached : t.b.reviewed) : t.b[task];
+    if (task==='pay' && o.phone && o.balance) body += '<a class="btn wa" href="'+esc(wa(o.phone,'Hi '+o.name.split(' ')[0]+', hope you loved the video! Please pay the balance ₹'+o.balance+' so we can pack your gift. (Order '+o.id+')'))+'" target="_blank" rel="noopener">'+esc(t.remind)+'</a>';
+    act = '<button class="btn green" data-act="adv" data-id="'+esc(o.id)+'" data-from="'+esc(o.stage)+'">'+ICON.check+esc(label)+'</button>';
+  }
+  return bare ? body + act : '<div class="card'+(o.urgent?' urgent':'')+'">'+head+body+act+'</div>';
+}
+function advance(id, from){
+  S.busy = true;
+  call('advance', { id: id, from: from }).then(function(r){
+    S.busy = false;
+    if (r.error) { toast(r.error); return refresh(); }
+    delete S.ticks[id];
+    var msg = r.shelfTill ? w().shelfTill+' '+r.shelfTill : w().done;
+    toast(msg, function(){ call('undo', { id: id }).then(function(u){ if (u.error) toast(u.error); refresh(); }); });
+    refresh();
+  });
+}
+function refresh(){
+  if (S.view === 'order') return openOrder(S.viewId, true);
+  if (S.view === 'chase') return loadChase();
+  if (isOwner() && S.tab !== 'work') return ownerLoad(true);
+  staffLoad(true);
+}
+function speak(){
+  var d = S.data, t = w(); if (!window.speechSynthesis) return;
+  var parts = [t.hi + ' ' + S.user.name + '.'];
+  if (d) myTasks().forEach(function(k){ var n=countFor(k); if (n) parts.push(t.t[k] + ': ' + n + '.'); });
+  parts.push(t.help[S.task] || '');
+  var u = new SpeechSynthesisUtterance(parts.join(' '));
+  u.lang = {en:'en-IN',kn:'kn-IN',hi:'hi-IN'}[S.lang]; u.rate = 0.9;
+  speechSynthesis.cancel(); speechSynthesis.speak(u);
+}
+function outList(){
+  call('parts').then(function(r){
+    var t = w();
+    sheet('<div class="row between"><div class="h1" style="font-size:19px">'+esc(t.out)+'</div><button class="pill" data-act="close">✕</button></div>' +
+      '<div class="muted" style="font-weight:600">'+esc(t.tell)+'</div>' +
+      (r.parts||[]).map(function(p){ return '<button class="btn line" style="justify-content:space-between;padding:0 16px" data-act="report" data-p="'+esc(p.id)+'"><span>'+esc(p.name)+'</span><span class="muted">'+p.stock+' '+esc(t.left)+'</span></button>'; }).join(''));
+  });
+}
+
+/* ============================================================ chase list (owner + Gagan) */
+function loadChase(){
+  S.view = 'chase';
+  call('chase').then(function(r){
+    if (r.error) return toast(r.error);
+    var t = w(), list = r.chase || [];
+    var icon = {details:'📷',voice:'🎙',balance:'₹',address:'📍',tracking:'🚚',review:'⭐'};
+    var h = (isOwner() && S.tab!=='work') ? '<div class="pad row"><button class="icon-btn" data-act="home" aria-label="Back">'+ICON.back+'</button><div class="h1">'+esc(t.t.chase)+' · '+list.length+'</div></div>'
+      : (S.data ? staffTop() : '');
+    h += '<div class="list">';
+    S.inbox = r.inbox || [];
+    S.inbox.forEach(function(f, i){
+      h += '<div class="card urgent"><div class="row between"><div><div class="oname">'+esc(f.name||'Unknown')+'</div><div class="osub">'+esc(f.phone)+' · '+esc(f.when)+'</div></div></div>' +
+        '<div class="need no"><span class="ic">!</span>Photo form received, but no order</div>' +
+        (f.msg?'<div class="osub" style="color:var(--ink)">Message: '+esc(f.msg)+'</div>':'') +
+        '<button class="btn pink" data-act="frominbox" data-i="'+i+'">'+ICON.plus+' Create order</button>' +
+        '<button class="btn line" data-act="ignoreinbox" data-i="'+i+'">Not needed (duplicate / test)</button></div>';
+    });
+    if (!list.length && !S.inbox.length) h += '<div class="card" style="align-items:center;padding:30px 14px;font-size:17px;font-weight:700;color:var(--green)">'+esc(t.nothing)+'</div>';
+    list.forEach(function(c){
+      h += '<div class="card"><div class="row between"><div><div class="oname">'+esc(c.name)+'</div><div class="osub">'+esc(c.id)+(c.due?' · '+esc(t.deliver)+' '+esc(c.due):'')+'</div></div>' +
+        '<span class="tag" style="background:'+(c.days>=2?'var(--winebg);color:var(--wine)':'#F1ECF6;color:var(--plum)')+'">'+c.days+'d</span></div>' +
+        c.items.map(function(it){ return '<div class="need no"><span class="ic">'+icon[it.kind]+'</span>'+esc(it.label)+'</div>'; }).join('') +
+        (c.phone ? '<a class="btn wa" href="'+esc(wa(c.phone,c.msg))+'" target="_blank" rel="noopener">'+esc(t.remind)+'</a>' : '<div class="osub">No WhatsApp number on this order</div>') +
+        c.items.map(function(it){
+          if (it.kind==='voice') return '<button class="btn soft" data-act="tickvoice" data-id="'+esc(c.id)+'">'+ICON.check+esc(t.voiceGot)+'</button>';
+          if (it.kind==='details') return '<button class="btn soft" data-act="tickdetails" data-id="'+esc(c.id)+'">'+ICON.check+'Photos & message received</button>';
+          if (it.kind==='tracking') return '<button class="btn soft" data-act="ticktrack" data-id="'+esc(c.id)+'">'+ICON.check+'Tracking link sent</button>';
+          return '';
+        }).join('') +
+        '<button class="btn line" data-act="open" data-id="'+esc(c.id)+'">Open order</button></div>';
+    });
+    el().innerHTML = h + '</div>' + ((isOwner() && S.tab!=='work') ? ownerNav() : staffBottom());
+  });
+}
+
+/* ============================================================ QR order page */
+function openOrder(id, quiet){
+  S.view = 'order'; S.viewId = id;
+  if (!quiet) { el().innerHTML = '<div class="loading">Loading '+esc(id)+'…</div>'; window.scrollTo(0,0); }
+  call('orderPage', { id: id }).then(function(r){
+    if (r.error) { el().innerHTML = '<div class="pad"><div class="card"><b>'+esc(r.error)+'</b><button class="btn plum" data-act="home">'+esc(w().home)+'</button></div></div>'; return; }
+    renderOrderPage(r.order);
+  });
+}
+function renderOrderPage(o){
+  var t = w(), col = BADGE[o.stage] || '#333', idx = Math.max(0, o.stageIndex);
+  var stuck = o.stuckDays>=1 ? o.stuckDays+' '+t.days : t.today;
+  var h = '<div class="pad" style="display:flex;flex-direction:column;gap:12px">' +
+    '<div class="row between"><button class="pill" data-act="home">'+ICON.back.replace('22','16').replace('22','16')+' '+esc(isOwner()?t.home:t.myWork)+'</button>' + langPills() + '</div>' +
+    '<div class="row between" style="align-items:flex-end"><div><div class="big-id">'+esc(o.id)+'</div><div class="oname" style="margin-top:6px">'+esc(o.name)+'</div>' +
+    '<div class="osub">'+esc(o.what)+(o.city?' · '+esc(o.city):'')+(o.last4?' · WhatsApp …'+esc(o.last4):'')+'</div></div>' +
+    (o.due ? '<div style="text-align:right"><div class="osub">'+esc(t.deliver)+'</div><div style="font-family:Sora;font-weight:700;font-size:20px">'+esc(o.due)+'</div></div>' : '') + '</div>' +
+    '<div class="badge" style="background:'+col+';color:#fff"><span class="num">'+(o.stageIndex>=0 && o.stageIndex<10 ? idx+1 : '–')+'</span><div><b>'+esc(stName(o.stage))+'</b>' +
+      '<div style="font-size:14px;font-weight:600;opacity:.9">'+esc(o.onHold ? t.onShelf+' '+o.shipBy : stuck)+'</div></div></div>' +
+    '<div class="prog">'+[0,1,2,3,4,5,6,7,8,9].map(function(i){ return '<i class="'+(i<=idx && o.stageIndex<10?'f':'')+'"></i>'; }).join('')+'</div>';
+  if (o.chat) h += '<a class="btn wa" style="min-height:58px;font-size:17px" href="'+esc(wa(o.chat))+'" target="_blank" rel="noopener">Open WhatsApp chat · '+esc(o.chatShow)+'</a>' +
+    ((o.alt || o.receiver) ? '<div class="osub">'+(o.alt?'Other number from form: '+esc(o.alt)+'<br>':'')+(o.receiver?'Ship to: '+esc(o.receiver):'')+'</div>' : '');
+  if (o.awb) h += '<div class="card" style="gap:4px"><div class="osub" style="font-weight:700">Courier'+(o.shipStatus?' · '+esc(o.shipStatus):'')+'</div><div style="font-weight:700">'+esc(o.courier||'')+' · AWB '+esc(o.awb)+'</div>'+(o.trackUrl && o.chat?'<a href="'+esc(o.trackUrl)+'" target="_blank" rel="noopener" style="font-weight:700">Open tracking</a>':'')+(o.labelUrl?'<a href="'+esc(o.labelUrl)+'" target="_blank" rel="noopener" style="font-weight:700">Print courier label</a>':'')+'</div>';
+  if (o.thumb) h += '<img class="thumb" src="'+o.thumb+'" alt="Customer photo">';
+  // customer items
+  var needs = [['details', t.needDetails, o.pending.details], ['voice', t.needVoice, o.pending.voice], ['balance', t.needBalance, o.pending.balance]];
+  h += '<div style="display:flex;flex-direction:column;gap:8px">' + needs.map(function(n){
+    var can = o.canTick && n[0] !== 'balance';
+    var tag = can ? 'button data-act="toggle" data-what="'+n[0]+'" data-on="'+(n[2]?'0':'1')+'" data-id="'+esc(o.id)+'"' : 'div';
+    return '<'+tag+' class="need '+(n[2]?'ok':'no')+'"><span class="ic">'+(n[2]?'✓':'')+'</span><span style="flex:1">'+esc(n[1])+'</span>'+(o.balance && n[0]==='balance' && !n[2] ? inr(o.balance) : '')+'</'+tag.split(' ')[0]+'>';
+  }).join('') + '</div>';
+  if (o.msg && ['Details received','Photos edited'].indexOf(o.stage)<0) h += '<div style="background:#FFF8E6;border-radius:12px;padding:10px 12px"><div class="osub" style="font-weight:700">'+esc(t.msg)+'</div><div style="font-weight:700;white-space:pre-line">'+esc(o.msg)+'</div></div>';
+  if (o.notes) h += '<div class="osub" style="color:var(--ink);background:#FFF8E6;border-radius:10px;padding:8px 10px">'+esc(o.notes)+'</div>';
+  // the one big action
+  if (o.canAct && o.task) h += '<div class="card">' + staffCard(o.task, o, true) + '</div>';
+  else if (o.task) h += '<div class="card"><div class="osub" style="font-weight:700">'+esc(t.nextBy)+'</div><div style="font-size:17px;font-weight:800">'+esc(stName(o.next) )+' — '+esc(t.roles[o.nextRole]||'')+'</div></div>';
+  else if (o.stage==='Waiting for details') h += '<div class="card"><div style="font-size:17px;font-weight:800;color:var(--amber)">'+esc(t.needDetails)+' ✗</div></div>';
+  if (isOwner()) h += '<button class="btn line" data-act="ownorder" data-id="'+esc(o.id)+'">Owner options</button>';
+  el().innerHTML = h + '</div>';
+}
+
+/* ============================================================ QR labels */
+function loadLabels(){
+  S.view = 'labels';
+  call('labels').then(function(r){
+    if (r.error) return toast(r.error);
+    S.labels = r.labels || [];
+    var h = '<div class="pad" style="display:flex;flex-direction:column;gap:12px"><div class="row"><button class="icon-btn" data-act="home" aria-label="Back">'+ICON.back+'</button><div class="h1">QR labels</div></div>' +
+      '<div class="banner" style="background:#EFE8F5;color:var(--plum)">Tick the jars that need a label. Stick it on the jar when making starts, and write the VJ number on the SD card.</div>' +
+      '<div class="grid2"><label class="f">Sticker sheet<select id="lab_size"><option value="s"'+(S.labSize!=='m'?' selected':'')+'>Small · 65 per A4 (38 × 21 mm)</option><option value="m"'+(S.labSize==='m'?' selected':'')+'>Big · 24 per A4 (70 × 37 mm)</option></select></label>' +
+      '<label class="f">Start at label #<input id="lab_start" type="number" min="1" value="1" inputmode="numeric"></label></div>' +
+      '<label class="chk"><input type="checkbox" id="lab_cut"'+(S.labCut===false?'':' checked')+'> Show cut lines (for cutting by hand)</label>' +
+      '<div class="osub">Half-used sheet? Count the labels already used and start at the next one. Labels go left to right, top to bottom.</div>' +
+      (!r.base ? '<div class="banner" style="background:var(--amberbg);color:var(--amber)">Deploy the app first — QR codes need the app link.</div>' : '') +
+      '<div class="row" style="gap:8px"><button class="pill" data-act="labsel" data-m="new">Not printed</button><button class="pill" data-act="labsel" data-m="all">All</button><button class="pill" data-act="labsel" data-m="none">None</button></div>' +
+      '<div class="card" style="gap:0">' + (S.labels.length ? S.labels.map(function(l,i){
+        return '<label class="labrow"><input type="checkbox" data-li="'+i+'"'+(l.printed?'':' checked')+'><div style="flex:1"><b>'+esc(l.id)+'</b> · '+esc(l.name)+
+          '<div class="osub">'+esc(l.what)+(l.due?' · deliver '+esc(l.due):'')+(l.printed?' · <span style="color:var(--green)">printed</span>':'')+'</div></div></label>'; }).join('') : '<div class="muted">No open orders.</div>') + '</div>' +
+      '<button class="btn pink" data-act="printlabels">'+ICON.qr+' Print / Save as PDF</button>' +
+      '<div class="card" style="gap:6px"><b>In the print window</b><div class="osub">Paper size <b>A4</b> · Margins <b>None</b> · Scale <b>100%</b> (not "fit to page").<br>To keep a file, choose <b>Save as PDF</b> as the printer.<br>First time: print one page on plain paper and hold it behind a sticker sheet against the light to check the labels line up.</div></div></div>';
+    el().innerHTML = h + (isOwner() ? ownerNav() : '');
+  });
+}
+function printLabels(){
+  var picks = [].slice.call(document.querySelectorAll('[data-li]')).filter(function(c){ return c.checked; }).map(function(c){ return S.labels[Number(c.getAttribute('data-li'))]; });
+  if (!picks.length) return toast('Tick at least one jar');
+  if (typeof qrcode === 'undefined') return toast('QR maker did not load — check internet');
+  var size = document.getElementById('lab_size').value; S.labSize = size; try { localStorage.setItem('vos_labsize', size); } catch(e) {}
+  // exact A4 sticker-sheet layouts (mm): columns, rows, label w/h, left & top margin, horizontal & vertical pitch
+  var L = size === 'm' ? { c:3, r:8, w:70, h:37, x:0, y:0.5, px:70, py:37 } : { c:5, r:13, w:38.1, h:21.2, x:4.7, y:10.7, px:40.6, py:21.2 };
+  var cut = document.getElementById('lab_cut').checked; S.labCut = cut;
+  var per = L.c * L.r, start = Math.min(per, Math.max(1, parseInt(document.getElementById('lab_start').value, 10) || 1)) - 1;
+  var slots = [], pages = '';
+  picks.forEach(function(l, i){ slots.push({ l: l, pos: start + i }); });
+  var nPages = Math.ceil((start + picks.length) / per);
+  for (var pg = 0; pg < nPages; pg++) {
+    pages += '<div class="sheetpage'+(cut?' cut':'')+'">' + slots.filter(function(sl){ return Math.floor(sl.pos / per) === pg; }).map(function(sl){
+      var k = sl.pos % per, col = k % L.c, row = Math.floor(k / L.c), l = sl.l;
+      var q = qrcode(0, 'L'); q.addData(l.url); q.make();
+      return '<div class="lab '+size+'" style="left:'+(L.x + col * L.px)+'mm;top:'+(L.y + row * L.py)+'mm;width:'+L.w+'mm;height:'+L.h+'mm">' +
+        '<div class="qr">'+q.createSvgTag({ cellSize: 2, margin: 0, scalable: true })+'</div><div class="t"><div class="id">'+esc(l.id)+'</div><div class="n">'+esc(l.name)+'</div><div class="d">'+(l.last4?'…'+esc(l.last4)+' · ':'')+esc(l.due||'')+'</div></div></div>';
+    }).join('') + '</div>';
+  }
+  var area = document.getElementById('printArea');
+  area.innerHTML = pages;
+  setTimeout(function(){
+    window.print();
+    call('markLabels', { ids: picks.map(function(l){ return l.id; }) }).then(function(){ toast(picks.length+' label(s) marked printed'); });
+  }, 300);
+}
+
+/* ============================================================ owner */
+function ownerNav(){
+  var tabs = [['home','Home',ICON.home],['orders','Orders',ICON.orders],['work','Work',ICON.check],['team','Team',ICON.team],['stock','Stock',ICON.box],['money','Money',ICON.money]];
+  return '<nav class="nav">' + tabs.map(function(x){ return '<button class="'+(S.tab===x[0] && !S.view?'on':'')+'" data-act="tab" data-t="'+x[0]+'">'+x[2]+x[1]+'</button>'; }).join('') + '</nav>';
+}
+function ownerLoad(quiet){
+  clearInterval(poll); S.view = null;
+  if (S.tab==='work') return staffLoad(quiet);
+  if (!quiet) el().innerHTML = '<div class="loading">Loading…</div>' + ownerNav();
+  var a = {home:'ownerHome',orders:'orders',stock:'parts',money:'money',team:'team'}[S.tab];
+  call(a, S.tab==='team' ? { period: S.tperiod||'today' } : {}).then(function(r){
+    if (r.error) return toast(r.error);
+    S.od = r;
+    ({home:renderHome,orders:renderOrders,stock:renderStock,money:renderMoney,team:renderTeam})[S.tab]();
+  });
+}
+function renderHome(){
+  var h = S.od, td = h.today, m = h.month, tg = h.target;
+  var need = typeof tg.perDayMin==='number' ? tg.perDayMin : 0, pct = need ? Math.min(100, Math.round(100*(td.orders||0)/need)) : 0;
+  var prog = tg.needMin ? Math.max(0,Math.min(100, Math.round(100*(tg.earned||0)/tg.needMin))) : 0;
+  var s = '<div class="hero"><div class="row between"><div><div style="font-size:13px;color:#D9CDEA">'+new Date().toLocaleDateString('en-IN',{weekday:'short',day:'numeric',month:'short'})+'</div>' +
+    '<div class="h1" style="color:#fff">Hi, '+esc(S.user.name)+'</div></div><button class="pill" data-act="logout" style="background:rgba(255,255,255,.12);color:#fff;border:none">Log out</button></div></div>' +
+    '<div class="card lift"><div class="row" style="gap:16px"><div class="ring" style="background:conic-gradient(var(--pink) 0 '+pct+'%, #EFE8F5 '+pct+'% 100%)"><div><b style="font-family:Sora;font-size:24px">'+(td.orders||0)+'</b><small class="muted">of '+(need||'–')+' orders</small></div></div>' +
+    '<div class="grid2" style="flex:1"><div class="stat"><small>Revenue</small><b>'+inr(td.revenue)+'</b></div><div class="stat"><small>Ad spend</small><b>'+inr(td.ads)+'</b></div>' +
+    '<div class="stat"><small>Profit after ads</small><b style="color:var(--green)">'+inr(td.profitAfterAds)+'</b></div><div class="stat"><small>Net today</small><b>'+inr(td.net)+'</b></div></div></div></div>' +
+    '<div class="pad" style="display:flex;flex-direction:column;gap:12px">' +
+    '<div class="grid2"><button class="btn pink" data-act="chase" style="min-height:56px;font-size:16px">Chase customers · '+(h.chaseCount||0)+'</button><button class="btn plum" data-act="labels" style="min-height:56px;font-size:16px">'+ICON.qr+' QR labels</button></div>' +
+    '<div class="card"><div class="row between" style="font-size:14px"><b>This month</b><span class="muted">'+inr(tg.earned)+' of '+inr(tg.needMin)+'</span></div><div class="bar"><i style="width:'+prog+'%"></i></div>' +
+    '<div class="grid2"><div class="stat"><small>Orders</small><b>'+(m.orders||0)+'</b></div><div class="stat"><small>CAC</small><b>'+inr(m.cac)+'</b></div>' +
+    '<div class="stat"><small>Orders/day needed (₹1L)</small><b>'+esc(tg.perDayMin)+'</b></div><div class="stat"><small>Projected month-end</small><b>'+inr(tg.projected)+'</b></div>' +
+    '<div class="stat"><small>Balances to collect</small><b>'+inr(m.pending)+'</b></div><div class="stat"><small>Can make now (MPVJ)</small><b>'+(h.canMake.MPVJ!==undefined?h.canMake.MPVJ:'–')+' jars</b></div></div></div>' +
+    '<b style="font-family:Sora;font-size:16px">Team delays</b>' +
+    (h.alerts.length ? h.alerts.map(function(a){ var col={red:'#C8326B',amber:'#D97706',blue:'#2563EB'}[a.level];
+      return '<div class="card" style="flex-direction:row;align-items:center"><span class="dot" style="background:'+col+'"></span><div><b>'+esc(a.title)+'</b><div class="osub">'+esc(a.sub)+'</div></div></div>'; }).join('')
+      : '<div class="card" style="color:var(--green);font-weight:700">All clear — nothing stuck with the team.</div>') +
+    '<b style="font-family:Sora;font-size:16px">Jars by status</b><div class="card">' +
+    STAGES.filter(function(k){ return ['Review received','Cancelled','RTO'].indexOf(k)<0; }).map(function(k, i){
+      var n = h.counts[k]||0, extra = k==='Packed' && h.shelf ? ' <span class="osub">('+h.shelf+' on shelf)</span>' : '';
+      return '<button class="row between" data-act="gostage" data-s="'+esc(k)+'" style="border:none;background:none;padding:6px 0;font-size:15px;width:100%"><span class="row" style="gap:8px"><span class="dot" style="background:'+(BADGE[k]||'#999')+'"></span>'+(i+1)+'. '+esc(k)+extra+'</span><b>'+n+'</b></button>'; }).join('') +
+    '</div></div>' + ownerNav();
+  el().innerHTML = s;
+}
+function stageTag(s){ var c = STAGE_TONE[s]||['#EEE','#333']; return '<span class="tag" style="background:'+c[0]+';color:'+c[1]+'">'+esc(s)+'</span>'; }
+function miniTicks(o){
+  var x = function(ok, label){ return '<span class="tag" style="background:'+(ok?'var(--greenbg);color:var(--green)':'var(--amberbg);color:var(--amber)')+'">'+(ok?'✓ ':'✗ ')+label+'</span>'; };
+  return x(o.hasDetails,'Photos') + x(o.hasVoice,'Voice') + x(o.pending<=0,'Paid');
+}
+function renderOrders(){
+  var all = S.od.orders || [], f = S.filter, q = S.q.toLowerCase();
+  var list = all.filter(function(o){ return (f==='All'||o.stage===f) && (!q || (o.name+' '+o.phone+' '+(o.alt||'')+' '+(o.receiver||'')+' '+o.id).toLowerCase().indexOf(q)>=0); });
+  var s = '<div class="pad" style="display:flex;flex-direction:column;gap:12px"><div class="row between"><div class="h1">Orders</div><span class="muted">sorted by delivery date</span></div>' +
+    '<input id="q" placeholder="Search name, phone or VJ number" value="'+esc(S.q)+'" style="height:48px;border-radius:14px;border:1px solid var(--line);padding:0 14px"></div>' +
+    '<div class="chips">' + ['All'].concat(STAGES).map(function(x){ var n = x==='All'?all.length:all.filter(function(o){return o.stage===x;}).length; if (!n && x!==f && x!=='All') return '';
+      return '<button class="pill'+(x===f?' on':'')+'" data-act="filter" data-s="'+esc(x)+'">'+esc(x)+' '+n+'</button>'; }).join('') + '</div><div class="list">';
+  if (!list.length) s += '<div class="card muted">No orders.</div>';
+  list.slice(0,150).forEach(function(o){
+    s += '<button class="card" data-act="order" data-id="'+esc(o.id)+'" style="border:none;text-align:left;width:100%"><div class="row between"><div><div class="oname" style="font-size:16px">'+esc(o.id)+' · '+esc(o.name)+'</div>' +
+      '<div class="osub">'+esc(o.what)+' · '+esc(o.source)+'</div></div><b>'+inr(o.net)+'</b></div>' +
+      '<div class="row between">'+stageTag(o.stage)+'<span class="osub">'+(o.onHold?'Shelf till '+esc(o.shipBy):(o.due?'Deliver '+esc(o.due):'No date'))+'</span></div>' +
+      '<div>'+miniTicks(o)+(o.stuckDays>=2?'<span class="tag" style="background:var(--winebg);color:var(--wine)">'+o.stuckDays+'d here</span>':'')+'</div></button>';
+  });
+  s += '</div><button class="fab" data-act="add" aria-label="Add order">'+ICON.plus+'</button>' + ownerNav();
+  el().innerHTML = s;
+  var qi = document.getElementById('q');
+  qi.oninput = function(){ S.q = qi.value; var pos = qi.selectionStart; renderOrders(); var n = document.getElementById('q'); n.focus(); n.setSelectionRange(pos,pos); };
+}
+function isoOf(d){ return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
+function orderSheet(id){
+  var o = (S.od && S.od.orders||[]).filter(function(x){ return x.id===id; })[0];
+  if (!o) return openOrder(id);
+  var link = S.od.formLink ? S.od.formLink + (S.od.formLink.indexOf('?')>=0?'&':'?') + 'order=' + encodeURIComponent(o.id) : '';
+  var formMsg = 'Hi '+o.name.split(' ')[0]+', thank you for your order '+o.id+'! Please send your 6 photos and message here'+(link?': '+link:'.');
+  sheet('<div class="row between"><div><div class="h1" style="font-size:20px">'+esc(o.id)+' · '+esc(o.name)+'</div><div class="osub">'+esc(o.date)+' · '+esc(o.source)+' · '+esc(o.what)+'</div></div><button class="pill" data-act="close">✕</button></div>' +
+    '<div class="card"><div class="grid2"><div class="stat"><small>Amount</small><b>'+inr(o.net)+'</b></div><div class="stat"><small>Balance due</small><b>'+inr(o.pending)+'</b></div>' +
+    '<div class="stat"><small>Deliver by</small><b>'+esc(o.due||'–')+'</b></div><div class="stat"><small>Ship by</small><b>'+esc(o.shipBy||'now')+'</b></div>' +
+    '<div class="stat"><small>Made by</small><b>'+esc(o.madeBy||'–')+'</b></div><div class="stat"><small>Packed by</small><b>'+esc(o.packedBy||'–')+'</b></div></div>' +
+    '<div>'+miniTicks(o)+(o.label?'<span class="tag" style="background:#F1ECF6;color:var(--plum)">QR printed</span>':'')+'</div>' +
+    (o.msg?'<div class="osub">Message: '+esc(o.msg)+'</div>':'') + (o.alt?'<div class="osub">Other number (form): '+esc(o.alt)+'</div>':'') + (o.receiver?'<div class="osub">Ship to: '+esc(o.receiver)+'</div>':'') + (o.shopify?'<div class="osub">Shopify '+esc(o.shopify)+'</div>':'') + (o.awb?'<div class="osub">'+esc(o.courier||'Courier')+' · AWB '+esc(o.awb)+(o.shipStatus?' · '+esc(o.shipStatus):'')+(o.shipCost?' · charge '+inr(o.shipCost):'')+(o.trackUrl?' · <a href="'+esc(o.trackUrl)+'" target="_blank" rel="noopener">track</a>':'')+(o.labelUrl?' · <a href="'+esc(o.labelUrl)+'" target="_blank" rel="noopener">label</a>':'')+'</div>':'') + (o.notes?'<div class="osub">'+esc(o.notes)+'</div>':'') + '<div class="osub">Last update: '+esc(o.updated||'–')+'</div></div>' +
+    '<button class="btn plum" data-act="open" data-id="'+esc(o.id)+'">Open order page (same as QR)</button>' +
+    (o.phone ? '<div class="grid2"><a class="btn wa" href="'+esc(wa(o.phone))+'" target="_blank" rel="noopener">WhatsApp</a><a class="btn line" href="'+esc(wa(o.phone, formMsg))+'" target="_blank" rel="noopener">Send photo form</a></div>' : '') +
+    '<div class="grid2"><button class="btn line" data-act="toggle" data-what="details" data-on="'+(o.hasDetails?'0':'1')+'" data-id="'+esc(o.id)+'">'+(o.hasDetails?'Un-tick':'Tick')+' photos</button>' +
+    '<button class="btn line" data-act="toggle" data-what="voice" data-on="'+(o.hasVoice?'0':'1')+'" data-id="'+esc(o.id)+'">'+(o.hasVoice?'Un-tick':'Tick')+' voice</button></div>' +
+    '<label class="f">Delivery date<input id="e_exp" type="date" value="'+(o.dueTs<9e15?isoOf(new Date(o.dueTs)):'')+'"></label>' +
+    '<label class="f">Photos folder link<input id="e_photos" value="'+esc(o.photos)+'"></label>' +
+    '<button class="btn line" data-act="saveedit" data-id="'+esc(o.id)+'">Save date & link</button>' +
+    '<label class="f">Move to status<select id="stageSel">'+STAGES.map(function(s){ return '<option'+(s===o.stage?' selected':'')+'>'+esc(s)+'</option>'; }).join('')+'</select></label>' +
+    '<button class="btn plum" data-act="setstage" data-id="'+esc(o.id)+'">Save status</button>' +
+    '<button class="btn line" data-act="undoorder" data-id="'+esc(o.id)+'">Undo last step</button>' +
+    (o.icarryId ? '<button class="btn line" data-act="cancelship" data-id="'+esc(o.id)+'" style="color:var(--wine)">Cancel courier booking</button>' : ''));
+}
+function addSheet(pre){
+  pre = pre || {}; S.addPre = pre;
+  var d = new Date(Date.now()+4*864e5);
+  sheet('<div class="row between"><div class="h1" style="font-size:20px">New order</div><button class="pill" data-act="close">✕</button></div>' +
+    (pre.folder ? '<div class="need ok"><span class="ic">✓</span>Photos & message from the form will be attached</div>' : '') +
+    '<label class="f">Customer name *<input id="f_name" autocomplete="off" value="'+esc(pre.name||'')+'"></label>' +
+    '<div class="grid2"><label class="f">WhatsApp number<input id="f_phone" inputmode="tel" value="'+esc(pre.phone||'')+'"></label><label class="f">City<input id="f_city" placeholder="Bengaluru"></label></div>' +
+    '<div class="grid2"><label class="f">Product<select id="f_sku"><option value="MPVJ">Mini Photo Voice Jar</option></select></label><label class="f">Qty<input id="f_qty" type="number" min="1" value="1"></label></div>' +
+    '<div class="grid2"><label class="f">Advance paid ₹<input id="f_adv" type="number" min="0" value="400"></label><label class="f">Discount ₹<input id="f_disc" type="number" min="0" placeholder="0"></label></div>' +
+    '<div class="grid2"><label class="f">Source<select id="f_src"><option>WhatsApp</option><option>Shopify</option><option>Instagram</option><option>Amazon</option><option>Offline</option><option>Corporate</option></select></label><label class="f">Delivery date<input id="f_exp" type="date" value="'+isoOf(d)+'"></label></div>' +
+    '<label class="chk"><input type="checkbox" id="f_voice"> Voice clip already received</label>' +
+    (pre.folder ? '<input type="hidden" id="f_photos" value="'+esc(pre.folder)+'">' : '<label class="f">Photos folder link (leave empty — the customer will use the form)<input id="f_photos" placeholder="https://drive.google.com/…"></label>') +
+    '<label class="f">Ad / campaign<input id="f_camp"></label>' +
+    '<label class="f">Notes for team<textarea id="f_notes"></textarea></label>' +
+    '<button class="btn pink" data-act="saveorder">Save order</button>');
+}
+function saveOrder(){
+  var v = function(i){ return (document.getElementById(i)||{}).value || ''; };
+  var p = { name:v('f_name'), phone:v('f_phone'), city:v('f_city'), sku:v('f_sku'), qty:v('f_qty'), discount:v('f_disc'), advance:v('f_adv'),
+            source:v('f_src'), expdel:v('f_exp'), photos:v('f_photos'), campaign:v('f_camp'), notes:v('f_notes'), voice: document.getElementById('f_voice').checked,
+            msg: (S.addPre||{}).msg || '', inboxRow: (S.addPre||{}).row || '' };
+  if (!p.name.trim()) return toast('Enter customer name');
+  call('addOrder', p).then(function(r){
+    if (r.error) return toast(r.error);
+    var first = r.name.split(' ')[0];
+    var msg = 'Hi '+first+', thank you! Your order number is '+r.id+'.'+(r.formLink?' Please send your 6 photos and message here: '+r.formLink:'');
+    sheet('<div class="h1" style="font-size:22px;color:var(--green)">✓ Order '+esc(r.id)+' saved</div>' +
+      (!r.hasPhotos && r.phone ? '<a class="btn wa" style="min-height:60px;font-size:18px" href="'+esc(wa(r.phone,msg))+'" target="_blank" rel="noopener">Send order no. & photo form on WhatsApp</a>' : '') +
+      '<button class="btn line" data-act="labels">'+ICON.qr+' Print QR label</button><button class="btn plum" data-act="close">Done</button>');
+    refresh();
+  });
+}
+function hm(m){ m = m||0; return Math.floor(m/60)+'h '+(m%60)+'m'; }
+var OUTW = {edited:'photos edited',made:'jars made',videos:'videos sent',payments:'payments',packed:'packed',dispatched:'dispatched',reached:'delivered',reviews:'reviews'};
+function renderTeam(){
+  var r = S.od, per = r.period;
+  var s = '<div class="pad" style="display:flex;flex-direction:column;gap:12px"><div class="h1">Team</div>' +
+    '<button class="btn plum" data-act="payroll" style="min-height:52px">Payroll — what to pay each person</button>' +
+    '<div class="row" style="gap:8px">' + [['today','Today'],['week','Last 7 days'],['month','This month']].map(function(x){
+      return '<button class="pill'+(per===x[0]?' on':'')+'" data-act="tperiod" data-p="'+x[0]+'">'+x[1]+'</button>'; }).join('') + '</div></div><div class="list">';
+  r.people.forEach(function(p, i){
+    var col = /Working/.test(p.now) ? 'var(--green)' : /Done/.test(p.now) ? 'var(--plum)' : /log off/.test(p.now) ? 'var(--wine)' : 'var(--muted)';
+    var chips = Object.keys(OUTW).filter(function(k){ return p.output[k]; }).map(function(k){
+      return '<span class="tag" style="background:#F1ECF6;color:var(--plum)">'+p.output[k]+' '+OUTW[k]+'</span>'; }).join('');
+    s += '<button class="card" data-act="person" data-i="'+i+'" style="border:none;text-align:left;width:100%">' +
+      '<div class="row between"><div><div class="oname">'+esc(p.name)+'</div><div class="osub" style="color:'+col+';font-weight:700">'+esc(p.now)+'</div></div>' +
+      '<div style="text-align:right"><b style="font-family:Sora;font-size:20px">'+(p.perHour!==null?p.perHour:'–')+'</b><div class="osub">done / hour</div></div></div>' +
+      '<div class="grid2" style="grid-template-columns:repeat(3,minmax(0,1fr))"><div class="stat"><small>Days</small><b>'+p.days+'</b></div>' +
+      '<div class="stat"><small>Worked</small><b>'+hm(p.mins)+'</b></div><div class="stat"><small>Pay earned</small><b>'+inr(p.pay)+'</b></div></div>' +
+      '<div>'+(chips || '<span class="osub">No app work '+(per==='today'?'today':'in this period')+'</span>')+'</div>' +
+      ((p.forgot || p.absent || p.selfTimed || p.shiftCount > p.days) ? '<div>'+(p.shiftCount > p.days ? '<span class="tag" style="background:#E0ECFF;color:#1D4ED8">'+p.shiftCount+' shifts</span>' : '')+(p.selfTimed?'<span class="tag" style="background:#E0ECFF;color:#1D4ED8">'+p.selfTimed+' end time typed by staff</span>':'')+(p.forgot?'<span class="tag" style="background:var(--winebg);color:var(--wine)">'+p.forgot+' didn\'t log off</span>':'')+(p.absent?'<span class="tag" style="background:var(--amberbg);color:var(--amber)">'+p.absent+' days not in</span>':'')+'</div>' : '') +
+      '</button>';
+  });
+  s += '<div class="osub" style="padding:0 4px">"Done / hour" counts jars made + parcels packed for the jar team, and edits, videos, payments and dispatches for Gagan. Pay follows your old attendance rules (15-minute blocks).</div>';
+  el().innerHTML = s + '</div>' + ownerNav();
+}
+function personSheet(i){
+  var p = S.od.people[i];
+  sheet('<div class="row between"><div><div class="h1" style="font-size:20px">'+esc(p.name)+'</div><div class="osub">'+esc(p.full)+'</div></div><button class="pill" data-act="close">✕</button></div>' +
+    '<b>Last 10 shifts</b>' + (p.shifts.length ? p.shifts.map(function(x){
+      var bad = x.status === "Didn't log off";
+      return '<div class="card'+(bad?' urgent':'')+'" style="gap:6px"><div class="row between"><b>'+esc(x.date)+'</b><span class="osub">'+esc(x.inAt)+' – '+(x.outAt?esc(x.outAt):'?')+'</span></div>' +
+        '<div class="row between"><span class="tag" style="background:'+(bad?'var(--winebg);color:var(--wine)':'#F1ECF6;color:var(--plum)')+'">'+esc(x.status)+'</span><span class="osub">'+(x.mins?hm(x.mins)+' · ':'')+inr(x.pay)+'</span></div>' +
+        (x.selfTimed?'<span class="tag" style="background:#E0ECFF;color:#1D4ED8">End time typed by staff — check</span>':'') +
+        (x.note?'<div style="font-size:14px;white-space:pre-line">'+esc(x.note)+'</div>':'') +
+        (bad ? '<div class="row" style="gap:8px"><label class="f" style="flex:1">Left at<input type="time" id="fx_'+x.row+'"></label><button class="btn plum" style="min-height:50px;width:auto;flex:1;align-self:flex-end" data-act="fixshift" data-row="'+x.row+'">Save</button></div>' : '') +
+        '</div>'; }).join('') : '<div class="muted">No shifts yet.</div>') +
+    '<div class="osub">To change pay for a day, type the amount in "Pay override" on the Attendance tab of the sheet.</div>');
+}
+
+function renderStock(){
+  var parts = S.od.parts || [];
+  var s = '<div class="pad"><div class="h1">Stock</div><div class="muted" style="margin-top:4px">Parts go down automatically when a jar is made.</div></div><div class="list">';
+  parts.forEach(function(p){
+    s += '<div class="card'+(p.low?' urgent':'')+'"><div class="row between"><div><div class="oname" style="font-size:16px">'+esc(p.name)+'</div>' +
+      '<div class="osub">'+esc(p.id)+' · '+inr(p.cost)+' each'+(p.supplier?' · '+esc(p.supplier):'')+'</div></div>' +
+      '<div style="text-align:right"><b style="font-family:Sora;font-size:22px;color:'+(p.low?'var(--wine)':'var(--ink)')+'">'+p.stock+'</b><div class="osub">alert at '+p.alert+'</div></div></div>' +
+      '<div class="grid2"><button class="btn line" data-act="restock" data-p="'+esc(p.id)+'">+ Received</button><button class="btn line" data-act="count" data-p="'+esc(p.id)+'">Set count</button></div>' +
+      (p.phone?'<a class="osub" href="'+esc(wa(p.phone))+'" target="_blank" rel="noopener">WhatsApp supplier</a>':'') + '</div>';
+  });
+  el().innerHTML = s + '</div>' + ownerNav();
+}
+function renderMoney(){
+  var m = S.od, pl = m.pl, tg = m.home.target;
+  var rows = [['Revenue',pl.revenue,'#3A1F5D'],['Product cost',pl.cogs,'#9C8AB4'],['Ads',pl.ads,'#C8326B'],['Shipping + fees',(pl.shipping||0)+(pl.fees||0),'#D97706'],['Commitments share',pl.commit,'#6B6478']];
+  var max = Math.max.apply(null, rows.map(function(r){ return Math.abs(r[1]||0); }).concat([1]));
+  var s = '<div class="pad" style="display:flex;flex-direction:column;gap:12px"><div class="h1">Money</div>' +
+    '<div class="card" style="background:var(--plum);color:#fff"><div style="font-size:13px;color:#D9CDEA">Net profit · this month so far</div><div style="font-family:Sora;font-size:30px;font-weight:700">'+inr(pl.net)+'</div>' +
+    '<div class="grid2"><div class="stat"><small style="color:#D9CDEA">Orders/day for ₹1L</small><b>'+esc(tg.perDayMin)+'</b></div><div class="stat"><small style="color:#D9CDEA">For ₹2L</small><b>'+esc(tg.perDayStretch)+'</b></div></div></div>' +
+    '<div class="card"><b>Where the money went</b>' + rows.map(function(r){ return '<div><div class="row between" style="font-size:14px"><span>'+r[0]+'</span><b>'+inr(r[1]||0)+'</b></div><div class="bar" style="height:8px;margin-top:4px"><i style="width:'+Math.round(100*Math.abs(r[1]||0)/max)+'%;background:'+r[2]+'"></i></div></div>'; }).join('') + '</div>' +
+    '<div class="card"><div class="row between"><b>Commitments</b><b>'+inr(m.total)+'/mo</b></div>' +
+    m.commitments.map(function(c){ return '<div class="prow"><div style="flex:1"><b style="font-size:14px">'+esc(c.name)+'</b><div class="osub">'+(c.left===null?'Ongoing':c.left+' months left')+'</div></div><b style="'+(c.thisMonth?'':'color:var(--muted);text-decoration:line-through')+'">'+inr(c.monthly)+'</b></div>'; }).join('') + '</div></div>';
+  el().innerHTML = s + ownerNav();
+}
+
+/* ============================================================ sheet & toast */
+function sheet(html){ document.getElementById('overlay').innerHTML = '<div class="sheet-bg" data-act="bgclose"><div class="sheet">'+html+'</div></div>'; }
+function closeSheet(){ document.getElementById('overlay').innerHTML = ''; }
+var toastT = null;
+function toast(msg, undoFn){
+  var o = document.getElementById('toastBox'); if (o) o.remove();
+  var d = document.createElement('div'); d.className = 'toast'; d.id = 'toastBox';
+  d.innerHTML = '<span>'+esc(msg)+'</span>' + (undoFn?'<button>'+esc(w().undo)+'</button>':'');
+  if (undoFn) d.querySelector('button').onclick = function(){ d.remove(); undoFn(); };
+  document.body.appendChild(d); clearTimeout(toastT); toastT = setTimeout(function(){ d.remove(); }, undoFn?8000:3500);
+}
+function ask(label, cb){
+  sheet('<div class="h1" style="font-size:19px">'+esc(label)+'</div><input id="askv" type="number" min="0" inputmode="numeric" style="height:56px;border-radius:14px;border:1px solid var(--line);padding:0 14px;font-size:22px">' +
+        '<button class="btn plum" id="askok">Save</button><button class="btn line" data-act="close">Cancel</button>');
+  var i = document.getElementById('askv'); i.focus();
+  document.getElementById('askok').onclick = function(){ cb(i.value); };
+}
+function doTick(id, what, on){
+  call('tick', { id:id, what:what, on:on }).then(function(r){ closeSheet(); toast(r.error || (on?'Ticked':'Un-ticked')); refresh(); });
+}
+
+/* ============================================================ clicks */
+document.addEventListener('click', function(e){
+  var b = e.target.closest('[data-act]'); if (!b) return;
+  var a = b.getAttribute('data-act'), id = b.getAttribute('data-id');
+  if (a==='bgclose') { if (e.target===b) closeSheet(); return; }
+  if (b.tagName==='A') return;
+  switch(a){
+    case 'key': key(b.getAttribute('data-k')); break;
+    case 'lang': S.lang = b.getAttribute('data-l'); put('vos_lang', S.lang); if (!S.user) renderLogin(); else if (S.view==='order') openOrder(S.viewId, true); else if (S.view==='chase') loadChase(); else if (isOwner() && S.tab!=='work') ownerLoad(true); else renderStaff(); break;
+    case 'task': S.task = b.getAttribute('data-t'); if (S.task==='chase') loadChase(); else { S.view = null; renderStaff(); } window.scrollTo(0,0); break;
+    case 'tick': var i = Number(b.getAttribute('data-i')); var tk = S.ticks[id] || [false,false,false,false]; tk[i] = !tk[i]; S.ticks[id] = tk; if (S.view==='order') openOrder(S.viewId, true); else renderStaff(); break;
+    case 'adv': b.disabled = true; advance(id, b.getAttribute('data-from')); break;
+    case 'claim': case 'release': b.disabled = true; call('claim', { id:id, release: a==='release' }).then(function(r){ if (r.error) toast(r.error); refresh(); }); break;
+    case 'tickvoice': b.disabled = true; doTick(id, 'voice', true); break;
+    case 'tickdetails': b.disabled = true; doTick(id, 'details', true); break;
+    case 'ticktrack': b.disabled = true; doTick(id, 'tracking', true); break;
+    case 'book': bookSheet(id); break;
+    case 'bkmode': BK.mode = b.getAttribute('data-m'); BK.weight = (document.getElementById('bk_w')||{}).value||''; bookSheet(BK.id, document.getElementById('ba_addr') ? 'addr' : 'mode'); break;
+    case 'bkquote': bookQuote(); break;
+    case 'bkbook': b.disabled = true; bookNow(b.getAttribute('data-c')); break;
+    case 'getlabel': call('shipLabel', { id: id }).then(function(r){ if (r.error || !r.label) return toast(r.error || 'Label not ready yet, try again in a minute'); var a = document.createElement('a'); a.href = r.label; a.target = '_blank'; a.rel = 'noopener'; document.body.appendChild(a); a.click(); a.remove(); }); break;
+    case 'cancelship': call('cancelShip', { id: id }).then(function(r){ closeSheet(); toast(r.error || 'Courier booking cancelled'); ownerLoad(true); }); break;
+    case 'toggle': doTick(id, b.getAttribute('data-what'), b.getAttribute('data-on')==='1'); break;
+    case 'punch': b.disabled = true; call('punch').then(function(r){ if (r.error) toast(r.error); refresh(); }); break;
+    case 'logoff': logoffSheet(); break;
+    case 'stillworking': S.dismissLong = S.data.openLong; renderStaff(); break;
+    case 'forgotend': forgotSheet(); break;
+    case 'dologoff': var nt = document.getElementById('lo_note').value; if (nt.trim().length < 3) { toast(w().needNote); break; }
+      var lt = b.getAttribute('data-left') ? document.getElementById('lo_time').value : '';
+      if (b.getAttribute('data-left') && !lt) { toast(w().leftAtQ); break; }
+      b.disabled = true; call('punch', { note: nt, leftAt: lt }).then(function(r){ closeSheet(); toast(r.error ? (r.error==='NOTE'?w().needNote:r.error) : w().done); refresh(); }); break;
+    case 'tperiod': S.tperiod = b.getAttribute('data-p'); ownerLoad(true); break;
+    case 'mypay': myPaySheet(); break;
+    case 'mypaym': myPaySheet(b.getAttribute('data-m')); break;
+    case 'payroll': payrollSheet(); break;
+    case 'payrollm': payrollSheet(b.getAttribute('data-m')); break;
+    case 'payrollback': payrollSheet(S.payroll.month); break;
+    case 'payform': payForm(Number(b.getAttribute('data-i'))); break;
+    case 'savepay': var pi = S.payroll.rows[Number(b.getAttribute('data-i'))];
+      call('addPayment', { name: pi.name, month: S.payroll.month, type: document.getElementById('pf_type').value, amount: document.getElementById('pf_amt').value, note: document.getElementById('pf_note').value })
+        .then(function(r){ if (r.error) return toast(r.error); toast('Saved'); payrollSheet(S.payroll.month); }); break;
+    case 'paynow': var pn = S.payroll.rows[Number(b.getAttribute('data-i'))]; b.disabled = true;
+      call('addPayment', { name: pn.name, month: S.payroll.month, type: 'Salary paid', amount: pn.totals.due, note: 'Settled from app' })
+        .then(function(r){ if (r.error) return toast(r.error); toast(pn.name+' marked paid'); payrollSheet(S.payroll.month); }); break;
+    case 'person': personSheet(Number(b.getAttribute('data-i'))); break;
+    case 'fixshift': var rw = b.getAttribute('data-row'); call('fixShift', { row: rw, out: document.getElementById('fx_'+rw).value }).then(function(r){ closeSheet(); toast(r.error||'Saved'); ownerLoad(true); }); break;
+    case 'speak': speak(); break;
+    case 'outlist': outList(); break;
+    case 'report': call('reportLow', { partId: b.getAttribute('data-p') }).then(function(r){ closeSheet(); toast(r.error || w().told); }); break;
+    case 'logout': call('logout'); logoutLocal(); break;
+    case 'close': closeSheet(); break;
+    case 'home': closeSheet(); home(); window.scrollTo(0,0); break;
+    case 'open': closeSheet(); openOrder(id); break;
+    case 'ownorder': S.tab = 'orders'; call('orders').then(function(r){ S.od = r; orderSheet(id); }); break;
+    case 'chase': loadChase(); window.scrollTo(0,0); break;
+    case 'labels': closeSheet(); loadLabels(); window.scrollTo(0,0); break;
+    case 'labsel': var m = b.getAttribute('data-m'); [].slice.call(document.querySelectorAll('[data-li]')).forEach(function(c){ var l = S.labels[Number(c.getAttribute('data-li'))]; c.checked = m==='all' || (m==='new' && !l.printed); }); break;
+    case 'printlabels': printLabels(); break;
+    case 'tab': S.tab = b.getAttribute('data-t'); S.data = null; S.view = null; ownerLoad(); window.scrollTo(0,0); break;
+    case 'gostage': S.tab = 'orders'; S.filter = b.getAttribute('data-s'); ownerLoad(); break;
+    case 'filter': S.filter = b.getAttribute('data-s'); renderOrders(); break;
+    case 'order': orderSheet(id); break;
+    case 'add': addSheet(); break;
+    case 'frominbox': var f = S.inbox[Number(b.getAttribute('data-i'))]; addSheet(f); break;
+    case 'ignoreinbox': var f2 = S.inbox[Number(b.getAttribute('data-i'))]; call('ignoreInbox', { row: f2.row }).then(function(){ loadChase(); }); break;
+    case 'saveorder': saveOrder(); break;
+    case 'saveedit': call('editOrder', { id:id, expdel: document.getElementById('e_exp').value, photos: document.getElementById('e_photos').value }).then(function(r){ closeSheet(); toast(r.error||'Saved'); ownerLoad(true); }); break;
+    case 'setstage': call('setStage', { id:id, stage: document.getElementById('stageSel').value }).then(function(r){ closeSheet(); toast(r.error||'Status saved'); ownerLoad(true); }); break;
+    case 'undoorder': call('undo', { id:id }).then(function(r){ closeSheet(); toast(r.error||'Undone'); ownerLoad(true); }); break;
+    case 'restock': var pid = b.getAttribute('data-p'); ask('How many arrived?', function(v){ call('restock', { partId:pid, qty:v }).then(function(r){ closeSheet(); toast(r.error||'Stock added'); ownerLoad(true); }); }); break;
+    case 'count': var pid2 = b.getAttribute('data-p'); ask('Exact count on the shelf now?', function(v){ call('setStock', { partId:pid2, qty:v }).then(function(r){ closeSheet(); toast(r.error||'Count saved'); ownerLoad(true); }); }); break;
+  }
+});
+
+/* A QR scan opens  <app link>?o=VJ1001  — remember it, then show that order after login. */
+/* Inside the Versile OS phone app (shell): a Scan button uses the app's camera, then the shell sends back the order number. */
+function openFromScan(id){
+  id = String(id||'').toUpperCase().trim(); if (!/^VJ\d+$/.test(id)) { toast('Not a Versile jar QR'); return; }
+  if (S.token && S.user) { closeSheet && closeSheet(); openOrder(id); } else { S.openId = id; toast('Log in to open '+id); }
+}
+window.addEventListener('message', function(e){
+  var d = e.data || {}; if (d.versile === 'open') openFromScan(d.id);
+});
+function shellMode(){
+  S.shell = true;
+  var b = document.createElement('button'); b.className = 'scanfab'; b.setAttribute('aria-label','Scan a jar'); b.innerHTML = '&#128247;';
+  b.onclick = function(){ if (window.VOS_SCAN) window.VOS_SCAN(openFromScan); else try { window.top.postMessage({ versile:'scan' }, '*'); } catch(e){} };
+  document.body.appendChild(b);
+  try { window.top.postMessage({ versile:'ready' }, '*'); } catch(e){}
+}
+if (window.VOS_API) {        /* phone app */
+  var qp = new URLSearchParams(location.search);
+  if (qp.get('o')) { S.openId = qp.get('o').toUpperCase(); if (history.replaceState) history.replaceState(null, '', location.pathname); }
+  shellMode(); start();
+} else try {
+  google.script.url.getLocation(function(loc){
+    var p = (loc && loc.parameter) || {};
+    if (p.o) S.openId = String(p.o).toUpperCase();
+    if (p.shell) shellMode();
+    start();
+  });
+} catch (e) { start(); }
 </script>
+<div id="vscan"><video id="vcam" playsinline muted></video><div class="fr"></div><div class="m">Point at the jar's QR</div><button id="vclose">Close</button></div>
+<div id="vinst"><b>Install Versile OS on this phone</b><p id="vtext"></p><div class="r"><button class="go" id="vgo">Install</button><button class="no" id="vno">Later</button></div></div>
+<script>
+/* ---------- Scan a jar QR with the phone camera ---------- */
+(function(){
+  var stream = null, timer = null, det = null, cb = null, cv = document.createElement('canvas'), cx = cv.getContext('2d', { willReadFrequently: true });
+  function jsqr(){ return new Promise(function(res){ if (window.jsQR) return res(); var s = document.createElement('script'); s.src = 'https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js'; s.onload = res; s.onerror = res; document.head.appendChild(s); }); }
+  function idFrom(t){ var m = String(t||'').match(/[?&]o=(VJ\d+)/i) || String(t||'').match(/^(VJ\d+)$/i); return m ? m[1].toUpperCase() : ''; }
+  function stop(){ clearTimeout(timer); if (stream) stream.getTracks().forEach(function(t){ t.stop(); }); stream = null; document.getElementById('vscan').style.display = 'none'; }
+  function tick(){
+    var v = document.getElementById('vcam');
+    timer = setTimeout(function(){
+      if (!stream) return;
+      if (det) det.detect(v).then(function(r){ if (r && r[0]) hit(r[0].rawValue); else tick(); }).catch(tick);
+      else if (window.jsQR && v.videoWidth) {
+        var w = Math.min(v.videoWidth, 720), h = Math.round(v.videoHeight * w / v.videoWidth);
+        cv.width = w; cv.height = h; cx.drawImage(v, 0, 0, w, h);
+        var r = jsQR(cx.getImageData(0, 0, w, h).data, w, h, { inversionAttempts: 'dontInvert' });
+        if (r) hit(r.data); else tick();
+      } else tick();
+    }, 180);
+  }
+  function hit(t){ var id = idFrom(t); if (!id) return tick(); if (navigator.vibrate) navigator.vibrate(80); stop(); if (cb) cb(id); }
+  window.VOS_SCAN = function(done){
+    cb = done; var v = document.getElementById('vcam'); document.getElementById('vscan').style.display = 'flex';
+    if ('BarcodeDetector' in window) { try { det = new BarcodeDetector({ formats: ['qr_code'] }); } catch (e) { det = null; } }
+    (det ? Promise.resolve() : jsqr()).then(function(){ return navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' }, audio: false }); })
+      .then(function(s){ stream = s; v.srcObject = s; return v.play(); }).then(tick)
+      .catch(function(){ stop(); toast('Camera not allowed. Allow camera for Versile OS in phone settings.'); });
+  };
+  document.getElementById('vclose').onclick = stop;
+})();
+/* ---------- "Install this app" help (only in the browser, not inside the installed app) ---------- */
+(function(){
+  var standalone = window.matchMedia('(display-mode: standalone)').matches || navigator.standalone === true;
+  var ios = /iphone|ipad|ipod/i.test(navigator.userAgent), deferred = null;
+  function later(){ try { return localStorage.getItem('vos_inst') === 'later'; } catch (e) { return false; } }
+  function show(text, btn){ if (standalone || later()) return; document.getElementById('vtext').innerHTML = text; document.getElementById('vgo').style.display = btn ? '' : 'none'; document.getElementById('vinst').style.display = 'flex'; }
+  document.getElementById('vno').onclick = function(){ document.getElementById('vinst').style.display = 'none'; try { localStorage.setItem('vos_inst', 'later'); } catch (e) {} };
+  window.addEventListener('beforeinstallprompt', function(e){ e.preventDefault(); deferred = e; show('Tap <b>Install</b>. The Versile OS icon will appear on your home screen.', true); });
+  document.getElementById('vgo').onclick = function(){ if (deferred) { deferred.prompt(); deferred = null; } document.getElementById('vinst').style.display = 'none'; };
+  if (ios) setTimeout(function(){ show('In Safari tap <b>Share</b> &#11014;&#xFE0E; at the bottom, then <b>Add to Home Screen</b>.', false); }, 1500);
+  if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(function(){});
+})();
+</script>
+
 </body>
 </html>
