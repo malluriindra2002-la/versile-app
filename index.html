@@ -72,6 +72,7 @@ a{color:var(--plum)}
 .toast{position:fixed;left:50%;bottom:96px;transform:translateX(-50%);background:var(--ink);color:#fff;border-radius:16px;padding:12px 14px;display:flex;align-items:center;gap:14px;font-weight:700;z-index:50;max-width:92vw;box-shadow:0 10px 30px rgba(0,0,0,.25)}
 .toast button{background:#fff;color:var(--ink);border:none;border-radius:10px;height:40px;padding:0 14px;font-weight:800}
 .scanfab{position:fixed;right:14px;bottom:86px;z-index:30;width:60px;height:60px;border-radius:50%;border:none;background:#2b1b3d;color:#fff;font-size:26px;box-shadow:0 6px 18px rgba(0,0,0,.28);display:flex;align-items:center;justify-content:center}
+.syncpill{position:fixed;top:calc(env(safe-area-inset-top) + 8px);left:50%;transform:translateX(-50%);z-index:60;background:#3A1F5D;color:#fff;font-size:13px;font-weight:700;padding:6px 14px;border-radius:20px;opacity:.9;display:none}
 .nav{position:fixed;left:0;right:0;bottom:0;background:#fff;border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(6,1fr);height:72px;z-index:20;max-width:520px;margin:0 auto}
 .nav button{border:none;background:none;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;font-size:11px;font-weight:700;color:var(--muted)}
 .nav button.on{color:var(--pink)}
@@ -138,7 +139,7 @@ label.f textarea{height:80px;padding:12px 14px}
 <div id="printArea"></div>
 <script>
 /* ============================================================ state & server */
-var S = { labSize: get('vos_labsize') || 's', token: get('vos_token'), user: null, lang: get('vos_lang') || 'en', tab: null, task: null, data: null,
+var S = { labSize: get('vos_labsize') || 's', token: get('vos_token'), user: (function(){ try { return JSON.parse(get('vos_user')||'null'); } catch(e){ return null; } })(), lang: get('vos_lang') || 'en', tab: null, task: null, data: null,
           ticks: {}, filter: 'All', q: '', busy: false, openId: null, view: null };
 function get(k){ try { return localStorage.getItem(k); } catch(e){ return null; } }
 function put(k,v){ try { if (v===null) localStorage.removeItem(k); else localStorage.setItem(k,v); } catch(e){} }
@@ -161,6 +162,12 @@ function call(action, p){
 function esc(s){ return String(s===undefined||s===null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];}); }
 function inr(v){ return typeof v==='number' ? (v<0?'−':'')+'₹'+Math.abs(Math.round(v)).toLocaleString('en-IN') : esc(v); }
 function el(){ return document.getElementById('app'); }
+/* Last screen is kept on this phone, so the app opens instantly and refreshes in the background. */
+function ckey(k){ return 'vos_c_' + (S.user ? S.user.name : '') + '_' + k; }
+function cget(k){ try { return JSON.parse(get(ckey(k)) || 'null'); } catch(e){ return null; } }
+function cput(k, v){ try { put(ckey(k), JSON.stringify(v)); } catch(e){} }
+function cclear(){ try { Object.keys(localStorage).forEach(function(k){ if (k.indexOf('vos_c_')===0) localStorage.removeItem(k); }); } catch(e){} }
+function syncing(on){ var p = document.getElementById('syncpill'); if (!p) { p = document.createElement('div'); p.id = 'syncpill'; p.className = 'syncpill'; p.textContent = 'Updating…'; document.body.appendChild(p); } p.style.display = on ? 'block' : 'none'; }
 function isOwner(){ return S.user && S.user.roles.indexOf('owner')>=0; }
 function isDesk(){ return S.user && (S.user.roles.indexOf('processor')>=0 || isOwner()); }
 function wa(phone, msg){ var p = String(phone||'').replace(/\D/g,''); if (p.length===10) p='91'+p; return p ? 'https://wa.me/'+p+(msg?'?text='+encodeURIComponent(msg):'') : ''; }
@@ -253,16 +260,20 @@ var ICON = {
 /* ============================================================ start */
 function start(){
   if (!S.token) return renderLogin();
+  if (S.user) {
+    if (S.openId) { var oid = S.openId; S.openId = null; return openOrder(oid); }
+    return home();
+  }
   el().innerHTML = '<div class="loading">Loading…</div>';
   call('me').then(function(r){
     if (!r.user) return renderLogin();
-    S.user = r.user;
+    S.user = r.user; put('vos_user', JSON.stringify(r.user));
     if (S.openId) { var id = S.openId; S.openId = null; return openOrder(id); }
     home();
   });
 }
 function home(){ S.view = null; if (isOwner()) { S.tab = S.tab || 'home'; ownerLoad(); } else staffLoad(); }
-function logoutLocal(){ put('vos_token', null); S.token = null; S.user = null; S.data = null; renderLogin(); }
+function logoutLocal(){ cclear(); put('vos_token', null); put('vos_user', null); syncing(false); S.token = null; S.user = null; S.data = null; S.od = null; renderLogin(); }
 
 /* ============================================================ login */
 var pinBuf = '';
@@ -290,7 +301,7 @@ function tryLogin(){
   var p = pinBuf; document.getElementById('perr').textContent = '…';
   call('login', { pin: p }).then(function(r){
     if (!r.token) return renderLogin(r.error==='Wrong PIN' ? w().wrong : r.error);
-    S.token = r.token; put('vos_token', r.token); S.user = r.user; start();
+    S.token = r.token; put('vos_token', r.token); S.user = r.user; put('vos_user', JSON.stringify(r.user)); start();
   });
 }
 function langPills(){
@@ -302,16 +313,25 @@ function langPills(){
 var poll = null;
 function staffLoad(quiet){
   S.view = null;
+  if (!S.data) { var cached = cget('staffHome'); if (cached) { staffShow(cached); quiet = true; } }
+  else if (!quiet) { staffShow(S.data); quiet = true; }   // back from an order: show the list at once, refresh behind
   if (!quiet && !S.data) el().innerHTML = '<div class="loading">Loading…</div>';
+  if (S.data) syncing(true);
   call('staffHome').then(function(r){
+    syncing(false);
     if (r.error) return toast(r.error);
+    cput('staffHome', r);
+    if (S.view || document.querySelector('.sheet-bg')) { S.data = r; return; }   // person moved on; keep their screen
+    staffShow(r);
+  });
+  clearInterval(poll); poll = setInterval(function(){ if (!S.view && !document.querySelector('.sheet-bg') && !S.busy) staffLoad(true); }, 60000);
+}
+function staffShow(r){
     S.data = r;
     var mine = myTasks();
     if (!S.task || mine.indexOf(S.task)<0) S.task = mine.filter(function(t){ return t==='chase' ? r.chaseCount : (r.tasks[t]||[]).length; })[0] || mine[0];
     if (S.task === 'chase') return loadChase();
     renderStaff();
-  });
-  clearInterval(poll); poll = setInterval(function(){ if (!S.view && !document.querySelector('.sheet-bg') && !S.busy) staffLoad(true); }, 60000);
 }
 function myTasks(){
   var r = S.user.roles, own = r.indexOf('owner')>=0, out = [];
@@ -707,12 +727,19 @@ function ownerNav(){
 function ownerLoad(quiet){
   clearInterval(poll); S.view = null;
   if (S.tab==='work') return staffLoad(quiet);
-  if (!quiet) el().innerHTML = '<div class="loading">Loading…</div>' + ownerNav();
   var a = {home:'ownerHome',orders:'orders',stock:'parts',money:'money',team:'team'}[S.tab];
-  call(a, S.tab==='team' ? { period: S.tperiod||'today' } : {}).then(function(r){
+  var prm = S.tab==='team' ? { period: S.tperiod||'today' } : {}, ck = a + (prm.period ? '_' + prm.period : ''), tab = S.tab;
+  var draw = function(r){ S.od = r; ({home:renderHome,orders:renderOrders,stock:renderStock,money:renderMoney,team:renderTeam})[tab](); };
+  var cached = !quiet && cget(ck);
+  if (cached) { draw(cached); quiet = true; }
+  if (!quiet) el().innerHTML = '<div class="loading">Loading…</div>' + ownerNav();
+  if (quiet) syncing(true);
+  call(a, prm).then(function(r){
+    syncing(false);
     if (r.error) return toast(r.error);
-    S.od = r;
-    ({home:renderHome,orders:renderOrders,stock:renderStock,money:renderMoney,team:renderTeam})[S.tab]();
+    cput(ck, r);
+    if (S.tab !== tab || S.view || document.querySelector('.sheet-bg')) return;   // owner moved to another screen
+    draw(r);
   });
 }
 function renderHome(){
