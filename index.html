@@ -765,6 +765,7 @@ function renderHome(){
     '<div class="grid2"><div class="stat"><small>Orders</small><b>'+(m.orders||0)+'</b></div><div class="stat"><small>CAC</small><b>'+inr(m.cac)+'</b></div>' +
     '<div class="stat"><small>Orders/day needed (₹1L)</small><b>'+esc(tg.perDayMin)+'</b></div><div class="stat"><small>Projected month-end</small><b>'+inr(tg.projected)+'</b></div>' +
     '<div class="stat"><small>Balances to collect</small><b>'+inr(m.pending)+'</b></div><div class="stat"><small>Can make now (MPVJ)</small><b>'+(h.canMake.MPVJ!==undefined?h.canMake.MPVJ:'–')+' jars</b></div></div></div>' +
+    adsCard(h.ads) +
     '<b style="font-family:Sora;font-size:16px">Team delays</b>' +
     (h.alerts.length ? h.alerts.map(function(a){ var col={red:'#C8326B',amber:'#D97706',blue:'#2563EB'}[a.level];
       return '<div class="card" style="flex-direction:row;align-items:center"><span class="dot" style="background:'+col+'"></span><div><b>'+esc(a.title)+'</b><div class="osub">'+esc(a.sub)+'</div></div></div>'; }).join('')
@@ -775,6 +776,17 @@ function renderHome(){
       return '<button class="row between" data-act="gostage" data-s="'+esc(k)+'" style="border:none;background:none;padding:6px 0;font-size:15px;width:100%"><span class="row" style="gap:8px"><span class="dot" style="background:'+(BADGE[k]||'#999')+'"></span>'+(i+1)+'. '+esc(k)+extra+'</span><b>'+n+'</b></button>'; }).join('') +
     '</div></div>' + ownerNav();
   el().innerHTML = s;
+}
+function adsCard(a){
+  if (!a) return '<div class="card"><b>Ads</b><div class="osub">Connect Meta (Settings B35) to see daily spend, cost per sale and when to raise the budget.</div></div>';
+  var col = {raise:'var(--green)',lower:'var(--wine)',hold:'var(--plum)',check:'var(--amber)',none:'var(--muted)'}[a.action] || 'var(--plum)';
+  var ic = {raise:'▲',lower:'▼',hold:'■',check:'!',none:'·'}[a.action] || '·';
+  return '<div class="card"><div class="row between" style="font-size:14px"><b>Ads · last 3 days</b><span class="osub">'+esc(a.at||'')+'</span></div>' +
+    '<div style="font-weight:800;font-size:16px;color:'+col+'">'+ic+' '+esc(a.headline)+'</div>' +
+    (a.warning ? '<div class="banner" style="background:var(--winebg);color:var(--wine)">'+esc(a.warning)+'</div>' : '') +
+    '<div class="grid2" style="grid-template-columns:repeat(3,minmax(0,1fr))"><div class="stat"><small>Cost / sale</small><b>'+(a.cpa?inr(a.cpa):'–')+'</b></div>' +
+    '<div class="stat"><small>Cost / chat</small><b>'+(a.perChat?'₹'+a.perChat:'–')+'</b></div><div class="stat"><small>Chats → sales</small><b>'+(a.closeRate!=null?a.closeRate+'%':'–')+'</b></div></div>' +
+    '<div class="osub">Today so far: '+inr(a.today?a.today.spend:0)+' spent · '+(a.today?a.today.chats:0)+' chats · '+(a.today?a.today.orders:0)+' sales · budget ₹'+(a.budget||0)+'/day</div></div>';
 }
 function stageTag(s){ var c = STAGE_TONE[s]||['#EEE','#333']; return '<span class="tag" style="background:'+c[0]+';color:'+c[1]+'">'+esc(s)+'</span>'; }
 function miniTicks(o){
