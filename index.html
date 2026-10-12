@@ -11,7 +11,7 @@
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="icon" href="icon-192.png">
 <link rel="manifest" href="manifest.json">
-<script>window.VOS_API = 'https://dbilaugtfkeeiuflzqtd.supabase.co/functions/v1/versile'; window.VOS_GAS = 'https://script.google.com/macros/s/AKfycbzSbgwrfqHnrHizQl3Ng3BcmHB-44yM-MWj9uHjlTViWkU7HS_0f8nOLyPEN--NjQsS/exec';</script>
+<script>window.VOS_API = 'https://dbilaugtfkeeiuflzqtd.supabase.co/functions/v1/versile'; window.VOS_GAS = 'https://script.google.com/macros/s/AKfycbzSbgwrfqHnrHizQl3Ng3BcmHB-44yM-MWj9uHjlTViWkU7HS_0f8nOLyPEN--NjQsS/exec'; window.VOS_SUPA = 'https://dbilaugtfkeeiuflzqtd.supabase.co'; window.VOS_SUPA_KEY = '';</script>
 <style>
 body{padding-top:env(safe-area-inset-top)}
 #vscan{position:fixed;inset:0;background:#000;z-index:100;display:none;flex-direction:column}
@@ -170,6 +170,52 @@ function cput(k, v){ try { put(ckey(k), JSON.stringify(v)); } catch(e){} }
 function cclear(){ try { Object.keys(localStorage).forEach(function(k){ if (k.indexOf('vos_c_')===0) localStorage.removeItem(k); }); } catch(e){} }
 function syncing(on){ var p = document.getElementById('syncpill'); if (!p) { p = document.createElement('div'); p.id = 'syncpill'; p.className = 'syncpill'; p.textContent = 'Updating…'; document.body.appendChild(p); } p.style.display = on ? 'block' : 'none'; }
 function isOwner(){ return S.user && S.user.roles.indexOf('owner')>=0; }
+/* Live updates: every 12 s (while the app is on screen) ask "has anything changed?" — one tiny call.
+   If someone else moved a jar, the list redraws by itself. Opening the app again also refreshes at once. */
+var LIVE = { v: null };
+function liveTick(force){
+  if (!S.token || !S.user || document.visibilityState !== 'visible') return;
+  if (S.busy || document.querySelector('.sheet-bg') || S.view === 'order') return;
+  call('ver').then(function(r){
+    if (!r || !r.v) return;
+    if (r.rt) liveConnect(r.rt);
+    var changed = LIVE.v !== null && r.v !== LIVE.v;
+    LIVE.v = r.v;
+    if ((changed || force) && !S.busy && !document.querySelector('.sheet-bg')) refresh();
+  });
+}
+setInterval(function(){ liveTick(false); }, 20000);   // backup check; the live connection below normally updates within a second
+/* Instant updates: the database rings a bell (table "live") every time any order/stock/attendance changes.
+   Every open phone hears it straight away and redraws. Only the bell is public — no order data. */
+var LIVE_PENDING = false;
+function liveRing(){
+  if (!S.token || !S.user || document.visibilityState !== 'visible') { LIVE_PENDING = true; return; }
+  if (S.busy || document.querySelector('.sheet-bg') || S.view === 'order') { LIVE_PENDING = true; return; }
+  LIVE_PENDING = false; refresh();
+}
+setInterval(function(){ if (LIVE_PENDING) liveRing(); }, 2000);
+var LIVE_ON = false;
+function liveConnect(key){
+  key = key || window.VOS_SUPA_KEY || get('vos_rt');
+  if (LIVE_ON || !window.VOS_SUPA || !key) return;
+  LIVE_ON = true; put('vos_rt', key);
+  var s = document.createElement('script');
+  s.src = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js';
+  s.onload = function(){
+    try {
+      var sb = window.supabase.createClient(window.VOS_SUPA, key);
+      var t = null;
+      sb.channel('vos-live').on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'live' }, function(){
+        clearTimeout(t); t = setTimeout(liveRing, 250);   // several saves in a row → one redraw
+      }).subscribe();
+    } catch (e) { LIVE_ON = false; }
+  };
+  s.onerror = function(){ LIVE_ON = false; };
+  document.head.appendChild(s);
+}
+liveConnect();
+setTimeout(function(){ liveTick(false); }, 3000);   // first check soon after opening (also gets the live-update key)
+document.addEventListener('visibilitychange', function(){ if (document.visibilityState === 'visible') liveTick(true); });
 function isDesk(){ return S.user && (S.user.roles.indexOf('processor')>=0 || isOwner()); }
 function wa(phone, msg){ var p = String(phone||'').replace(/\D/g,''); if (p.length===10) p='91'+p; return p ? 'https://wa.me/'+p+(msg?'?text='+encodeURIComponent(msg):'') : ''; }
 
@@ -304,6 +350,7 @@ function tryLogin(){
     if (!r.token) return renderLogin(r.error==='Wrong PIN' ? w().wrong : r.error);
     S.token = r.token; put('vos_token', r.token); S.user = r.user; put('vos_user', JSON.stringify(r.user));
     if (r.home && !r.home.error) { if (r.home.owner) cput('ownerHome', r.home.od); else cput('staffHome', r.home.data); }
+    if (r.rt) liveConnect(r.rt);
     start();
   });
 }
@@ -768,7 +815,9 @@ function renderHome(){
     adsCard(h.ads) +
     '<b style="font-family:Sora;font-size:16px">Team delays</b>' +
     (h.alerts.length ? h.alerts.map(function(a){ var col={red:'#C8326B',amber:'#D97706',blue:'#2563EB'}[a.level];
-      return '<div class="card" style="flex-direction:row;align-items:center"><span class="dot" style="background:'+col+'"></span><div><b>'+esc(a.title)+'</b><div class="osub">'+esc(a.sub)+'</div></div></div>'; }).join('')
+      return '<div class="card" style="flex-direction:row;align-items:center"><span class="dot" style="background:'+col+'"></span><div style="flex:1"><b>'+esc(a.title)+'</b><div class="osub">'+esc(a.sub)+'</div></div>' +
+        (a.ack ? '<button class="pill" data-act="acklow" data-p="'+esc(a.ack)+'">✓ Clear</button>' : '') +
+        (a.dismiss ? '<button class="pill" data-act="dismiss" data-k="'+esc(a.dismiss)+'" data-g="'+esc(a.sig||'')+'">✓ Clear</button>' : '') + '</div>'; }).join('')
       : '<div class="card" style="color:var(--green);font-weight:700">All clear — nothing stuck with the team.</div>') +
     '<b style="font-family:Sora;font-size:16px">Jars by status</b><div class="card">' +
     STAGES.filter(function(k){ return ['Review received','Cancelled','RTO'].indexOf(k)<0; }).map(function(k, i){
@@ -1001,6 +1050,8 @@ document.addEventListener('click', function(e){
     case 'fixshift': var rw = b.getAttribute('data-row'); call('fixShift', { row: rw, out: document.getElementById('fx_'+rw).value }).then(function(r){ closeSheet(); toast(r.error||'Saved'); ownerLoad(true); }); break;
     case 'speak': speak(); break;
     case 'outlist': outList(); break;
+    case 'dismiss': b.disabled = true; call('dismissAlert', { key: b.getAttribute('data-k'), sig: b.getAttribute('data-g') }).then(function(r){ if (r.error) return toast(r.error); toast('Cleared'); ownerLoad(true); }); break;
+    case 'acklow': b.disabled = true; call('ackLow', { partId: b.getAttribute('data-p') }).then(function(r){ if (r.error) return toast(r.error); toast('Cleared'); ownerLoad(true); }); break;
     case 'report': call('reportLow', { partId: b.getAttribute('data-p') }).then(function(r){ closeSheet(); toast(r.error || w().told); }); break;
     case 'logout': call('logout'); logoutLocal(); break;
     case 'close': closeSheet(); break;
