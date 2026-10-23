@@ -151,6 +151,9 @@ label.f textarea{height:80px;padding:12px 14px}
 .act3{height:64px;border-radius:16px;border:none;background:var(--fill);color:var(--plum);font-size:12px;font-weight:700;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;text-decoration:none}
 .qbtn{height:40px;border-radius:12px;border:none;background:var(--fill);color:var(--plum);font-size:14px;font-weight:700}
 .qbtn.on{background:var(--plum);color:#fff}
+.undobar{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(env(safe-area-inset-bottom) + 16px);z-index:25;width:calc(100% - 32px);max-width:488px;background:var(--ink);color:#fff;border:none;border-radius:16px;padding:12px 14px;display:flex;align-items:center;gap:10px;font-size:14px;font-weight:700;box-shadow:0 10px 30px rgba(30,21,48,.3);text-align:left}
+.undobar.nav-up{bottom:calc(env(safe-area-inset-bottom) + 86px)}
+.undobar b{background:#fff;color:var(--ink);border-radius:10px;padding:6px 12px;font-size:13px;flex-shrink:0}
 .labrow{display:flex;align-items:center;gap:12px;padding:10px 4px;border-bottom:1px solid var(--line2)}
 .labrow input{width:22px;height:22px;flex-shrink:0}
 #printArea{display:none}
@@ -319,7 +322,7 @@ var W = {
 };
 (function(){
   var add = { en:{packKeep:'Packed — keep for Gagan',ranOut:'Something ran out? Tell Indra',endDay:'End my day',bookCourier:'Book courier',askAddr:'Ask address',typeAddr:'Type address',
-      addPay:'Add payment',walletLow:'iCarry wallet is low — ask Indra to recharge, then book again',addrOk:'Address',noAddr:'No address yet',shippedOutside:'Shipped outside the app'},
+      addPay:'Add payment',alertsOn:'Turn on new-work alerts (sound)',walletLow:'iCarry wallet is low — ask Indra to recharge, then book again',addrOk:'Address',noAddr:'No address yet',shippedOutside:'Shipped outside the app'},
     kn:{packKeep:'ಪ್ಯಾಕ್ ಆಯಿತು — ಗಗನ್‌ಗೆ ಇಡಿ',ranOut:'ಏನಾದರೂ ಮುಗಿದಿದೆಯೇ? ಇಂದ್ರಾಗೆ ತಿಳಿಸಿ',endDay:'ಇಂದಿನ ಕೆಲಸ ಮುಗಿಸಿ'},
     hi:{packKeep:'पैक हो गया — गगन के लिए रखें',ranOut:'कुछ खत्म हुआ? इंद्रा को बताएं',endDay:'आज का काम खत्म'} };
   Object.keys(add).forEach(function(l){ Object.keys(add[l]).forEach(function(k){ W[l][k] = add[l][k]; }); });
@@ -509,7 +512,7 @@ function staffLoad(quiet){
   clearInterval(poll); poll = setInterval(function(){ if (!S.view && !document.querySelector('.sheet-bg') && !S.busy) staffLoad(true); }, 60000);
 }
 function staffShow(r){
-    S.data = r;
+    S.data = r; try { checkNewWork(r); } catch (e) {}
     var mine = myTasks();
     if (!S.task || mine.indexOf(S.task)<0) S.task = mine.filter(function(t){ return t==='chase' ? r.chaseCount : (r.tasks[t]||[]).length; })[0] || mine[0];
     if (S.task === 'chase') return loadChase();
@@ -660,9 +663,13 @@ function staffTop(){
     '<div class="osub" style="font-size:13px;margin-top:-6px">'+esc(cur==='ship' && d.icarry ? t.shipIc : t.help[cur])+'</div></div>';
   return h;
 }
+function undoBar(){
+  var d = S.data, ls = d && d.lastStep; if (!ls) return '';
+  return '<button class="undobar'+(isOwner()?' nav-up':'')+'" data-act="undobar" data-id="'+esc(ls.id)+'">'+I('undo',20,2.2)+'<span class="grow">'+esc(ls.id)+' · '+esc(ls.name)+'<br><span style="font-weight:500;color:#D9CDEA;font-size:12px">'+esc(stName(ls.to))+' at '+esc(ls.at)+'</span></span><b>'+esc(w().undo)+'</b></button>';
+}
 function staffBottom(){
   var t = w(), d = S.data, own = isOwner();
-  return '<div class="pad stack" style="padding-top:6px;gap:10px">' +
+  return undoBar() + '<div class="pad stack" style="padding-top:6px;gap:10px;padding-bottom:'+(d.lastStep?'90px':'18px')+'">' + alertsBtn() +
     (!own ? '<button class="btn" data-act="outlist" style="background:transparent;border:1.5px dashed #D9CDEA;color:var(--wine);min-height:48px;font-size:14px">'+esc(t.ranOut)+'</button>' : '') +
     (isDesk() && !own ? '<button class="btn line sm" data-act="labels">'+I('qr',18)+esc(t.labels)+'</button>' : '') +
     (!own ? '<div class="row" style="gap:10px;align-items:stretch">' +
@@ -670,6 +677,43 @@ function staffBottom(){
       (d.punchedIn ? '<button class="btn outline" data-act="logoff" style="flex:1;min-height:auto">'+esc(t.endDay)+'</button>' : '') + '</div>' : '') +
     '<div class="row between" style="margin-top:4px;flex-wrap:wrap">'+langPills()+(!own ? '<button class="pill" data-act="logout">'+esc(t.logout)+'</button>' : '')+'</div>' +
     '<div class="osub" style="text-align:center">'+(d.doneToday||0)+' '+esc(t.doneToday)+'</div></div>' + (own ? ownerNav() : '');
+}
+function alertsBtn(){
+  if (isOwner() || !('Notification' in window) || !('serviceWorker' in navigator) || !window.VOS_API) return '';
+  if (Notification.permission === 'granted' && get('vos_push') === '1') return '';
+  if (Notification.permission === 'denied') return '<div class="banner b-amber" style="font-size:13px">Alerts are blocked for this app. Turn on notifications for it in the phone settings.</div>';
+  return '<button class="btn soft sm" data-act="pushon">'+I('bell',18,2)+esc(w().alertsOn)+'</button>';
+}
+function b64u(s){ s = s.replace(/-/g,'+').replace(/_/g,'/'); while (s.length % 4) s += '='; var b = atob(s), a = new Uint8Array(b.length); for (var i = 0; i < b.length; i++) a[i] = b.charCodeAt(i); return a; }
+function enablePush(btn){
+  Notification.requestPermission().then(function(perm){
+    if (perm !== 'granted') { toast('Alerts not allowed'); return refresh(); }
+    return Promise.all([navigator.serviceWorker.register('sw.js').then(function(){ return navigator.serviceWorker.ready; }), call('pushKey')]).then(function(x){
+      var reg = x[0], key = x[1] && x[1].key; if (!key) throw new Error('no key');
+      return reg.pushManager.getSubscription().then(function(old){ return old || reg.pushManager.subscribe({ userVisibleOnly: true, applicationServerKey: b64u(key) }); });
+    }).then(function(sub){ return call('pushSub', { sub: JSON.parse(JSON.stringify(sub)) }); }).then(function(r){
+      if (r && r.error) throw new Error(r.error);
+      put('vos_push', '1'); beep(); toast('Alerts on ✓ You will hear new work'); refresh();
+    });
+  }).catch(function(e){ toast('Could not turn on alerts: ' + (e && e.message || e)); });
+}
+var ACTX = null;
+function beep(){
+  try { ACTX = ACTX || new (window.AudioContext || window.webkitAudioContext)(); var t0 = ACTX.currentTime;
+    [880, 1320].forEach(function(f, i){ var o = ACTX.createOscillator(), g = ACTX.createGain(); o.frequency.value = f; o.type = 'sine';
+      g.gain.setValueAtTime(0.0001, t0 + i*0.18); g.gain.exponentialRampToValueAtTime(0.35, t0 + i*0.18 + 0.02); g.gain.exponentialRampToValueAtTime(0.0001, t0 + i*0.18 + 0.16);
+      o.connect(g); g.connect(ACTX.destination); o.start(t0 + i*0.18); o.stop(t0 + i*0.18 + 0.18); });
+  } catch (e) {}
+  try { if (navigator.vibrate) navigator.vibrate([120, 60, 120]); } catch (e) {}
+}
+document.addEventListener('click', function unlockAudio(){ try { ACTX = ACTX || new (window.AudioContext || window.webkitAudioContext)(); if (ACTX.resume) ACTX.resume(); } catch (e) {} }, { once: true });
+var PREVC = null;
+function checkNewWork(r){
+  if (isOwner()) return;
+  var now = {}; myTasks().forEach(function(k){ if (k !== 'chase') now[k] = (r.tasks[k] || []).length; });
+  if (PREVC) { var t = w(), msg = Object.keys(now).filter(function(k){ return now[k] > (PREVC[k] || 0); }).map(function(k){ return (now[k] - (PREVC[k]||0)) + ' new: ' + t.t[k]; });
+    if (msg.length) { beep(); toast('🔔 ' + msg.join(' · ')); } }
+  PREVC = now;
 }
 function renderStaff(){
   var d = S.data, t = w(), mine = myTasks(), cur = S.task;
@@ -737,7 +781,7 @@ function staffCard(task, o, bare, firstOne){
 }
 
 /* ============================================================ chase list (owner + Gagan) */
-var CHASEI = { details:'camera', voice:'mic', balance:'rupee', address:'pin', tracking:'truck', review:'star' };
+var CHASEI = { details:'camera', voice:'mic', balance:'rupee', address:'pin', tracking:'truck', review:'star', repeat:'calendar' };
 function loadChase(){
   S.view = 'chase';
   call('chase').then(function(r){
@@ -746,7 +790,7 @@ function loadChase(){
     var t = w(), kind = S.chaseKind || '', list = (r.chase || []).filter(function(c){ return !kind || c.items.some(function(it){ return it.kind === kind; }); });
     var own = isOwner() && S.tab !== 'work';
     var h = own ? '<div class="pad row"><button class="ibtn" data-act="home" aria-label="Back">'+I('back',20,2)+'</button><div class="h1 grow">'+esc(t.t.chase)+' · '+list.length+'</div></div>' +
-      '<div class="chips" style="padding:0 16px 12px">' + [['','All'],['details','Photos'],['voice','Voice'],['balance','Balance'],['address','Address'],['tracking','Tracking'],['review','Review']].map(function(x){
+      '<div class="chips" style="padding:0 16px 12px">' + [['','All'],['details','Photos'],['voice','Voice'],['balance','Balance'],['address','Address'],['tracking','Tracking'],['review','Review'],['repeat','Gift again'],['lead','Asked, not bought']].map(function(x){
         return '<button class="pill'+(kind===x[0]?' on':'')+'" data-act="chasek" data-k="'+x[0]+'">'+esc(x[1])+'</button>'; }).join('') + '</div>'
       : (S.data ? staffTop() : '');
     h += '<div class="list">';
@@ -756,7 +800,11 @@ function loadChase(){
         '<div class="banner b-amber">Photo form received, but no order yet</div>' + (f.msg ? '<div class="msgbox"><small>Message</small><div>'+esc(f.msg)+'</div></div>' : '') +
         '<div class="grid2"><button class="btn pink sm" data-act="frominbox" data-i="'+i+'">'+I('plus',18,2.2)+'Create order</button><button class="btn line sm" data-act="ignoreinbox" data-i="'+i+'">Not needed</button></div></div>';
     });
-    if (!list.length && !S.inbox.length) h += '<div class="card" style="align-items:center;padding:30px 14px;font-size:16px;font-weight:700;color:var(--green)">'+esc(t.nothing)+'</div>';
+    var leads = (!kind || kind === 'lead') ? (r.leads || []) : [];
+    if (!list.length && !S.inbox.length && !leads.length) h += '<div class="card" style="align-items:center;padding:30px 14px;font-size:16px;font-weight:700;color:var(--green)">'+esc(t.nothing)+'</div>';
+    if (leads.length) h += '<span class="h2" style="font-size:15px;padding:4px 4px 0">Asked but did not buy · '+leads.length+'</span>' + leads.map(function(l){
+      return '<div class="card"><div class="row">'+avatar(l.name,'sq')+'<div class="grow stack" style="gap:2px"><span class="oname">'+esc(l.name)+'</span><span class="osub">'+esc(l.note||'')+(l.days?' · '+l.days+'d ago':'')+'</span></div></div>' +
+        '<div class="grid2">' + waBtn(l.phone, l.msg, 'Follow up', 'sm') + '<button class="btn line sm" data-act="leaddone" data-p="'+esc(l.phone)+'">Done / not interested</button></div></div>'; }).join('');
     list.forEach(function(c){
       h += '<div class="card"><button class="row" data-act="'+(isOwner()?'odetail':'open')+'" data-id="'+esc(c.id)+'" style="border:none;background:none;padding:0;text-align:left;width:100%">'+avatar(c.name,'sq')+
         '<div class="grow stack" style="gap:3px"><span class="oname">'+esc(c.name)+'</span><span class="osub">'+esc(c.id)+(c.due?' · '+esc(t.deliver)+' '+esc(c.due):'')+'</span></div>' +
@@ -768,6 +816,7 @@ function loadChase(){
           if (it.kind==='details') return '<button class="btn soft sm" data-act="tickdetails" data-id="'+esc(c.id)+'">'+I('check',16,2.4)+'Photos received</button>';
           if (it.kind==='tracking') return '<button class="btn soft sm" data-act="ticktrack" data-id="'+esc(c.id)+'">'+I('check',16,2.4)+'Tracking sent</button>';
           if (it.kind==='address') return '<button class="btn fill sm" data-act="addrsheet" data-id="'+esc(c.id)+'">'+I('edit',16)+esc(t.typeAddr)+'</button>';
+          if (it.kind==='repeat') return '<button class="btn soft sm" data-act="tickrepeat" data-id="'+esc(c.id)+'">'+I('check',16,2.4)+'Done</button>';
           return '';
         }).join('') + '</div></div>';
     });
@@ -1097,13 +1146,18 @@ function renderDetail(){
   if (o.alt) info.push('<div class="osub">Other number (form): '+esc(o.alt)+'</div>');
   if (o.madeBy || o.packedBy) info.push('<div class="osub">'+(o.madeBy?'Made by '+esc(o.madeBy):'')+(o.madeBy && o.packedBy?' · ':'')+(o.packedBy?'Packed by '+esc(o.packedBy):'')+'</div>');
   if (info.length) h += '<div class="card">'+info.join('')+'</div>';
+  h += '<div class="card" id="ohist"><b style="font-size:14px">History</b><div class="osub">Loading…</div></div>';
   h += '</div><div class="bottombar" style="position:static">';
   if (k && o.phone) h += waBtn(o.phone, msgFor(k, o), NEEDL[k]);
   if (o.stage === 'Packed' && !o.awb && S.od && S.od.orders) h += '<button class="btn plum" data-act="book" data-id="'+esc(o.id)+'">'+I('truck',20)+'Book courier</button>';
   h += '<div class="grid3">' + (o.phone ? '<a class="act3" href="'+esc(wa(o.phone))+'" target="_blank" rel="noopener">'+I('chat',20)+'Chat</a>' : '<button class="act3" data-act="noop">'+I('chat',20)+'No number</button>') +
     '<button class="act3" data-act="editord" data-id="'+esc(o.id)+'">'+I('edit',20)+'Edit</button>' +
     (o.pending > 0 ? '<button class="act3" data-act="paysheet" data-id="'+esc(o.id)+'" data-left="'+o.pending+'">'+I('cash',20)+'Add payment</button>' : '<button class="act3" data-act="open" data-id="'+esc(o.id)+'">'+I('qr',20)+'QR page</button>') + '</div></div>';
+  h += '<button class="btn line sm" data-act="undoorder" data-id="'+esc(o.id)+'">'+I('undo',18,2)+'Undo last step</button>';
   el().innerHTML = h + ownerNav(); scanVis();
+  var hid = o.id;
+  call('orderInfo', { id: hid }).then(function(r){ var box = document.getElementById('ohist'); if (!box || S.viewId !== hid || r.error) return;
+    box.innerHTML = '<b style="font-size:14px">History</b>' + (r.history.length ? r.history.map(function(x){ return '<div class="row" style="align-items:flex-start;gap:10px"><span class="dot" style="background:var(--lav);margin-top:5px"></span><div class="grow"><div style="font-size:13px;font-weight:700">'+esc(x.what)+'</div><div class="osub">'+esc(x.at)+(x.by?' · '+esc(x.by):'')+'</div></div></div>'; }).join('') : '<div class="osub">No history yet.</div>'); });
 }
 function orderMore(id){
   var o = findO(id) || {};
@@ -1122,7 +1176,7 @@ function editSheet(id){
   call('orderInfo', { id: id }).then(function(r){
     if (r.error) { closeSheet(); return toast(r.error); }
     var own = isOwner(), prods = (S.od && S.od.products) || (S.data && S.data.products) || [], a = r.addr || {};
-    var h = shead('Edit '+id) + '<div class="fgroup">'+fl('Customer name','e_name',r.name)+fl('WhatsApp','e_phone',r.phone,'tel')+'<div class="grid2">'+fl('City','e_city',r.city)+fl('Deliver by','e_exp',r.expdel,'date')+'</div></div>';
+    var h = shead('Edit '+id) + '<div class="fgroup">'+(own ? fl('Sale date (counts in this day\'s sales)','e_date',r.date,'date') : '')+fl('Customer name','e_name',r.name)+fl('WhatsApp','e_phone',r.phone,'tel')+'<div class="grid2">'+fl('City','e_city',r.city)+fl('Deliver by','e_exp',r.expdel,'date')+'</div></div>';
     if (own && !r.multi) h += '<div class="fgroup"><label class="fl">Product<select id="e_sku">'+(prods.length ? prods : [{sku:r.sku,name:r.sku,price:0}]).map(function(p){ return '<option value="'+esc(p.sku)+'"'+(p.sku===r.sku?' selected':'')+'>'+esc(p.name)+(p.price?' · '+inr(p.price):'')+'</option>'; }).join('')+'</select></label>' +
       '<div class="grid2">'+fl('Qty','e_qty',r.qty,'number')+fl('Discount ₹','e_disc',r.discount||'','number')+'</div>'+fl('Advance ₹ (only to correct a mistake)','e_adv',r.advance||'','number')+'</div>';
     h += '<div class="fgroup">'+fl('Name-tag message','e_msg',r.msg,'area')+fl('Notes for team','e_notes',r.notes,'area')+'</div>';
@@ -1143,7 +1197,7 @@ function payBlock(r){
     (r.left > 0 ? '<button class="btn outline sm" data-act="paysheet" data-id="'+esc(r.id)+'" data-left="'+r.left+'" style="width:auto">'+I('plus',16,2.2)+'Add payment</button>' : '') + '</div></div>';
 }
 function saveEdit(id, hadAddr){
-  var p = { id: id, name: val('e_name'), phone: val('e_phone'), city: val('e_city'), expdel: val('e_exp'), msg: val('e_msg'), notes: val('e_notes') };
+  var p = { id: id, date: val('e_date'), name: val('e_name'), phone: val('e_phone'), city: val('e_city'), expdel: val('e_exp'), msg: val('e_msg'), notes: val('e_notes') };
   if (document.getElementById('e_sku')) { p.sku = val('e_sku'); p.qty = val('e_qty'); p.discount = val('e_disc'); p.advance = val('e_adv'); }
   var a = addrFromForm(); if (a.address || hadAddr) p.addr = a;
   call('editOrder', p).then(function(r){
@@ -1247,12 +1301,15 @@ function renderTeam(){
 }
 function personSheet(i){
   var p = S.od.people[i];
-  sheet(shead(p.name, p.full) + '<b>Last 10 shifts</b>' + (p.shifts.length ? p.shifts.map(function(x){
+  S.person = i;
+  sheet(shead(p.name, p.full) + '<div class="card" style="gap:10px"><b style="font-size:14px">Add a missed shift</b><div class="grid3"><label class="f">Date<input type="date" id="as_date" value="'+isoOf(new Date())+'"></label><label class="f">Start<input type="time" id="as_in"></label><label class="f">End<input type="time" id="as_out"></label></div><label class="f">Note<input id="as_note" placeholder="Forgot to log in"></label><button class="btn plum sm" data-act="addshift">'+I('plus',18,2.2)+'Add shift</button></div>' +
+    '<b>Last 10 shifts</b>' + (p.shifts.length ? p.shifts.map(function(x){
       var bad = x.status === "Didn't log off";
       return '<div class="card'+(bad?' urgent':'')+'" style="gap:6px"><div class="row between"><b>'+esc(x.date)+'</b><span class="osub">'+esc(x.inAt)+' – '+(x.outAt?esc(x.outAt):'?')+'</span></div>' +
         '<div class="row between"><span class="tag '+(bad?'t-wine':'t-lav')+'">'+esc(x.status)+'</span><span class="osub">'+(x.mins?hm(x.mins)+' · ':'')+inr(x.pay)+'</span></div>' +
         (x.selfTimed?'<span class="tag t-lav">End time typed by staff — check</span>':'') + (x.note?'<div style="font-size:14px;white-space:pre-line">'+esc(x.note)+'</div>':'') +
-        (bad ? '<div class="row" style="gap:8px;align-items:flex-end"><label class="f grow">Left at<input type="time" id="fx_'+x.row+'"></label><button class="btn plum" style="width:auto;flex:1" data-act="fixshift" data-row="'+x.row+'">Save</button></div>' : '') + '</div>'; }).join('') : '<div class="muted">No shifts yet.</div>') +
+        '<div class="grid2" style="gap:8px"><label class="f">Start<input type="time" id="es_in_'+x.row+'" value="'+esc(x.in24||'')+'"></label><label class="f">End<input type="time" id="es_out_'+x.row+'" value="'+esc(x.out24||'')+'"></label></div>' +
+        '<div class="grid2" style="gap:8px"><button class="btn plum sm" data-act="editshift" data-row="'+x.row+'" data-d="'+esc(x.iso||'')+'">Save times</button><button class="btn danger sm" data-act="delshift" data-row="'+x.row+'">Delete</button></div></div>'; }).join('') : '<div class="muted">No shifts yet.</div>') +
     '<div class="osub">To change pay for a day, type the amount in "Pay override" on the Attendance tab of the sheet.</div>');
 }
 function renderStock(){
@@ -1271,12 +1328,34 @@ function renderStock(){
   s += '<div class="osub" style="text-align:center">Counts go down by themselves when a jar is made</div>';
   el().innerHTML = s + '</div>' + ownerNav();
 }
+function dayPicker(){
+  var r = S.drange || 'today', today = isoOf(new Date());
+  var opts = [['today','Today'],['yday','Yesterday'],['7d','Last 7 days'],['month','This month']];
+  return '<div class="card" style="gap:10px"><b style="font-size:15px">Numbers by day</b><div class="chips">' + opts.map(function(x){ return '<button class="pill'+(r===x[0]?' on':'')+'" data-act="drange" data-r="'+x[0]+'">'+x[1]+'</button>'; }).join('') + '</div>' +
+    '<div class="grid2"><label class="f">From<input type="date" id="d_from" value="'+esc(S.dfrom||today)+'" max="'+today+'"></label><label class="f">To<input type="date" id="d_to" value="'+esc(S.dto||today)+'" max="'+today+'"></label></div>' +
+    '<button class="btn outline sm" data-act="dshow">Show these dates</button></div>';
+}
+function rangeOf(r){ var t = new Date(), d = function(n){ return isoOf(new Date(t.getFullYear(), t.getMonth(), t.getDate() + n)); };
+  if (r === 'yday') return [d(-1), d(-1)]; if (r === '7d') return [d(-6), d(0)]; if (r === 'month') return [isoOf(new Date(t.getFullYear(), t.getMonth(), 1)), d(0)]; return [d(0), d(0)]; }
+function loadDays(){
+  var box = document.getElementById('daybox'); if (!box) return; box.innerHTML = '<div class="osub" style="padding:8px">Loading…</div>';
+  call('dayStats', { from: S.dfrom, to: S.dto }).then(function(r){
+    box = document.getElementById('daybox'); if (!box) return;
+    if (r.error) { box.innerHTML = '<div class="banner b-wine">'+esc(r.error)+'</div>'; return; }
+    var T = r.total, one = r.days.length === 1, mx = Math.max.apply(null, r.days.map(function(x){ return x.sales; }).concat([1]));
+    var tile = function(l, v, col){ return '<div class="stat" style="background:var(--fill);border-radius:12px;padding:10px"><small>'+l+'</small><b style="font-size:17px;'+(col?'color:'+col:'')+'">'+v+'</b></div>'; };
+    box.innerHTML = '<div class="card" style="gap:12px"><div class="row between"><b style="font-size:15px">'+esc(one ? r.days[0].label : r.days[0].label+' – '+r.days[r.days.length-1].label)+'</b></div>' +
+      '<div class="grid3">' + tile('Orders', T.orders) + tile('Sales', inr(T.sales)) + tile('Ad spend', inr(T.ads), 'var(--pink)') + tile('Cost / sale', T.cpa !== null ? inr(T.cpa) : '–') + tile('Sales per ₹1 ads', T.roas !== null ? '₹'+T.roas : '–') + tile('Profit after ads', inr(T.profit), T.profit >= 0 ? 'var(--green)' : 'var(--wine)') + '</div>' +
+      '<div class="osub">Profit after ads = sales − product cost ('+inr(T.cogs)+') − shipping ('+inr(T.ship)+') − fees ('+inr(T.fees)+') − ads</div>' +
+      (one ? '' : '<div class="stack" style="gap:6px">' + r.days.slice().reverse().map(function(x){ return '<div class="row" style="gap:8px;font-size:12px"><span style="width:78px;color:var(--muted);font-weight:600">'+esc(x.label)+'</span><div class="grow"><div class="bar" style="height:8px"><i style="width:'+Math.round(100*x.sales/mx)+'%;background:var(--plum)"></i></div></div><span style="width:110px;text-align:right"><b>'+x.orders+'</b> · '+inr(x.sales)+' · <span style="color:var(--pink)">'+inr(x.ads)+'</span></span></div>'; }).join('') + '<div class="osub" style="text-align:right">orders · sales · <span style="color:var(--pink)">ads</span></div></div>') + '</div>';
+  });
+}
 function renderMoney(){
   var m = S.od, pl = m.pl, tg = m.home.target;
   var rows = [['Sales',pl.revenue,'#3A1F5D'],['Product cost',pl.cogs,'#9C8AB4'],['Ads',pl.ads,'#C8326B'],['Shipping and fees',(pl.shipping||0)+(pl.fees||0),'#D9A400'],['Salaries, rent and other',pl.commit,'#6B6478']];
   var max = Math.max.apply(null, rows.map(function(r){ return Math.abs(r[1]||0); }).concat([1]));
   var prog = tg.needMin ? Math.max(0, Math.min(100, Math.round(100*(tg.earned||0)/tg.needMin))) : 0;
-  var s = subHead('Money') + '<div class="pad stack" style="padding-top:6px">' +
+  var s = subHead('Money') + '<div class="pad stack" style="padding-top:6px">' + dayPicker() + '<div id="daybox"></div>' +
     '<div class="card" style="background:var(--plum);color:#fff;gap:14px;padding:18px"><div class="stack" style="gap:2px"><span style="font-size:12px;color:#D9CDEA;font-weight:600">Net profit · this month so far</span><span style="font-size:32px;font-weight:800;letter-spacing:-.6px">'+inr(pl.net)+'</span></div>' +
     '<div class="stack" style="gap:6px"><div class="row between" style="font-size:12px;color:#D9CDEA;font-weight:600"><span>Goal '+inr(tg.needMin)+'</span><span>'+prog+'%</span></div><div class="bar" style="height:8px;background:rgba(255,255,255,.15)"><i style="width:'+prog+'%;background:#FF5A8C"></i></div></div>' +
     '<div class="grid2"><div style="background:rgba(255,255,255,.10);border-radius:14px;padding:10px 12px"><span style="font-size:11px;color:#D9CDEA;font-weight:600">Orders per day needed</span><div style="font-size:18px;font-weight:800">'+esc(tg.perDayMin)+'</div></div>' +
@@ -1287,6 +1366,8 @@ function renderMoney(){
     '<div class="card"><div class="row between"><b>Monthly commitments</b><b>'+inr(m.total)+'/mo</b></div>' +
     m.commitments.map(function(c){ return '<div class="prow"><div class="grow"><b style="font-size:14px">'+esc(c.name)+'</b><div class="osub">'+(c.left===null?'Ongoing':c.left+' months left')+'</div></div><b style="'+(c.thisMonth?'':'color:var(--muted);text-decoration:line-through')+'">'+inr(c.monthly)+'</b></div>'; }).join('') + '</div></div>';
   el().innerHTML = s + ownerNav();
+  if (!S.dfrom) { var rr = rangeOf(S.drange || 'today'); S.dfrom = rr[0]; S.dto = rr[1]; }
+  loadDays();
 }
 
 var OUTW = {edited:'photos edited',made:'jars made',videos:'videos sent',payments:'payments',packed:'packed',dispatched:'dispatched',reached:'delivered',reviews:'reviews'};
@@ -1390,6 +1471,15 @@ document.addEventListener('click', function(e){
     case 'stocktab': S.tab = 'stock'; ownerLoad(); window.scrollTo(0,0); break;
     case 'alerts': var al = document.getElementById('alerts'); if (al) al.scrollIntoView({ behavior: 'smooth' }); break;
     case 'adssheet': adsSheet(); break;
+    case 'undobar': b.disabled = true; call('undo', { id: id }).then(function(u){ toast(u.error || w().undo + ' ✓'); refresh(); }); break;
+    case 'pushon': b.disabled = true; enablePush(b); break;
+    case 'drange': S.drange = b.getAttribute('data-r'); var rg = rangeOf(S.drange); S.dfrom = rg[0]; S.dto = rg[1]; document.getElementById('d_from').value = rg[0]; document.getElementById('d_to').value = rg[1]; [].slice.call(b.parentNode.children).forEach(function(x){ x.classList.toggle('on', x === b); }); loadDays(); break;
+    case 'dshow': S.drange = 'custom'; S.dfrom = val('d_from'); S.dto = val('d_to'); [].slice.call(document.querySelectorAll('[data-act=drange]')).forEach(function(x){ x.classList.remove('on'); }); loadDays(); break;
+    case 'addshift': var pp = S.od.people[S.person]; b.disabled = true; call('addShift', { name: pp.name, date: val('as_date'), inAt: val('as_in'), outAt: val('as_out'), note: val('as_note') }).then(function(r){ b.disabled = false; if (r.error) return toast(r.error); closeSheet(); toast('Shift added'); ownerLoad(true); }); break;
+    case 'editshift': var rw2 = b.getAttribute('data-row'); b.disabled = true; call('editShift', { row: rw2, date: b.getAttribute('data-d'), inAt: val('es_in_'+rw2), outAt: val('es_out_'+rw2) }).then(function(r){ b.disabled = false; if (r.error) return toast(r.error); closeSheet(); toast('Times saved'); ownerLoad(true); }); break;
+    case 'delshift': if (b.getAttribute('data-sure') !== '1') { b.setAttribute('data-sure','1'); b.textContent = 'Tap again to delete'; return; } call('editShift', { row: b.getAttribute('data-row'), del: 1 }).then(function(r){ if (r.error) return toast(r.error); closeSheet(); toast('Shift deleted'); ownerLoad(true); }); break;
+    case 'tickrepeat': b.disabled = true; call('tick', { id: id, what: 'repeat', on: true }).then(function(){ loadChase(); }); break;
+    case 'leaddone': b.disabled = true; call('leadDone', { phone: b.getAttribute('data-p') }).then(function(){ loadChase(); }); break;
     case 'stages': stagesSheet(); break;
     case 'chase': S.chaseKind = ''; closeSheet(); loadChase(); window.scrollTo(0,0); break;
     case 'labels': closeSheet(); loadLabels(); window.scrollTo(0,0); break;
