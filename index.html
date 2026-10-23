@@ -910,8 +910,8 @@ function saveOrder(){
   if (!p.name.trim()) return toast('Enter customer name');
   call('addOrder', p).then(function(r){
     if (r.error) return toast(r.error);
-    var first = r.name.split(' ')[0];
-    var msg = 'Hi '+first+', thank you! Your order number is '+r.id+'.'+(r.formLink?' Please send your 6 photos and message here: '+r.formLink:'');
+    var first = String(r.name||'').replace(/^[^A-Za-z\u0900-\u0D7F]+/,'').trim().split(/\s+/)[0] || 'there';
+    var msg = 'Hi '+first+' 😊\n\nYour order '+r.id+' is booked! 🎉'+(r.formLink?'\n\nPlease upload your 6 photos and name-tag message here 👇\n'+r.formLink:'')+'\n\nAnd send the voice clip or song right here on WhatsApp 🎤';
     sheet('<div class="h1" style="font-size:22px;color:var(--green)">✓ Order '+esc(r.id)+' saved</div>' +
       (!r.hasPhotos && r.phone ? '<a class="btn wa" style="min-height:60px;font-size:18px" href="'+esc(wa(r.phone,msg))+'" target="_blank" rel="noopener">Send order no. & photo form on WhatsApp</a>' : '') +
       '<button class="btn line" data-act="labels">'+ICON.qr+' Print QR label</button><button class="btn plum" data-act="close">Done</button>');
