@@ -1423,7 +1423,7 @@ function renderBook(){
     if (x.date !== last) { last = x.date; rows += (rows ? '</div>' : '') + '<div class="mbday">' + esc(mbDayLabel(x.date, r.today)) + '</div><div class="group">'; }
     var c = mbCat(x.cat), a = mbAcc(x.acc), isIn = x.kind === 'in', isX = x.kind === 'xfer';
     var title = isX ? 'Moved to ' + mbAcc(x.to).name : x.order ? x.order + (x.pay ? ' · ' + x.pay : '') : (x.sub || c.n);
-    var sub = isX ? 'From ' + a.name : (x.order ? 'Customer payment' : (x.sub ? c.n : '')) ;
+    var sub = isX ? 'From ' + a.name : (x.order ? 'Customer payment' : x.cat === 'cust' ? '⚠ Not matched yet' : (x.sub ? c.n : '')) ;
     sub = [sub, x.note, isX ? '' : a.name].filter(String).join(' · ');
     rows += '<button class="gi mbtx" data-mbe="' + esc(x.id) + '"><span class="mbic" style="background:' + (isIn ? 'var(--greenbg)' : isX ? 'var(--fill)' : mbColor(x.cat) + '22') + '">' + esc(c.i) + '</span>' +
       '<div class="grow stack" style="gap:1px"><span class="oname" style="font-size:14px">' + esc(title) + '</span><span class="osub">' + esc(sub) + '</span></div>' +
@@ -1432,6 +1432,7 @@ function renderBook(){
   if (rows) rows += '</div>';
   var s = subHead('Expenses', '<button class="pill" id="mbSet">⚙ Edit</button>') + '<div class="pad stack" style="padding-top:6px">' +
     '<div class="grid2"><button class="btn plum" id="mbAdd">+ Add expense</button><button class="btn soft" id="mbInB">₹ Money in</button></div>' +
+    ((r.unmatched || []).length ? '<button class="banner b-amber" id="mbUnm" style="border:none;text-align:left;width:100%">🤷 ' + r.unmatched.length + ' customer payment' + (r.unmatched.length > 1 ? 's' : '') + ' (' + rupees(r.unmatched.reduce(function(s, x){ return s + x.amt; }, 0)) + ') not matched to an order · tap to match</button>' : '') +
     '<div class="mbseg">' + [['all','All'],['B','Business'],['P','Personal']].map(function(o){ return '<button class="' + (v === o[0] ? 'on' : '') + '" data-mbv="' + o[0] + '">' + o[1] + '</button>'; }).join('') + '</div>' +
     '<div class="card" style="padding:16px;gap:14px"><div class="row between"><b style="font-size:15px">Where the money went</b><div class="mbmon"><button id="mbPrev">‹</button><span>' + esc(mbMonthLabel(r.month)) + '</span><button id="mbNext">›</button></div></div>' +
     '<div class="mbdonut" style="background:' + (total ? 'conic-gradient(' + stops.join(',') + ')' : 'var(--fill)') + '"><div><small>Spent</small><b>' + rupees(total) + '</b><small>' + out.length + ' expense' + (out.length === 1 ? '' : 's') + '</small></div></div>' +
@@ -1450,6 +1451,7 @@ function renderBook(){
   on('mbAdd', function(){ mbAddSheet('out'); });
   on('mbInB', function(){ mbAddSheet('in'); });
   on('mbSet', mbSetupSheet);
+  on('mbUnm', mbUnmatchedSheet);
   on('mbPrev', function(){ mbShift(-1); });
   on('mbNext', function(){ mbShift(1); });
   el().querySelectorAll('[data-mbv]').forEach(function(b){ b.onclick = function(){ S.mbv = b.getAttribute('data-mbv'); renderBook(); }; });
@@ -1472,12 +1474,14 @@ function mbAddSheet(kind){
     html += '<div class="grid2" id="mbFor"><button class="mbopt" data-f="B">🏢 Business</button><button class="mbopt" data-f="P">🙋 Personal</button></div>' +
       '<div class="fgroup"><label class="fl">What for<select id="mb_cat"><option value="">Tap Business or Personal first</option></select></label>' +
       '<label class="fl" id="mb_subw" style="display:none">Detail<select id="mb_sub"></select></label></div>' +
+      '<div id="mbNew" class="stack" style="display:none;gap:8px"></div>' +
       '<span class="mblbl">Paid from</span>' + accBtns('mbAcc');
   } else {
     html += '<div class="grid3" id="mbInT">' + r.inCats.map(function(c){ return '<button class="mbopt sm" data-t="' + c.k + '">' + esc(c.i) + ' ' + esc(c.k === 'xfer' ? 'Move' : c.k === 'cust' ? 'Customer' : 'Other') + '</button>'; }).join('') + '</div>' +
       '<div id="mbCustBox" class="stack" style="gap:8px"><span class="mblbl">Which order?</span>' +
       '<div class="fgroup"><label class="fl">Search<input id="mb_q" placeholder="VJ number, name or phone" autocomplete="off"></label></div>' +
-      '<div class="group mbol" id="mbOrd"></div><div class="grid3" id="mbPay"></div></div>' +
+      '<div class="group mbol" id="mbOrd"></div><div class="grid3" id="mbPay"></div>' +
+      '<button class="mbopt sm" id="mbUnk" style="width:100%">🤷 Don\'t know who paid · match later</button></div>' +
       '<span class="mblbl" id="mbAccL">Received in</span>' + accBtns('mbAcc') +
       '<div id="mbToBox" style="display:none" class="stack"><span class="mblbl">Moved to</span>' + accBtns('mbTo') + '</div>';
   }
@@ -1492,12 +1496,10 @@ function mbAddSheet(kind){
   if (kind === 'out') {
     document.querySelectorAll('#mbFor button').forEach(function(b){ b.onclick = function(){
       pick('mbFor', 'f', b.getAttribute('data-f'));
-      var opt = function(c){ return '<option value="' + esc(c.k) + '">' + esc(c.i + '  ' + c.n) + '</option>'; };
-      document.getElementById('mb_cat').innerHTML = '<option value="">Choose…</option>' + (S.mb.f === 'P' ? mbCatsOf('P').map(opt).join('')
-        : '<optgroup label="Direct · making the product">' + mbCatsOf('D').map(opt).join('') + '</optgroup><optgroup label="Indirect · running the business">' + mbCatsOf('I').map(opt).join('') + '</optgroup>');
+      mbCatOptions(); document.getElementById('mbNew').style.display = 'none';
       mbSubs();
     }; });
-    document.getElementById('mb_cat').onchange = mbSubs;
+    document.getElementById('mb_cat').onchange = function(){ if (val('mb_cat') === '__new') { this.value = ''; mbNewCat(); } else document.getElementById('mbNew').style.display = 'none'; mbSubs(); };
   } else {
     document.querySelectorAll('#mbTo button').forEach(function(b){ b.onclick = function(){ pick('mbTo', 'to', b.getAttribute('data-a')); }; });
     document.querySelectorAll('#mbInT button').forEach(function(b){ b.onclick = function(){
@@ -1510,6 +1512,13 @@ function mbAddSheet(kind){
     pick('mbInT', 'inT', 'cust');
     document.getElementById('mb_q').oninput = mbOrders;
     mbOrders();
+    document.getElementById('mbUnk').onclick = function(){
+      S.mb.unknown = !S.mb.unknown; this.classList.toggle('on', S.mb.unknown);
+      this.textContent = S.mb.unknown ? '✓ Not matched · you can pick the order later' : '🤷 Don\'t know who paid · match later';
+      ['mbOrd', 'mbPay'].forEach(function(i){ document.getElementById(i).style.display = S.mb.unknown ? 'none' : ''; });
+      document.getElementById('mb_q').closest('.fgroup').style.display = S.mb.unknown ? 'none' : '';
+      if (S.mb.unknown) { S.mb.order = ''; S.mb.pay = ''; } mbHint();
+    };
   }
   document.getElementById('mbSave').onclick = mbSave;
 }
@@ -1554,12 +1563,12 @@ function mbSave(){
     if (!m.f) return toast('Business or Personal?');
     p.cat = val('mb_cat'); p.sub = val('mb_sub') || ''; if (!p.cat) return toast('What was it for?');
   } else if (m.inT === 'xfer') { p.kind = 'xfer'; p.to = m.to; if (!p.to) return toast('Moved to which account?'); }
-  else { p.cat = m.inT; if (m.inT === 'cust') { if (!m.order) return toast('Choose the order'); p.order = m.order; p.pay = m.pay; } }
+  else { p.cat = m.inT; if (m.inT === 'cust') { if (!m.order && !m.unknown) return toast('Choose the order, or tap “Don\'t know who paid”'); p.order = m.unknown ? '' : m.order; p.pay = m.unknown ? '' : m.pay; } }
   var btn = document.getElementById('mbSave'); btn.disabled = true; btn.textContent = 'Saving…';
   call('bookAdd', p).then(function(r){
     if (r.error) { btn.disabled = false; btn.textContent = 'Save'; return toast(r.error); }
     closeSheet();
-    toast(p.order ? '✓ ' + rupees(p.amount) + ' added to ' + p.order + (r.extra > 0 ? ' · ' + rupees(r.extra) + ' extra' : r.left > 0 ? ' · ' + rupees(r.left) + ' left' : ' · fully paid') : '✓ ' + rupees(p.amount) + ' saved');
+    toast(p.cat === 'cust' && !p.order ? '✓ ' + rupees(p.amount) + ' saved · match it to an order later' : p.order ? '✓ ' + rupees(p.amount) + ' added to ' + p.order + (r.extra > 0 ? ' · ' + rupees(r.extra) + ' extra' : r.left > 0 ? ' · ' + rupees(r.left) + ' left' : ' · fully paid') : '✓ ' + rupees(p.amount) + ' saved');
     if (p.date && p.date.slice(0, 7) !== S.od.month) S.mbm = p.date.slice(0, 7);
     ownerLoad(true);
   });
@@ -1573,7 +1582,9 @@ function mbEntrySheet(id){
     line('What for', c.i + ' ' + c.n + (x.sub ? ' · ' + x.sub : '')) + line('Type', { D: 'Business · Direct', I: 'Business · Indirect', P: 'Personal', IN: 'Money in', X: 'Between my accounts' }[x.type]) +
     line(x.kind === 'xfer' ? 'From' : x.kind === 'in' ? 'Received in' : 'Paid from', a.name) + line('To', x.to ? mbAcc(x.to).name : '') +
     line('Order', x.order ? x.order + (x.pay ? ' · ' + x.pay : '') : '') + line('Note', x.note) + line('Entered by', x.by) + '</div>' +
+    (x.cat === 'cust' && !x.order ? '<button class="btn plum" id="mbMatch">Match to an order</button>' : '') +
     '<button class="btn danger" id="mbDel">Delete this entry</button>');
+  var mm = document.getElementById('mbMatch'); if (mm) mm.onclick = function(){ mbMatchSheet(x.id, x.amt); };
   var d = document.getElementById('mbDel'), armed = false;
   d.onclick = function(){
     if (!armed) { armed = true; d.textContent = x.order ? 'Tap again · also removes ' + rupees(x.applied) + ' from ' + x.order : 'Tap again to delete'; return; }
@@ -1582,6 +1593,61 @@ function mbEntrySheet(id){
   };
 }
 
+function mbUnmatchedSheet(){
+  var u = S.od.unmatched || [];
+  sheet(shead('Payments to match', 'Tap one, then pick the order') + '<div class="group">' + u.map(function(x){
+    return '<button class="gi" data-u="' + esc(x.id) + '" data-a="' + x.amt + '"><span class="mbic" style="background:var(--greenbg)">💵</span><div class="grow stack" style="gap:1px"><span class="oname" style="font-size:14px">' + rupees(x.amt) + '</span><span class="osub">' + esc([mbDayLabel(x.date, S.od.today), mbAcc(x.acc).name, x.note].filter(String).join(' · ')) + '</span></div></button>'; }).join('') + '</div>');
+  document.querySelectorAll('[data-u]').forEach(function(b){ b.onclick = function(){ mbMatchSheet(b.getAttribute('data-u'), Number(b.getAttribute('data-a'))); }; });
+}
+function mbMatchSheet(id, amt){
+  sheet(shead('Which order?', rupees(amt) + ' received') + '<div class="fgroup"><label class="fl">Search<input id="mm_q" placeholder="VJ number, name or phone" autocomplete="off"></label></div><div class="group mbol" id="mmList" style="max-height:none"></div>');
+  var draw = function(){
+    var q = String(val('mm_q') || '').toLowerCase().replace(/\s/g, '');
+    var list = S.od.due.filter(function(o){ return !q || (o.id + o.name + o.phone).toLowerCase().replace(/\s/g, '').indexOf(q) >= 0; })
+      .sort(function(a, b){ return Math.abs(a.due - amt) - Math.abs(b.due - amt); }).slice(0, 25);
+    var box = document.getElementById('mmList');
+    box.innerHTML = list.map(function(o){ return '<button class="gi" data-o="' + esc(o.id) + '"><div class="grow stack" style="gap:1px"><span class="oname" style="font-size:14px">' + esc(o.id + ' · ' + o.name) + '</span><span class="osub">' + esc(o.what || '') + '</span></div><b style="color:' + (o.due === amt ? 'var(--green)' : 'var(--amber)') + ';white-space:nowrap">' + (o.due === amt ? '✓ ' : '') + rupees(o.due) + ' due</b></button>'; }).join('') || '<div class="gi osub">No order with money due matches</div>';
+    box.querySelectorAll('[data-o]').forEach(function(b){ b.onclick = function(){
+      b.disabled = true;
+      call('bookLink', { id: id, order: b.getAttribute('data-o') }).then(function(r){
+        if (r.error) { b.disabled = false; return toast(r.error); }
+        closeSheet(); toast('✓ Matched to ' + b.getAttribute('data-o') + (r.extra > 0 ? ' · ' + rupees(r.extra) + ' extra' : r.left > 0 ? ' · ' + rupees(r.left) + ' left' : ' · fully paid')); ownerLoad(true);
+      });
+    }; });
+  };
+  document.getElementById('mm_q').oninput = draw; draw();
+}
+function mbNewCat(){
+  var box = document.getElementById('mbNew'); if (!box) return;
+  var biz = S.mb.f !== 'P'; S.mb.newT = biz ? (S.mb.newT === 'I' ? 'I' : 'D') : 'P';
+  box.style.display = 'flex';
+  box.innerHTML = '<div class="fgroup"><label class="fl">New category name<input id="mb_newn" placeholder="e.g. Printer ink" autocomplete="off"></label></div>' +
+    (biz ? '<div class="grid2" id="mbNewT"><button class="mbopt sm" data-t="D">Direct<small>making the product</small></button><button class="mbopt sm" data-t="I">Indirect<small>running the business</small></button></div>' : '') +
+    '<button class="btn soft" id="mbNewSave" style="min-height:46px">Add category</button>';
+  var mark = function(){ box.querySelectorAll('#mbNewT button').forEach(function(b){ b.classList.toggle('on', b.getAttribute('data-t') === S.mb.newT); }); };
+  box.querySelectorAll('#mbNewT button').forEach(function(b){ b.onclick = function(){ S.mb.newT = b.getAttribute('data-t'); mark(); }; }); mark();
+  document.getElementById('mb_newn').focus();
+  document.getElementById('mbNewSave').onclick = function(){
+    var n = String(val('mb_newn') || '').trim(); if (!n) return toast('Type the category name');
+    var btn = this; btn.disabled = true; btn.textContent = 'Adding…';
+    var st = S.od.setup, t = S.mb.newT;
+    call('bookSetup', { accounts: st.accounts.filter(function(a){ return !a.hidden; }).map(function(a){ return { id: a.id, name: a.name, color: a.color }; }),
+      cats: st.cats.filter(function(c){ return !c.hidden; }).concat([{ k: '', n: n, i: '•', t: t, subs: [] }]) }).then(function(r){
+      if (r.error) { btn.disabled = false; btn.textContent = 'Add category'; return toast(r.error); }
+      S.od.setup = r.setup; try { cput('book', S.od); } catch (e) {}
+      var nc = r.setup.cats.filter(function(c){ return c.n === n && c.t === t && !c.hidden; }).pop();
+      box.style.display = 'none'; box.innerHTML = '';
+      mbCatOptions(); if (nc) document.getElementById('mb_cat').value = nc.k; mbSubs();
+      toast('✓ ' + n + ' added');
+    });
+  };
+}
+function mbCatOptions(){
+  var opt = function(c){ return '<option value="' + esc(c.k) + '">' + esc(c.i + '  ' + c.n) + '</option>'; };
+  document.getElementById('mb_cat').innerHTML = '<option value="">Choose…</option>' + (S.mb.f === 'P' ? mbCatsOf('P').map(opt).join('')
+    : '<optgroup label="Direct · making the product">' + mbCatsOf('D').map(opt).join('') + '</optgroup><optgroup label="Indirect · running the business">' + mbCatsOf('I').map(opt).join('') + '</optgroup>') +
+    '<option value="__new">＋ Add a new category…</option>';
+}
 function mbSetupSheet(){
   var r = S.od, st = JSON.parse(JSON.stringify(r.setup));
   S.mbs = { accounts: st.accounts.filter(function(a){ return !a.hidden; }), cats: st.cats.filter(function(c){ return !c.hidden; }) };
