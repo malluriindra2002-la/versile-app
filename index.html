@@ -226,6 +226,7 @@ label.f textarea{height:80px;padding:12px 14px}
 .mbin{border:none;background:transparent;outline:none;font-size:15px;font-weight:600;color:var(--ink);padding:4px 0;min-width:0}
 .mbx{border:none;background:var(--fill);color:var(--muted);width:30px;height:30px;border-radius:15px;font-size:18px;flex-shrink:0}
 .mbaddrow{border:none;background:none;color:var(--plum);font-weight:700;font-size:14px;padding:12px 0;text-align:left}
+.mbtabs button{height:42px;font-size:15px}
 </style>
 </head>
 <body>
@@ -1408,10 +1409,13 @@ function mbDayLabel(d, today){
   var ys = y.getFullYear() + '-' + String(y.getMonth() + 1).padStart(2, '0') + '-' + String(y.getDate()).padStart(2, '0');
   return d === today ? 'Today' : d === ys ? 'Yesterday' : new Date(d + 'T00:00:00').toLocaleDateString('en-IN', { weekday: 'short', day: 'numeric', month: 'short' });
 }
-function mbIn(x){ var v = S.mbv || 'all'; if (x.kind !== 'out') return v === 'all'; return v === 'all' || (v === 'B' ? x.type !== 'P' : x.type === 'P'); }
+function mbIn(x){ if (x.cat === 'cust') return false; var v = S.mbv || 'all'; if (x.kind !== 'out') return v === 'all'; return v === 'all' || (v === 'B' ? x.type !== 'P' : x.type === 'P'); }
 
 function renderBook(){
-  var r = S.od, v = S.mbv || 'all';
+  var r = S.od, v = S.mbv || 'all', mbt = S.mbt || 'exp';
+  var tabs = '<div class="mbseg mbtabs">' + [['exp','Expenses'],['sales','Sales'],['bank','Bank']].map(function(t){ return '<button class="' + (mbt === t[0] ? 'on' : '') + '" data-mbt="' + t[0] + '">' + t[1] + '</button>'; }).join('') + '</div>';
+  var head = subHead('Expenses & Sales', '<button class="pill" id="mbSet">⚙ Edit</button>') + '<div class="pad stack" style="padding-top:6px">' + tabs;
+  if (mbt !== 'exp') { el().innerHTML = head + (mbt === 'sales' ? mbSalesHtml(r) : mbBankHtml(r)) + '</div>' + ownerNav(); mbBind(r); return; }
   var day = S.mbd && S.mbd.slice(0, 7) === r.month ? S.mbd : null;
   var inDay = function(x){ return !day || x.date === day; };
   var out = r.entries.filter(function(x){ return x.kind === 'out' && mbIn(x) && inDay(x); });
@@ -1434,9 +1438,8 @@ function renderBook(){
       '<b style="white-space:nowrap;' + (isIn ? 'color:var(--green)' : isX ? 'color:var(--muted)' : '') + '">' + (isIn ? '+' : isX ? '' : '−') + rupees(x.amt) + '</b></button>';
   });
   if (rows) rows += '</div>';
-  var s = subHead('Expenses', '<button class="pill" id="mbSet">⚙ Edit</button>') + '<div class="pad stack" style="padding-top:6px">' +
-    '<div class="grid2"><button class="btn plum" id="mbAdd">+ Add expense</button><button class="btn soft" id="mbInB">₹ Money in</button></div>' +
-    ((r.unmatched || []).length ? '<button class="banner b-amber" id="mbUnm" style="border:none;text-align:left;width:100%">🤷 ' + r.unmatched.length + ' customer payment' + (r.unmatched.length > 1 ? 's' : '') + ' (' + rupees(r.unmatched.reduce(function(s, x){ return s + x.amt; }, 0)) + ') not matched to an order · tap to match</button>' : '') +
+  var s = head +
+    '<div class="grid2"><button class="btn plum" id="mbAdd">+ Add expense</button><button class="btn soft" id="mbInB">₹ Other money in</button></div>' +
     '<div class="mbseg">' + [['all','All'],['B','Business'],['P','Personal']].map(function(o){ return '<button class="' + (v === o[0] ? 'on' : '') + '" data-mbv="' + o[0] + '">' + o[1] + '</button>'; }).join('') + '</div>' +
     '<div class="row" style="gap:6px"><button class="pill' + (day ? '' : ' on') + '" id="mbModeM">Month</button><button class="pill' + (day ? ' on' : '') + '" id="mbModeD">Day by day</button><input type="date" class="mbdate" id="mbDate" value="' + (day || '') + '" max="' + r.today + '" aria-label="Pick a date"></div>' +
     '<div class="card" style="padding:16px;gap:14px"><div class="row between"><b style="font-size:15px">' + (day ? 'Spent on this day' : 'Where the money went') + '</b><div class="mbmon"><button id="mbPrev">‹</button><span>' + esc(day ? mbDayLabel(day, r.today) : mbMonthLabel(r.month)) + '</span><button id="mbNext"' + (day && day >= r.today ? ' disabled style="opacity:.3"' : '') + '>›</button></div></div>' +
@@ -1454,9 +1457,8 @@ function renderBook(){
   el().innerHTML = s + ownerNav();
   var on = function(id, f){ var e = document.getElementById(id); if (e) e.onclick = f; };
   on('mbAdd', function(){ mbAddSheet('out'); });
-  on('mbInB', function(){ mbAddSheet('in'); });
-  on('mbSet', mbSetupSheet);
-  on('mbUnm', mbUnmatchedSheet);
+  on('mbInB', function(){ mbAddSheet('in', 'oin'); });
+  mbBind(r);
   on('mbPrev', function(){ day ? mbGoDay(mbAddDays(day, -1)) : mbShift(-1); });
   on('mbNext', function(){ day ? mbGoDay(mbAddDays(day, 1)) : mbShift(1); });
   on('mbModeM', function(){ S.mbd = null; renderBook(); });
@@ -1465,6 +1467,82 @@ function renderBook(){
   el().querySelectorAll('[data-day]').forEach(function(b){ b.onclick = function(){ mbGoDay(b.getAttribute('data-day')); window.scrollTo(0, 0); }; });
   el().querySelectorAll('[data-mbv]').forEach(function(b){ b.onclick = function(){ S.mbv = b.getAttribute('data-mbv'); renderBook(); }; });
   el().querySelectorAll('[data-mbe]').forEach(function(b){ b.onclick = function(){ mbEntrySheet(b.getAttribute('data-mbe')); }; });
+}
+/* ---------- Sales + Bank tabs */
+function mbSales(){ return (S.od.sales && S.od.sales.list) || []; }
+function mbBars(obj, colors){
+  var keys = Object.keys(obj).sort(function(a, b){ return obj[b] - obj[a]; }), mx = keys.length ? obj[keys[0]] : 1;
+  return keys.map(function(k, i){ return '<div class="stack" style="gap:4px"><div class="row between" style="font-size:14px"><span style="font-weight:600">' + esc(k) + '</span><b>' + rupees(obj[k]) + '</b></div><div class="bar" style="height:8px"><i style="width:' + Math.round(obj[k] / mx * 100) + '%;background:' + (k === 'Bank not chosen' ? '#E0759A' : colors[i % colors.length]) + '"></i></div></div>'; }).join('');
+}
+function mbSalesHtml(r){
+  var L = mbSales(), sum = function(f){ return L.filter(f).reduce(function(s, x){ return s + x.amt; }, 0); };
+  var total = sum(function(){ return true; }), adv = sum(function(x){ return x.pay === 'Advance'; }), extra = L.reduce(function(s, x){ return s + (x.extra || 0); }, 0);
+  var bal = total - adv;
+  var byP = {}, byB = {}, ids = {};
+  L.forEach(function(x){ var p = x.what || (x.order ? 'Other' : 'Not matched yet'); byP[p] = (byP[p] || 0) + x.amt; var b = x.acc ? mbAcc(x.acc).name : 'Bank not chosen'; byB[b] = (byB[b] || 0) + x.amt; if (x.order) ids[x.order] = 1; });
+  var nob = L.filter(function(x){ return !x.acc; }), um = r.unmatched || [], sl = r.sales || {};
+  var rows = '', last = '';
+  L.forEach(function(x, i){
+    if (x.date !== last) { last = x.date; var dt = L.filter(function(y){ return y.date === x.date; }).reduce(function(s, y){ return s + y.amt; }, 0); rows += (rows ? '</div>' : '') + '<div class="mbday"><span>' + esc(mbDayLabel(x.date, r.today)) + '</span><span>' + rupees(dt) + '</span></div><div class="group">'; }
+    var tag = x.pay === 'Advance' ? '<span class="tag t-lav">ADVANCE</span>' : x.pay === 'Not matched' ? '<span class="tag t-amber">NOT MATCHED</span>' : '<span class="tag t-green">' + esc(String(x.pay || 'Balance').toUpperCase()) + '</span>';
+    var sub = tag + (x.extra > 0 ? '<span class="tag t-amber">' + rupees(x.extra) + ' EXTRA</span>' : '') + (x.acc ? esc(mbAcc(x.acc).name) : '<span class="tag t-wine">BANK NOT CHOSEN · TAP</span>') + (x.by && !x.acc ? ' · by ' + esc(x.by) : '');
+    rows += '<button class="gi mbtx" data-ms="' + i + '"><span class="mbic" style="background:var(--greenbg)">💵</span><div class="grow stack" style="gap:2px"><span class="oname" style="font-size:14px">' + esc(x.order ? x.order + (x.name ? ' · ' + x.name : '') : 'Customer payment') + '</span><span class="osub">' + sub + '</span></div><b style="color:var(--green);white-space:nowrap">+' + rupees(x.amt) + '</b></button>';
+  });
+  if (rows) rows += '</div>';
+  return '<div class="row between" style="padding:0 4px"><b style="font-size:15px">Sales money received</b><div class="mbmon"><button id="mbPrev">‹</button><span>' + esc(mbMonthLabel(r.month)) + '</span><button id="mbNext">›</button></div></div>' +
+    '<div class="card" style="background:var(--plum);color:#fff;padding:18px;gap:12px"><span style="font-size:12px;color:#D9CDEA;font-weight:600">Received in ' + esc(mbMonthLabel(r.month)) + '</span><span style="font-size:32px;font-weight:800;letter-spacing:-.6px">' + rupees(total) + '</span>' +
+    '<div class="grid3">' + [['Advances', adv], ['Balances', bal], ['Extra', extra]].map(function(c){ return '<div style="background:rgba(255,255,255,.12);border-radius:14px;padding:9px 10px"><span style="font-size:11px;color:#D9CDEA;font-weight:600">' + c[0] + '</span><div style="font-size:16px;font-weight:800">' + rupees(c[1]) + '</div></div>'; }).join('') + '</div></div>' +
+    '<div class="grid2"><div class="card" style="gap:2px"><span class="osub">Still to collect</span><b style="font-size:20px;color:var(--amber)">' + rupees(sl.toCollect || 0) + '</b><span class="osub">from ' + (sl.toCollectN || 0) + ' customers</span></div>' +
+    '<div class="card" style="gap:2px"><span class="osub">Orders paid</span><b style="font-size:20px">' + Object.keys(ids).length + '</b><span class="osub">in ' + esc(mbMonthLabel(r.month)) + '</span></div></div>' +
+    (nob.length ? '<button class="banner b-amber" id="mbNob" style="border:none;text-align:left;width:100%">🏦 ' + nob.length + ' payment' + (nob.length > 1 ? 's' : '') + ' (' + rupees(nob.reduce(function(s, x){ return s + x.amt; }, 0)) + ') marked paid on the order page · bank not chosen · tap to pick</button>' : '') +
+    (um.length ? '<button class="banner b-lav" id="mbUnm" style="border:none;text-align:left;width:100%">🤷 ' + um.length + ' customer payment' + (um.length > 1 ? 's' : '') + ' (' + rupees(um.reduce(function(s, x){ return s + x.amt; }, 0)) + ') not matched to an order · tap to match</button>' : '') +
+    (L.length ? '<div class="card" style="gap:12px"><b style="font-size:15px">By product</b>' + mbBars(byP, ['#3A1F5D', '#C8326B', '#9C8AB4', '#6B6478']) + '</div>' +
+      '<div class="card" style="gap:12px"><b style="font-size:15px">By bank</b>' + mbBars(byB, ['#8A1C22', '#2A5EA8', '#E0262F', '#1F7A4D']) + '</div>' +
+      '<b style="font-size:15px;padding:2px 4px 0">Received · date-wise</b>' + rows
+      : '<div class="card osub" style="text-align:center">No sales money recorded in ' + esc(mbMonthLabel(r.month)) + ' yet</div>') +
+    '<button class="btn soft" id="mbSaleAdd">₹ Add sale payment</button>';
+}
+function mbBankHtml(r){
+  var E = r.entries, sum = function(f){ return E.filter(f).reduce(function(s, x){ return s + x.amt; }, 0); };
+  var sales = mbSales().reduce(function(s, x){ return s + x.amt; }, 0);
+  var other = sum(function(x){ return x.kind === 'in' && x.cat !== 'cust'; }), biz = sum(function(x){ return x.kind === 'out' && x.type !== 'P'; }), pers = sum(function(x){ return x.kind === 'out' && x.type === 'P'; });
+  var line = function(ic, k, v, sign){ return '<div class="row between" style="font-size:14px;padding:4px 0"><span>' + ic + ' ' + k + '</span><b style="' + (sign > 0 ? 'color:var(--green)' : '') + '">' + (sign > 0 ? '+' : '−') + rupees(v) + '</b></div>'; };
+  return '<div class="card" style="background:var(--plum);color:#fff;padding:18px;gap:6px"><span style="font-size:12px;color:#D9CDEA;font-weight:600">Total in all banks</span><span style="font-size:32px;font-weight:800;letter-spacing:-.6px">' + inr(r.total) + '</span></div>' +
+    '<div class="mbaccs">' + mbAccs().map(function(a){ var b = r.bal[a.id] || 0; return '<div class="mbacc"><span class="mblg" style="background:' + esc(a.color) + '">' + esc(mbShort(a.name)) + '</span><small>' + esc(a.name) + '</small><b' + (b < 0 ? ' style="color:var(--wine)"' : '') + '>' + inr(b) + '</b></div>'; }).join('') + '</div>' +
+    '<div class="card" style="gap:4px"><div class="row between" style="margin-bottom:6px"><b style="font-size:15px">This month</b><div class="mbmon"><button id="mbPrev">‹</button><span>' + esc(mbMonthLabel(r.month)) + '</span><button id="mbNext">›</button></div></div>' +
+    line('💵', 'Sales received', sales, 1) + line('➕', 'Other money in', other, 1) + line('🏢', 'Business expenses', biz, -1) + line('🙋', 'Personal expenses', pers, -1) +
+    '<div class="row between" style="border-top:1px solid var(--line2);padding-top:10px;margin-top:4px;font-size:14px"><b>Business profit<div class="osub" style="font-weight:500">sales − business expenses</div></b><b style="font-size:18px;color:' + (sales - biz >= 0 ? 'var(--green)' : 'var(--wine)') + '">' + inr(sales - biz) + '</b></div></div>' +
+    '<button class="btn line" id="mbMove">🔁 Move money between my accounts</button>';
+}
+function mbBind(r){
+  var on = function(id, f){ var e = document.getElementById(id); if (e) e.onclick = f; };
+  on('mbSet', mbSetupSheet);
+  on('mbUnm', mbUnmatchedSheet);
+  on('mbNob', function(){ mbNoBankSheet(); });
+  on('mbSaleAdd', function(){ mbAddSheet('in', 'cust'); });
+  on('mbMove', function(){ mbAddSheet('in', 'xfer'); });
+  if ((S.mbt || 'exp') !== 'exp') { on('mbPrev', function(){ mbShift(-1); }); on('mbNext', function(){ mbShift(1); }); }
+  el().querySelectorAll('[data-mbt]').forEach(function(b){ b.onclick = function(){ S.mbt = b.getAttribute('data-mbt'); renderBook(); window.scrollTo(0, 0); }; });
+  el().querySelectorAll('[data-ms]').forEach(function(b){ b.onclick = function(){ var x = mbSales()[Number(b.getAttribute('data-ms'))]; if (!x) return; if (x.key) mbBankPick(x); else if (x.id) mbEntrySheet(x.id); }; });
+}
+function mbNoBankSheet(){
+  var L = mbSales().filter(function(x){ return !x.acc; });
+  sheet(shead('Bank not chosen', 'Tap one, then pick the bank it came into') + '<div class="group">' + L.map(function(x, i){
+    return '<button class="gi" data-nb="' + i + '"><span class="mbic" style="background:var(--greenbg)">💵</span><div class="grow stack" style="gap:1px"><span class="oname" style="font-size:14px">' + esc(x.order + (x.name ? ' · ' + x.name : '')) + '</span><span class="osub">' + esc([mbDayLabel(x.date, S.od.today), x.pay, x.by ? 'by ' + x.by : '', x.method].filter(String).join(' · ')) + '</span></div><b style="color:var(--green)">+' + rupees(x.amt) + '</b></button>'; }).join('') + '</div>');
+  document.querySelectorAll('[data-nb]').forEach(function(b){ b.onclick = function(){ mbBankPick(L[Number(b.getAttribute('data-nb'))]); }; });
+}
+function mbBankPick(x){
+  sheet(shead('Which bank did it come into?', x.order + (x.name ? ' · ' + x.name : '') + ' · ' + rupees(x.amt) + ' ' + String(x.pay || '').toLowerCase()) +
+    '<div class="mbaccbtn">' + mbAccs().map(function(a){ return '<button data-bk="' + esc(a.id) + '">' + esc(a.name) + '<small>' + inr(S.od.bal[a.id] || 0) + '</small></button>'; }).join('') + '</div>' +
+    '<button class="btn line" data-bk="__skip" style="min-height:46px;font-size:14px">Already counted in my bank balance · skip</button>');
+  document.querySelectorAll('[data-bk]').forEach(function(b){ b.onclick = function(){
+    document.querySelectorAll('[data-bk]').forEach(function(z){ z.disabled = true; });
+    var acc = b.getAttribute('data-bk');
+    call('bookBank', { key: x.key, acc: acc }).then(function(r){
+      if (r.error) { document.querySelectorAll('[data-bk]').forEach(function(z){ z.disabled = false; }); return toast(r.error); }
+      closeSheet(); toast(acc === '__skip' ? 'Skipped' : '✓ ' + rupees(x.amt) + ' added to ' + mbAcc(acc).name); ownerLoad(true);
+    });
+  }; });
 }
 function mbAddDays(d, n){ var t = new Date(d + 'T00:00:00'); t.setDate(t.getDate() + n); return t.getFullYear() + '-' + String(t.getMonth() + 1).padStart(2, '0') + '-' + String(t.getDate()).padStart(2, '0'); }
 function mbGoDay(d){
@@ -1478,7 +1556,7 @@ function mbShift(n){
   ownerLoad();
 }
 
-function mbAddSheet(kind){
+function mbAddSheet(kind, inT0){
   var r = S.od;
   var cur = mbAccs().filter(function(a){ return /current/i.test(a.name); })[0];
   S.mb = { kind: kind, f: '', acc: ((kind === 'in' && cur) || mbAccs()[0] || {}).id, to: '', inT: 'cust', order: '', pay: '' };
@@ -1525,6 +1603,7 @@ function mbAddSheet(kind){
       mbHint();
     }; });
     pick('mbInT', 'inT', 'cust');
+    if (inT0 && inT0 !== 'cust') { var tb = document.querySelector('#mbInT [data-t="' + inT0 + '"]'); if (tb) tb.click(); }
     document.getElementById('mb_q').oninput = mbOrders;
     mbOrders();
     document.getElementById('mbUnk').onclick = function(){
