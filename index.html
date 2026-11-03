@@ -1912,7 +1912,7 @@ function renderMoney(){
   var max = Math.max.apply(null, rows.map(function(r){ return Math.abs(r[1]||0); }).concat([1]));
   var prog = tg.needMin ? Math.max(0, Math.min(100, Math.round(100*(tg.earned||0)/tg.needMin))) : 0;
   var la = (m.home && m.home.liveAt) || 0, ago = la ? Math.max(0, Math.round((Date.now() - la) / 60000)) : null;
-  var s = subHead('Money', '<button class="pill on" data-act="syncnow">↻ Refresh</button>') + '<div class="pad stack" style="padding-top:6px"><div class="osub" style="padding:0 4px">Ads and shipping costs '+(ago === null ? 'not fetched yet' : 'updated '+(ago < 1 ? 'just now' : ago+' min ago'))+' · today\'s numbers are “so far”</div>' + dayPicker() + '<div id="daybox"></div>' +
+  var s = subHead('Money', '<button class="pill" data-act="cfgedit">✏️ Targets</button> <button class="pill on" data-act="syncnow">↻ Refresh</button>') + '<div class="pad stack" style="padding-top:6px"><div class="osub" style="padding:0 4px">Ads and shipping costs '+(ago === null ? 'not fetched yet' : 'updated '+(ago < 1 ? 'just now' : ago+' min ago'))+' · today\'s numbers are “so far”</div>' + dayPicker() + '<div id="daybox"></div>' +
     '<div class="card" style="background:var(--plum);color:#fff;gap:14px;padding:18px"><div class="stack" style="gap:2px"><span style="font-size:12px;color:#D9CDEA;font-weight:600">Net profit · this month so far</span><span style="font-size:32px;font-weight:800;letter-spacing:-.6px">'+inr(pl.net)+'</span></div>' +
     '<div class="stack" style="gap:6px"><div class="row between" style="font-size:12px;color:#D9CDEA;font-weight:600"><span>Goal '+inr(tg.needMin)+'</span><span>'+prog+'%</span></div><div class="bar" style="height:8px;background:rgba(255,255,255,.15)"><i style="width:'+prog+'%;background:#FF5A8C"></i></div></div>' +
     '<div class="grid2"><div style="background:rgba(255,255,255,.10);border-radius:14px;padding:10px 12px"><span style="font-size:11px;color:#D9CDEA;font-weight:600">Orders per day needed</span><div style="font-size:18px;font-weight:800">'+esc(tg.perDayMin)+'</div></div>' +
@@ -1920,7 +1920,7 @@ function renderMoney(){
     '<div class="card" style="gap:12px"><b style="font-size:15px">Where the money went</b>' + rows.map(function(r){ return '<div class="stack" style="gap:4px"><div class="row between" style="font-size:13px"><span style="font-weight:600">'+r[0]+'</span><b>'+inr(r[1]||0)+'</b></div><div class="bar" style="height:8px"><i style="width:'+Math.round(100*Math.abs(r[1]||0)/max)+'%;background:'+r[2]+'"></i></div></div>'; }).join('') + '</div>' +
     '<div class="group"><div class="gi"><span class="av sq c3">'+I('rupee',20)+'</span><div class="grow stack" style="gap:0"><span class="oname">Balances to collect</span><span class="osub">From '+(m.toCollectN||0)+' customers</span></div><b style="color:var(--amber)">'+inr(m.toCollect||0)+'</b></div>' +
     '<div class="gi"><span class="av sq c0">'+I('truck',20)+'</span><div class="grow stack" style="gap:0"><span class="oname">Courier spent this month</span><span class="osub">From iCarry bookings</span></div><b>'+inr(m.courier||0)+'</b></div></div>' +
-    '<div class="card"><div class="row between"><b>Monthly commitments</b><b>'+inr(m.total)+'/mo</b></div>' +
+    '<div class="card"><div class="row between"><b>Monthly commitments</b><div class="row" style="gap:8px"><b>'+inr(m.total)+'/mo</b><button class="pill" data-act="cfgedit">✏️ Edit</button></div></div>' +
     m.commitments.map(function(c){ return '<div class="prow"><div class="grow"><b style="font-size:14px">'+esc(c.name)+'</b><div class="osub">'+(c.left===null?'Ongoing':c.left+' months left')+'</div></div><b style="'+(c.thisMonth?'':'color:var(--muted);text-decoration:line-through')+'">'+inr(c.monthly)+'</b></div>'; }).join('') + '</div></div>';
   el().innerHTML = s + ownerNav();
   if (!S.dfrom) { var rr = rangeOf(S.drange || 'today'); S.dfrom = rr[0]; S.dto = rr[1]; }
@@ -1928,6 +1928,67 @@ function renderMoney(){
 }
 
 var OUTW = {edited:'photos edited',made:'jars made',videos:'videos sent',payments:'payments',packed:'packed',dispatched:'dispatched',reached:'delivered',reviews:'reviews'};
+
+/* ============================================================ edit commitments + targets (owner) */
+function cfgEdit(){
+  toast('Opening…');
+  call('cfgGet').then(function(r){
+    if (r.error) return toast(r.error);
+    S.cfg = r; cfgDraw();
+  });
+}
+function cfgDraw(){
+  var r = S.cfg, tot = 0;
+  r.rows.forEach(function(c){ tot += +c.monthly || 0; });
+  var typ = r.types.length ? r.types : ['Fixed'];
+  sheet('<div class="row between"><div class="h1" style="font-size:19px">Targets & commitments</div><button class="mbx" data-act="close">×</button></div>' +
+    '<div class="mblbl">Monthly profit target</div>' +
+    '<div class="grid2"><label class="mbsplit"><small>Minimum goal ₹</small><input class="mbin" id="cfgMin" inputmode="numeric" value="' + esc(r.min) + '" style="width:100%;font-size:17px;font-weight:800"></label>' +
+    '<label class="mbsplit"><small>Stretch goal ₹</small><input class="mbin" id="cfgStr" inputmode="numeric" value="' + esc(r.stretch) + '" style="width:100%;font-size:17px;font-weight:800"></label></div>' +
+    '<div class="osub" style="padding:0 4px">Profit you want to keep after paying commitments. Daily target (orders per day) is worked out from this automatically.</div>' +
+    '<div class="row between" style="padding:6px 4px 0"><span class="mblbl" style="padding:0">Monthly commitments</span><b id="cfgTot">' + inr(tot) + '/mo</b></div>' +
+    '<div class="card" style="gap:0;padding:6px 14px"><div class="row" style="font-size:11px;color:var(--muted);font-weight:700;gap:8px;padding-top:4px"><span class="grow">Name</span><span style="width:86px;text-align:right">₹ / month</span><span style="width:62px;text-align:center">Months left</span><span style="width:30px"></span></div>' +
+    r.rows.map(function(c, i){
+      return '<div class="mbsrow">' +
+        '<div class="grow stack" style="gap:0;min-width:0"><input class="mbin" data-cf="' + i + '" data-k="name" value="' + esc(c.name) + '" placeholder="e.g. Rent" style="font-weight:700">' +
+        '<select class="mbin" data-cf="' + i + '" data-k="type" style="font-size:12px;color:var(--muted);padding:0">' + typ.concat(typ.indexOf(c.type) < 0 && c.type ? [c.type] : []).map(function(t){ return '<option' + (t === c.type ? ' selected' : '') + '>' + esc(t) + '</option>'; }).join('') + '</select></div>' +
+        '<input class="mbin" data-cf="' + i + '" data-k="monthly" inputmode="numeric" value="' + esc(c.monthly) + '" style="width:86px;text-align:right">' +
+        '<input class="mbin" data-cf="' + i + '" data-k="left" inputmode="numeric" value="' + (c.left === null ? '' : esc(c.left)) + '" placeholder="∞" style="width:62px;text-align:center;background:var(--fill);border-radius:10px">' +
+        '<button class="mbx" data-cfdel="' + i + '">×</button></div>';
+    }).join('') +
+    '<button class="mbaddrow" id="cfgAdd">＋ Add commitment</button></div>' +
+    '<div class="osub" style="padding:0 4px">Months left: leave empty for ongoing (rent, salary). For an EMI type how many months are still left.</div>' +
+    '<button class="btn plum" id="cfgSave">Save</button>');
+  var box = document.getElementById('overlay');
+  box.querySelectorAll('[data-cf]').forEach(function(x){
+    var ev = x.tagName === 'SELECT' ? 'change' : 'input';
+    x.addEventListener(ev, function(){
+      var c = S.cfg.rows[+x.getAttribute('data-cf')], k = x.getAttribute('data-k'), v = x.value;
+      c[k] = k === 'monthly' ? (+v.replace(/[^\d.]/g, '') || 0) : k === 'left' ? (v.trim() === '' ? null : (+v.replace(/[^\d]/g, '') || 0)) : v;
+      if (k === 'monthly') { var t = 0; S.cfg.rows.forEach(function(q){ t += +q.monthly || 0; }); document.getElementById('cfgTot').textContent = inr(t) + '/mo'; }
+    });
+  });
+  var keep = function(){ S.cfg.min = document.getElementById('cfgMin').value; S.cfg.stretch = document.getElementById('cfgStr').value; };
+  box.querySelectorAll('[data-cfdel]').forEach(function(x){
+    x.onclick = function(){ keep(); S.cfg.rows.splice(+x.getAttribute('data-cfdel'), 1); cfgDraw(); };
+  });
+  document.getElementById('cfgAdd').onclick = function(){
+    keep(); if (S.cfg.rows.length >= S.cfg.max) return toast('No more space');
+    S.cfg.rows.push({ name:'', type: typ[0], monthly: 0, left: null }); cfgDraw();
+    var ins = box.querySelectorAll('[data-k="name"]'); if (ins.length) ins[ins.length - 1].focus();
+  };
+  document.getElementById('cfgSave').onclick = function(){
+    keep();
+    var mn = +String(S.cfg.min).replace(/[^\d.]/g, '') || 0, sx = +String(S.cfg.stretch).replace(/[^\d.]/g, '') || 0;
+    if (sx && sx < mn) return toast('Stretch goal should be more than the minimum');
+    var b = this; b.disabled = true; b.textContent = 'Saving…';
+    call('cfgSave', { rows: S.cfg.rows, min: mn, stretch: sx }).then(function(r){
+      if (r.error) { b.disabled = false; b.textContent = 'Save'; return toast(r.error); }
+      closeSheet(); toast('Saved · updating numbers');
+      call('money').then(function(m){ if (m && !m.error) { cput('money', m); if (S.tab === 'money') { S.od = m; renderMoney(); } } });
+    });
+  };
+}
 
 /* ============================================================ sheet & toast */
 function sheet(html){ document.getElementById('overlay').innerHTML = '<div class="sheet-bg" data-act="bgclose"><div class="sheet">'+html+'</div></div>'; scanVis(); drawUbar(); }
@@ -2035,6 +2096,7 @@ document.addEventListener('click', function(e){
     case 'seldone': var sids = S.sel.ids.slice(); S.sel = null; drawUbar(); syncing(true); call('advanceMany', { ids: sids }).then(function(r){ syncing(false); toast(r.error || (r.done + ' done ✓')); refresh(); if (isOwner()) loadSteps(); }); break;
     case 'search': closeSheet(); searchSheet(); break;
     case 'prodlist': prodListSheet(); break;
+    case 'cfgedit': cfgEdit(); break;
     case 'syncnow': b.disabled = true; toast('Getting latest ad spend and shipping costs…'); call('syncNow').then(function(r){ b.disabled = false; if (r.error) return toast(r.error); cput('money', r); S.od = r; if (S.tab === 'money') renderMoney(); toast('Up to date'); }); break;
     case 'prodedit': prodEditSheet(b.dataset.sku); break;
     case 'pvoice': S.pvoice = b.dataset.v === '1'; document.querySelectorAll('[data-act=pvoice]').forEach(function(x){ x.classList.toggle('on', x.dataset.v === (S.pvoice?'1':'0')); }); break;
