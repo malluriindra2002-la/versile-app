@@ -203,7 +203,8 @@ label.f textarea{height:80px;padding:12px 14px}
 .mbacc{background:#fff;border-radius:16px;padding:12px;display:flex;flex-direction:column;gap:2px;min-width:0}
 .mbacc small{font-size:11px;color:var(--muted);font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.mbacc b{font-size:15px;font-weight:800}
 .mblg{width:28px;height:28px;border-radius:9px;color:#fff;font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center;margin-bottom:6px;flex-shrink:0}
-.mbday{font-size:12px;font-weight:700;color:var(--muted);padding:6px 4px 0}
+.mbday{font-size:12px;font-weight:700;color:var(--muted);padding:6px 4px 0;display:flex;justify-content:space-between;width:100%;border:none;background:none;text-align:left}
+.mbdate{margin-left:auto;height:36px;border-radius:18px;border:none;background:var(--fill);color:var(--plum);font-weight:600;font-size:13px;padding:0 10px;max-width:150px}
 .mbtx{padding:11px 14px !important}
 .mbamt{display:flex;align-items:center;justify-content:center;gap:4px;padding:4px 0 0}
 .mbamt span{font-size:28px;font-weight:700;color:var(--soft)}
@@ -1411,16 +1412,19 @@ function mbIn(x){ var v = S.mbv || 'all'; if (x.kind !== 'out') return v === 'al
 
 function renderBook(){
   var r = S.od, v = S.mbv || 'all';
-  var out = r.entries.filter(function(x){ return x.kind === 'out' && mbIn(x); });
+  var day = S.mbd && S.mbd.slice(0, 7) === r.month ? S.mbd : null;
+  var inDay = function(x){ return !day || x.date === day; };
+  var out = r.entries.filter(function(x){ return x.kind === 'out' && mbIn(x) && inDay(x); });
   var total = out.reduce(function(s, x){ return s + x.amt; }, 0);
   var by = {}; out.forEach(function(x){ by[x.cat] = (by[x.cat] || 0) + x.amt; });
   var cats = Object.keys(by).sort(function(a, b){ return by[b] - by[a]; });
   var run = 0, stops = cats.map(function(k){ var a = run / total * 360; run += by[k]; return mbColor(k) + ' ' + a + 'deg ' + (run / total * 360) + 'deg'; });
   var sumT = function(t){ return out.filter(function(x){ return x.type === t; }).reduce(function(s, x){ return s + x.amt; }, 0); };
   var parts = v === 'P' ? [] : v === 'B' ? [['D','Direct'],['I','Indirect']] : [['D','Direct'],['I','Indirect'],['P','Personal']];
-  var list = r.entries.filter(mbIn), last = '', rows = '';
+  var list = r.entries.filter(function(x){ return mbIn(x) && inDay(x); }), last = '', rows = '';
+  var dayOut = {}; r.entries.forEach(function(x){ if (x.kind === 'out' && mbIn(x)) dayOut[x.date] = (dayOut[x.date] || 0) + x.amt; });
   list.forEach(function(x){
-    if (x.date !== last) { last = x.date; rows += (rows ? '</div>' : '') + '<div class="mbday">' + esc(mbDayLabel(x.date, r.today)) + '</div><div class="group">'; }
+    if (x.date !== last) { last = x.date; rows += (rows ? '</div>' : '') + (day ? '' : '<button class="mbday" data-day="' + x.date + '"><span>' + esc(mbDayLabel(x.date, r.today)) + '</span><span>' + (dayOut[x.date] ? 'Spent ' + rupees(dayOut[x.date]) + ' ›' : '›') + '</span></button>') + '<div class="group">'; }
     var c = mbCat(x.cat), a = mbAcc(x.acc), isIn = x.kind === 'in', isX = x.kind === 'xfer';
     var title = isX ? 'Moved to ' + mbAcc(x.to).name : x.order ? x.order + (x.pay ? ' · ' + x.pay : '') : (x.sub || c.n);
     var sub = isX ? 'From ' + a.name : (x.order ? 'Customer payment' : x.cat === 'cust' ? '⚠ Not matched yet' : (x.sub ? c.n : '')) ;
@@ -1434,28 +1438,39 @@ function renderBook(){
     '<div class="grid2"><button class="btn plum" id="mbAdd">+ Add expense</button><button class="btn soft" id="mbInB">₹ Money in</button></div>' +
     ((r.unmatched || []).length ? '<button class="banner b-amber" id="mbUnm" style="border:none;text-align:left;width:100%">🤷 ' + r.unmatched.length + ' customer payment' + (r.unmatched.length > 1 ? 's' : '') + ' (' + rupees(r.unmatched.reduce(function(s, x){ return s + x.amt; }, 0)) + ') not matched to an order · tap to match</button>' : '') +
     '<div class="mbseg">' + [['all','All'],['B','Business'],['P','Personal']].map(function(o){ return '<button class="' + (v === o[0] ? 'on' : '') + '" data-mbv="' + o[0] + '">' + o[1] + '</button>'; }).join('') + '</div>' +
-    '<div class="card" style="padding:16px;gap:14px"><div class="row between"><b style="font-size:15px">Where the money went</b><div class="mbmon"><button id="mbPrev">‹</button><span>' + esc(mbMonthLabel(r.month)) + '</span><button id="mbNext">›</button></div></div>' +
+    '<div class="row" style="gap:6px"><button class="pill' + (day ? '' : ' on') + '" id="mbModeM">Month</button><button class="pill' + (day ? ' on' : '') + '" id="mbModeD">Day by day</button><input type="date" class="mbdate" id="mbDate" value="' + (day || '') + '" max="' + r.today + '" aria-label="Pick a date"></div>' +
+    '<div class="card" style="padding:16px;gap:14px"><div class="row between"><b style="font-size:15px">' + (day ? 'Spent on this day' : 'Where the money went') + '</b><div class="mbmon"><button id="mbPrev">‹</button><span>' + esc(day ? mbDayLabel(day, r.today) : mbMonthLabel(r.month)) + '</span><button id="mbNext"' + (day && day >= r.today ? ' disabled style="opacity:.3"' : '') + '>›</button></div></div>' +
     '<div class="mbdonut" style="background:' + (total ? 'conic-gradient(' + stops.join(',') + ')' : 'var(--fill)') + '"><div><small>Spent</small><b>' + rupees(total) + '</b><small>' + out.length + ' expense' + (out.length === 1 ? '' : 's') + '</small></div></div>' +
     (cats.length ? '<div class="stack" style="gap:0">' + cats.map(function(k){ var c = mbCat(k);
       return '<div class="mbcat"><span class="mbic" style="background:' + mbColor(k) + '22">' + esc(c.i) + '</span><div class="grow"><b style="font-size:14px">' + esc(c.n) + '</b><div class="osub">' + ({D:'Direct',I:'Indirect',P:'Personal'}[c.t] || '') + '</div></div>' +
         '<div style="text-align:right"><b style="font-size:14px">' + rupees(by[k]) + '</b><div class="osub">' + Math.round(by[k] / total * 100) + '%</div></div></div>'; }).join('') + '</div>'
-      : '<div class="osub" style="text-align:center;padding:6px 0 4px">No expenses in ' + esc(mbMonthLabel(r.month)) + ' yet</div>') +
+      : '<div class="osub" style="text-align:center;padding:6px 0 4px">' + (day ? 'No expenses on ' + esc(mbDayLabel(day, r.today)) : 'No expenses in ' + esc(mbMonthLabel(r.month)) + ' yet') + '</div>') +
     (parts.length && total ? '<div class="grid' + parts.length + '">' + parts.map(function(p){ return '<div class="mbsplit"><small>' + p[1] + '</small><b>' + rupees(sumT(p[0])) + '</b></div>'; }).join('') + '</div>' : '') +
     '</div>' +
     '<div class="row between" style="padding:2px 4px 0"><b style="font-size:15px">Bank balance</b><span class="osub" style="font-size:13px">Total <b style="color:var(--ink)">' + inr(r.total) + '</b></span></div>' +
     '<div class="mbaccs">' + mbAccs().map(function(a){ var b = r.bal[a.id] || 0;
       return '<div class="mbacc"><span class="mblg" style="background:' + esc(a.color) + '">' + esc(mbShort(a.name)) + '</span><small>' + esc(a.name) + '</small><b' + (b < 0 ? ' style="color:var(--wine)"' : '') + '>' + inr(b) + '</b></div>'; }).join('') + '</div>' +
-    (rows ? '<b style="font-size:15px;padding:2px 4px 0">' + esc(mbMonthLabel(r.month)) + '</b>' + rows : '') + '</div>';
+    (rows ? '<b style="font-size:15px;padding:2px 4px 0">' + esc(day ? mbDayLabel(day, r.today) + ' · all entries' : mbMonthLabel(r.month)) + '</b>' + rows : '') + '</div>';
   el().innerHTML = s + ownerNav();
   var on = function(id, f){ var e = document.getElementById(id); if (e) e.onclick = f; };
   on('mbAdd', function(){ mbAddSheet('out'); });
   on('mbInB', function(){ mbAddSheet('in'); });
   on('mbSet', mbSetupSheet);
   on('mbUnm', mbUnmatchedSheet);
-  on('mbPrev', function(){ mbShift(-1); });
-  on('mbNext', function(){ mbShift(1); });
+  on('mbPrev', function(){ day ? mbGoDay(mbAddDays(day, -1)) : mbShift(-1); });
+  on('mbNext', function(){ day ? mbGoDay(mbAddDays(day, 1)) : mbShift(1); });
+  on('mbModeM', function(){ S.mbd = null; renderBook(); });
+  on('mbModeD', function(){ var last = r.entries.filter(function(x){ return x.kind === 'out'; })[0]; mbGoDay(r.month === r.today.slice(0, 7) ? r.today : (last ? last.date : r.month + '-01')); });
+  var dt = document.getElementById('mbDate'); if (dt) dt.onchange = function(){ if (dt.value) mbGoDay(dt.value); };
+  el().querySelectorAll('[data-day]').forEach(function(b){ b.onclick = function(){ mbGoDay(b.getAttribute('data-day')); window.scrollTo(0, 0); }; });
   el().querySelectorAll('[data-mbv]').forEach(function(b){ b.onclick = function(){ S.mbv = b.getAttribute('data-mbv'); renderBook(); }; });
   el().querySelectorAll('[data-mbe]').forEach(function(b){ b.onclick = function(){ mbEntrySheet(b.getAttribute('data-mbe')); }; });
+}
+function mbAddDays(d, n){ var t = new Date(d + 'T00:00:00'); t.setDate(t.getDate() + n); return t.getFullYear() + '-' + String(t.getMonth() + 1).padStart(2, '0') + '-' + String(t.getDate()).padStart(2, '0'); }
+function mbGoDay(d){
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(d)) return;
+  S.mbd = d;
+  if (d.slice(0, 7) !== S.od.month) { S.mbm = d.slice(0, 7); ownerLoad(); } else renderBook();
 }
 function mbShift(n){
   var p = S.od.month.split('-'), d = new Date(Number(p[0]), Number(p[1]) - 1 + n, 1);
