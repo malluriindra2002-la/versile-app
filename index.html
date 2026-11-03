@@ -185,6 +185,46 @@ label.f textarea{height:80px;padding:12px 14px}
   .lab.m{padding:3mm;gap:3mm}.lab.m .qr{width:26mm;height:26mm;flex-shrink:0}
   .lab.m .id{font-size:15pt}.lab.m .n{font-size:9pt;margin-top:1.5mm;font-weight:700}.lab.m .d{font-size:8pt;margin-top:1mm}
 }
+
+.mbseg{display:grid;grid-template-columns:repeat(3,1fr);background:#ECE8F1;border-radius:14px;padding:3px}
+.mbseg button{border:none;background:none;height:38px;border-radius:11px;font-size:14px;font-weight:700;color:var(--soft)}
+.mbseg button.on{background:#fff;color:var(--plum);box-shadow:0 1px 3px rgba(30,21,48,.08)}
+.mbmon{display:flex;align-items:center;background:var(--fill);border-radius:16px;padding:2px}
+.mbmon button{border:none;background:none;width:30px;height:30px;border-radius:15px;font-size:18px;color:var(--plum)}
+.mbmon span{font-size:12px;font-weight:700;min-width:70px;text-align:center}
+.mbdonut{width:184px;height:184px;border-radius:50%;margin:4px auto 2px;position:relative;display:flex;align-items:center;justify-content:center}
+.mbdonut>div{position:absolute;inset:24px;background:#fff;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.mbdonut small{font-size:11px;color:var(--muted);font-weight:600}.mbdonut b{font-size:24px;font-weight:800;letter-spacing:-.4px;margin:1px 0}
+.mbcat{display:flex;align-items:center;gap:10px;padding:9px 0;border-top:1px solid var(--line2)}
+.mbcat:first-child{border-top:none}
+.mbic{width:36px;height:36px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0}
+.mbsplit{background:var(--fill);border-radius:12px;padding:8px 10px}.mbsplit small{display:block;font-size:11px;color:var(--muted);font-weight:600}.mbsplit b{font-size:15px}
+.mbaccs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.mbacc{background:#fff;border-radius:16px;padding:12px;display:flex;flex-direction:column;gap:2px;min-width:0}
+.mbacc small{font-size:11px;color:var(--muted);font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.mbacc b{font-size:15px;font-weight:800}
+.mblg{width:28px;height:28px;border-radius:9px;color:#fff;font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center;margin-bottom:6px;flex-shrink:0}
+.mbday{font-size:12px;font-weight:700;color:var(--muted);padding:6px 4px 0}
+.mbtx{padding:11px 14px !important}
+.mbamt{display:flex;align-items:center;justify-content:center;gap:4px;padding:4px 0 0}
+.mbamt span{font-size:28px;font-weight:700;color:var(--soft)}
+.mbamt input{border:none;background:transparent;outline:none;font-size:42px;font-weight:800;width:6.5ch;text-align:left;letter-spacing:-1px;color:var(--ink)}
+.mbhint{text-align:center;font-size:13px;font-weight:700;color:var(--muted);min-height:18px;margin-top:-6px}
+.mbhint.more{color:var(--amber)}.mbhint.ok{color:var(--green)}
+.mbopt{min-height:52px;border-radius:16px;border:1.5px solid var(--line);background:#fff;font-size:15px;font-weight:700;color:var(--ink)}
+.mbopt.sm{min-height:46px;font-size:13px}.mbopt small{display:block;font-size:11px;color:var(--muted);font-weight:600}
+.mbopt.on{border-color:var(--plum);background:var(--lav);color:var(--plum)}
+.mblbl{font-size:13px;font-weight:700;color:var(--muted);padding:0 4px}
+.mbaccbtn{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
+.mbaccbtn button{border:1.5px solid var(--line);background:#fff;border-radius:14px;padding:9px 4px;font-size:13px;font-weight:700;color:var(--ink)}
+.mbaccbtn button small{display:block;font-size:11px;color:var(--muted);font-weight:600;margin-top:2px}
+.mbaccbtn button.on{border-color:var(--plum);background:var(--lav);color:var(--plum)}
+.mbol .gi.on{background:var(--greenbg)}
+.mbol{max-height:240px;overflow-y:auto}
+.mbsrow{display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid var(--line2)}
+.mbsrow .mblg{margin:0}
+.mbin{border:none;background:transparent;outline:none;font-size:15px;font-weight:600;color:var(--ink);padding:4px 0;min-width:0}
+.mbx{border:none;background:var(--fill);color:var(--muted);width:30px;height:30px;border-radius:15px;font-size:18px;flex-shrink:0}
+.mbaddrow{border:none;background:none;color:var(--plum);font-weight:700;font-size:14px;padding:12px 0;text-align:left}
 </style>
 </head>
 <body>
@@ -1086,7 +1126,7 @@ function printLabels(){
 
 /* ============================================================ owner (new look) */
 function ownerNav(){
-  var cur = ({team:'more',stock:'more',money:'more'})[S.tab] || S.tab;
+  var cur = ({team:'more',stock:'more',money:'more',book:'more'})[S.tab] || S.tab;
   var tabs = [['home','Today','home'],['orders','Orders','bag'],['work','Work','work'],['more','More','grid']];
   return '<nav class="nav">' + tabs.map(function(x){ var on = cur === x[0];
     return '<button class="'+(on?'on':'')+'" data-act="tab" data-t="'+x[0]+'">'+I(x[2],24,on?2.1:1.8)+x[1]+'</button>'; }).join('') + '</nav>';
@@ -1095,10 +1135,10 @@ function ownerLoad(quiet){
   clearInterval(poll); S.view = null; scanVis();
   if (S.tab==='work') return staffLoad(quiet);
   if (S.tab==='more') return renderMore();
-  var a = {home:'ownerHome',orders:'orders',stock:'parts',money:'money',team:'team'}[S.tab];
-  var prm = S.tab==='team' ? { period: S.tperiod||'today' } : {}, ck = a + (prm.period ? '_' + prm.period : ''), tab = S.tab;
+  var a = {home:'ownerHome',orders:'orders',stock:'parts',money:'money',team:'team',book:'book'}[S.tab];
+  var prm = S.tab==='team' ? { period: S.tperiod||'today' } : S.tab==='book' ? { month: S.mbm||'' } : {}, ck = a + (prm.period ? '_' + prm.period : '') + (prm.month ? '_' + prm.month : ''), tab = S.tab;
   S.ordersShell = null;
-  var draw = function(r){ S.od = r; ({home:renderHome,orders:renderOrders,stock:renderStock,money:renderMoney,team:renderTeam})[tab](); };
+  var draw = function(r){ S.od = r; ({home:renderHome,orders:renderOrders,stock:renderStock,money:renderMoney,team:renderTeam,book:renderBook})[tab](); };
   var cached = !quiet && cget(ck);
   if (tab === 'home' && !S.hchase) S.hchase = cget('chase');
   if (cached) { draw(cached); quiet = true; }
@@ -1346,10 +1386,245 @@ function saveOrder(){
 /* ---------- More, Team, Stock, Money */
 function mcard(act, t2, cls, ic, sub, dt){ return '<button class="card" data-act="'+act+'" data-t="'+(dt||'')+'" style="border:none;text-align:left;gap:14px;padding:16px"><span class="av sq '+cls+'">'+I(ic,22)+'</span><div class="stack" style="gap:2px"><span style="font-size:16px;font-weight:800">'+esc(t2)+'</span><span class="osub" style="font-weight:600">'+esc(sub||'')+'</span></div></button>'; }
 function gi(act, ic, label, sub, red){ return '<button class="gi" data-act="'+act+'"'+(red?' style="color:var(--wine)"':'')+'>'+I(ic,22)+'<span class="grow oname">'+esc(label)+'</span>'+(sub?'<span class="osub" style="font-size:13px">'+esc(sub)+'</span>':'')+(red?'':I('chev',18))+'</button>'; }
+
+/* ---------- Expenses: bank balances, spends and money in (owner only) */
+function mbCatsOf(t){ return S.od.setup.cats.filter(function(c){ return c.t === t && !c.hidden; }); }
+function mbCat(k){
+  var r = S.od, c = r.setup.cats.filter(function(x){ return x.k === k; })[0] || (r.inCats || []).filter(function(x){ return x.k === k; })[0];
+  return c || { k: k, n: 'Other', i: '•', t: 'P' };
+}
+function mbColor(k){
+  var c = mbCat(k), list = S.od.setup.cats.filter(function(x){ return x.t === c.t; }), i = Math.max(0, list.indexOf(c));
+  var hue = { D: 214, I: 30, P: 285 }[c.t] || 160;
+  return 'hsl(' + hue + ',' + (c.t === 'I' ? 78 : 58) + '%,' + (34 + (i * 9) % 40) + '%)';
+}
+function mbAccs(){ return S.od.setup.accounts.filter(function(a){ return !a.hidden; }); }
+function mbAcc(id){ return S.od.setup.accounts.filter(function(a){ return a.id === id; })[0] || { name: '?', color: '#999' }; }
+function mbShort(n){ var p = String(n).trim().split(/\s+/); return (p.length > 1 ? p[0].charAt(0) + p[1].charAt(0) : String(n).slice(0, 3)).toUpperCase(); }
+function mbMonthLabel(m){ var p = m.split('-'); return new Date(Number(p[0]), Number(p[1]) - 1, 1).toLocaleDateString('en-IN', { month: 'short', year: 'numeric' }); }
+function mbDayLabel(d, today){
+  var y = new Date(today + 'T00:00:00'); y.setDate(y.getDate() - 1);
+  var ys = y.getFullYear() + '-' + String(y.getMonth() + 1).padStart(2, '0') + '-' + String(y.getDate()).padStart(2, '0');
+  return d === today ? 'Today' : d === ys ? 'Yesterday' : new Date(d + 'T00:00:00').toLocaleDateString('en-IN', { weekday: 'short', day: 'numeric', month: 'short' });
+}
+function mbIn(x){ var v = S.mbv || 'all'; if (x.kind !== 'out') return v === 'all'; return v === 'all' || (v === 'B' ? x.type !== 'P' : x.type === 'P'); }
+
+function renderBook(){
+  var r = S.od, v = S.mbv || 'all';
+  var out = r.entries.filter(function(x){ return x.kind === 'out' && mbIn(x); });
+  var total = out.reduce(function(s, x){ return s + x.amt; }, 0);
+  var by = {}; out.forEach(function(x){ by[x.cat] = (by[x.cat] || 0) + x.amt; });
+  var cats = Object.keys(by).sort(function(a, b){ return by[b] - by[a]; });
+  var run = 0, stops = cats.map(function(k){ var a = run / total * 360; run += by[k]; return mbColor(k) + ' ' + a + 'deg ' + (run / total * 360) + 'deg'; });
+  var sumT = function(t){ return out.filter(function(x){ return x.type === t; }).reduce(function(s, x){ return s + x.amt; }, 0); };
+  var parts = v === 'P' ? [] : v === 'B' ? [['D','Direct'],['I','Indirect']] : [['D','Direct'],['I','Indirect'],['P','Personal']];
+  var list = r.entries.filter(mbIn), last = '', rows = '';
+  list.forEach(function(x){
+    if (x.date !== last) { last = x.date; rows += (rows ? '</div>' : '') + '<div class="mbday">' + esc(mbDayLabel(x.date, r.today)) + '</div><div class="group">'; }
+    var c = mbCat(x.cat), a = mbAcc(x.acc), isIn = x.kind === 'in', isX = x.kind === 'xfer';
+    var title = isX ? 'Moved to ' + mbAcc(x.to).name : x.order ? x.order + (x.pay ? ' · ' + x.pay : '') : (x.sub || c.n);
+    var sub = isX ? 'From ' + a.name : (x.order ? 'Customer payment' : (x.sub ? c.n : '')) ;
+    sub = [sub, x.note, isX ? '' : a.name].filter(String).join(' · ');
+    rows += '<button class="gi mbtx" data-mbe="' + esc(x.id) + '"><span class="mbic" style="background:' + (isIn ? 'var(--greenbg)' : isX ? 'var(--fill)' : mbColor(x.cat) + '22') + '">' + esc(c.i) + '</span>' +
+      '<div class="grow stack" style="gap:1px"><span class="oname" style="font-size:14px">' + esc(title) + '</span><span class="osub">' + esc(sub) + '</span></div>' +
+      '<b style="white-space:nowrap;' + (isIn ? 'color:var(--green)' : isX ? 'color:var(--muted)' : '') + '">' + (isIn ? '+' : isX ? '' : '−') + rupees(x.amt) + '</b></button>';
+  });
+  if (rows) rows += '</div>';
+  var s = subHead('Expenses', '<button class="pill" id="mbSet">⚙ Edit</button>') + '<div class="pad stack" style="padding-top:6px">' +
+    '<div class="grid2"><button class="btn plum" id="mbAdd">+ Add expense</button><button class="btn soft" id="mbInB">₹ Money in</button></div>' +
+    '<div class="mbseg">' + [['all','All'],['B','Business'],['P','Personal']].map(function(o){ return '<button class="' + (v === o[0] ? 'on' : '') + '" data-mbv="' + o[0] + '">' + o[1] + '</button>'; }).join('') + '</div>' +
+    '<div class="card" style="padding:16px;gap:14px"><div class="row between"><b style="font-size:15px">Where the money went</b><div class="mbmon"><button id="mbPrev">‹</button><span>' + esc(mbMonthLabel(r.month)) + '</span><button id="mbNext">›</button></div></div>' +
+    '<div class="mbdonut" style="background:' + (total ? 'conic-gradient(' + stops.join(',') + ')' : 'var(--fill)') + '"><div><small>Spent</small><b>' + rupees(total) + '</b><small>' + out.length + ' expense' + (out.length === 1 ? '' : 's') + '</small></div></div>' +
+    (cats.length ? '<div class="stack" style="gap:0">' + cats.map(function(k){ var c = mbCat(k);
+      return '<div class="mbcat"><span class="mbic" style="background:' + mbColor(k) + '22">' + esc(c.i) + '</span><div class="grow"><b style="font-size:14px">' + esc(c.n) + '</b><div class="osub">' + ({D:'Direct',I:'Indirect',P:'Personal'}[c.t] || '') + '</div></div>' +
+        '<div style="text-align:right"><b style="font-size:14px">' + rupees(by[k]) + '</b><div class="osub">' + Math.round(by[k] / total * 100) + '%</div></div></div>'; }).join('') + '</div>'
+      : '<div class="osub" style="text-align:center;padding:6px 0 4px">No expenses in ' + esc(mbMonthLabel(r.month)) + ' yet</div>') +
+    (parts.length && total ? '<div class="grid' + parts.length + '">' + parts.map(function(p){ return '<div class="mbsplit"><small>' + p[1] + '</small><b>' + rupees(sumT(p[0])) + '</b></div>'; }).join('') + '</div>' : '') +
+    '</div>' +
+    '<div class="row between" style="padding:2px 4px 0"><b style="font-size:15px">Bank balance</b><span class="osub" style="font-size:13px">Total <b style="color:var(--ink)">' + inr(r.total) + '</b></span></div>' +
+    '<div class="mbaccs">' + mbAccs().map(function(a){ var b = r.bal[a.id] || 0;
+      return '<div class="mbacc"><span class="mblg" style="background:' + esc(a.color) + '">' + esc(mbShort(a.name)) + '</span><small>' + esc(a.name) + '</small><b' + (b < 0 ? ' style="color:var(--wine)"' : '') + '>' + inr(b) + '</b></div>'; }).join('') + '</div>' +
+    (rows ? '<b style="font-size:15px;padding:2px 4px 0">' + esc(mbMonthLabel(r.month)) + '</b>' + rows : '') + '</div>';
+  el().innerHTML = s + ownerNav();
+  var on = function(id, f){ var e = document.getElementById(id); if (e) e.onclick = f; };
+  on('mbAdd', function(){ mbAddSheet('out'); });
+  on('mbInB', function(){ mbAddSheet('in'); });
+  on('mbSet', mbSetupSheet);
+  on('mbPrev', function(){ mbShift(-1); });
+  on('mbNext', function(){ mbShift(1); });
+  el().querySelectorAll('[data-mbv]').forEach(function(b){ b.onclick = function(){ S.mbv = b.getAttribute('data-mbv'); renderBook(); }; });
+  el().querySelectorAll('[data-mbe]').forEach(function(b){ b.onclick = function(){ mbEntrySheet(b.getAttribute('data-mbe')); }; });
+}
+function mbShift(n){
+  var p = S.od.month.split('-'), d = new Date(Number(p[0]), Number(p[1]) - 1 + n, 1);
+  S.mbm = d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0');
+  ownerLoad();
+}
+
+function mbAddSheet(kind){
+  var r = S.od;
+  var cur = mbAccs().filter(function(a){ return /current/i.test(a.name); })[0];
+  S.mb = { kind: kind, f: '', acc: ((kind === 'in' && cur) || mbAccs()[0] || {}).id, to: '', inT: 'cust', order: '', pay: '' };
+  var accBtns = function(id){ return '<div class="mbaccbtn" id="' + id + '">' + mbAccs().map(function(a){ return '<button data-a="' + esc(a.id) + '">' + esc(a.name) + '<small>' + inr(r.bal[a.id] || 0) + '</small></button>'; }).join('') + '</div>'; };
+  var html = shead(kind === 'out' ? 'Add expense' : 'Money in') +
+    '<div class="mbamt"><span>₹</span><input id="mb_amt" inputmode="decimal" placeholder="0" autocomplete="off"></div><div class="mbhint" id="mbHint"></div>';
+  if (kind === 'out') {
+    html += '<div class="grid2" id="mbFor"><button class="mbopt" data-f="B">🏢 Business</button><button class="mbopt" data-f="P">🙋 Personal</button></div>' +
+      '<div class="fgroup"><label class="fl">What for<select id="mb_cat"><option value="">Tap Business or Personal first</option></select></label>' +
+      '<label class="fl" id="mb_subw" style="display:none">Detail<select id="mb_sub"></select></label></div>' +
+      '<span class="mblbl">Paid from</span>' + accBtns('mbAcc');
+  } else {
+    html += '<div class="grid3" id="mbInT">' + r.inCats.map(function(c){ return '<button class="mbopt sm" data-t="' + c.k + '">' + esc(c.i) + ' ' + esc(c.k === 'xfer' ? 'Move' : c.k === 'cust' ? 'Customer' : 'Other') + '</button>'; }).join('') + '</div>' +
+      '<div id="mbCustBox" class="stack" style="gap:8px"><span class="mblbl">Which order?</span>' +
+      '<div class="fgroup"><label class="fl">Search<input id="mb_q" placeholder="VJ number, name or phone" autocomplete="off"></label></div>' +
+      '<div class="group mbol" id="mbOrd"></div><div class="grid3" id="mbPay"></div></div>' +
+      '<span class="mblbl" id="mbAccL">Received in</span>' + accBtns('mbAcc') +
+      '<div id="mbToBox" style="display:none" class="stack"><span class="mblbl">Moved to</span>' + accBtns('mbTo') + '</div>';
+  }
+  html += '<div class="fgroup">' + fl('Date', 'mb_date', r.today, 'date') + fl('Note (optional)', 'mb_note', '') + '</div>' +
+    '<button class="btn ' + (kind === 'out' ? 'plum' : 'green') + '" id="mbSave">Save</button>';
+  sheet(html);
+  var amt = document.getElementById('mb_amt'); setTimeout(function(){ amt.focus(); }, 80);
+  amt.oninput = mbHint;
+  var pick = function(boxId, key, val){ S.mb[key] = val; document.querySelectorAll('#' + boxId + ' button').forEach(function(b){ b.classList.toggle('on', (b.getAttribute('data-a') || b.getAttribute('data-f') || b.getAttribute('data-t')) === val); }); };
+  document.querySelectorAll('#mbAcc button').forEach(function(b){ b.onclick = function(){ pick('mbAcc', 'acc', b.getAttribute('data-a')); }; });
+  pick('mbAcc', 'acc', S.mb.acc);
+  if (kind === 'out') {
+    document.querySelectorAll('#mbFor button').forEach(function(b){ b.onclick = function(){
+      pick('mbFor', 'f', b.getAttribute('data-f'));
+      var opt = function(c){ return '<option value="' + esc(c.k) + '">' + esc(c.i + '  ' + c.n) + '</option>'; };
+      document.getElementById('mb_cat').innerHTML = '<option value="">Choose…</option>' + (S.mb.f === 'P' ? mbCatsOf('P').map(opt).join('')
+        : '<optgroup label="Direct · making the product">' + mbCatsOf('D').map(opt).join('') + '</optgroup><optgroup label="Indirect · running the business">' + mbCatsOf('I').map(opt).join('') + '</optgroup>');
+      mbSubs();
+    }; });
+    document.getElementById('mb_cat').onchange = mbSubs;
+  } else {
+    document.querySelectorAll('#mbTo button').forEach(function(b){ b.onclick = function(){ pick('mbTo', 'to', b.getAttribute('data-a')); }; });
+    document.querySelectorAll('#mbInT button').forEach(function(b){ b.onclick = function(){
+      pick('mbInT', 'inT', b.getAttribute('data-t'));
+      document.getElementById('mbCustBox').style.display = S.mb.inT === 'cust' ? 'flex' : 'none';
+      document.getElementById('mbToBox').style.display = S.mb.inT === 'xfer' ? 'flex' : 'none';
+      document.getElementById('mbAccL').textContent = S.mb.inT === 'xfer' ? 'Moved from' : 'Received in';
+      mbHint();
+    }; });
+    pick('mbInT', 'inT', 'cust');
+    document.getElementById('mb_q').oninput = mbOrders;
+    mbOrders();
+  }
+  document.getElementById('mbSave').onclick = mbSave;
+}
+function mbSubs(){
+  var c = mbCat(val('mb_cat')), w = document.getElementById('mb_subw'), subs = (val('mb_cat') && c.subs) || [];
+  w.style.display = subs.length ? 'flex' : 'none';
+  document.getElementById('mb_sub').innerHTML = '<option value="">—</option>' + subs.map(function(x){ return '<option>' + esc(x) + '</option>'; }).join('');
+}
+function mbOrders(){
+  var q = String(val('mb_q') || '').toLowerCase().replace(/\s/g, ''), box = document.getElementById('mbOrd');
+  var list = S.od.due.filter(function(o){ return !q || (o.id + o.name + o.phone).toLowerCase().replace(/\s/g, '').indexOf(q) >= 0; }).slice(0, q ? 20 : 6);
+  if (S.mb.order && !list.some(function(o){ return o.id === S.mb.order; })) { var cur = S.od.due.filter(function(o){ return o.id === S.mb.order; })[0]; if (cur) list.unshift(cur); }
+  box.innerHTML = list.map(function(o){ return '<button class="gi' + (o.id === S.mb.order ? ' on' : '') + '" data-o="' + esc(o.id) + '"><div class="grow stack" style="gap:1px"><span class="oname" style="font-size:14px">' + esc(o.id + ' · ' + o.name) + '</span><span class="osub">' + esc(o.what || '') + '</span></div><b style="color:var(--amber);white-space:nowrap">' + rupees(o.due) + ' due</b></button>'; }).join('') ||
+    '<div class="gi osub">' + (q ? 'No order with money due matches “' + esc(val('mb_q')) + '”' : 'No customer owes money right now') + '</div>';
+  box.querySelectorAll('[data-o]').forEach(function(b){ b.onclick = function(){ mbPickOrder(b.getAttribute('data-o')); }; });
+}
+function mbPickOrder(id){
+  var o = S.od.due.filter(function(x){ return x.id === id; })[0]; if (!o) return;
+  S.mb.order = id; S.mb.pay = ''; mbOrders();
+  var opts = o.paid <= 0 ? [['Advance', Math.min(400, o.due)], ['Full', o.due]] : [['Balance', o.due]];
+  var pb = document.getElementById('mbPay');
+  pb.innerHTML = opts.map(function(x){ return '<button class="mbopt sm" data-p="' + x[0] + '" data-v="' + x[1] + '">' + x[0] + '<small>' + rupees(x[1]) + '</small></button>'; }).join('');
+  pb.querySelectorAll('button').forEach(function(b){ b.onclick = function(){
+    S.mb.pay = b.getAttribute('data-p'); pb.querySelectorAll('button').forEach(function(x){ x.classList.toggle('on', x === b); });
+    document.getElementById('mb_amt').value = b.getAttribute('data-v'); mbHint();
+  }; });
+  if (opts.length === 1) pb.querySelector('button').click(); else mbHint();
+}
+function mbHint(){
+  var h = document.getElementById('mbHint'); if (!h) return; h.textContent = ''; h.className = 'mbhint';
+  if (!(S.mb.kind === 'in' && S.mb.inT === 'cust' && S.mb.order)) return;
+  var o = S.od.due.filter(function(x){ return x.id === S.mb.order; })[0], a = Number(val('mb_amt')) || 0;
+  if (!o || !a) return;
+  if (a > o.due) { h.textContent = rupees(a - o.due) + ' more than due · order becomes fully paid, extra noted'; h.classList.add('more'); }
+  else if (a < o.due) h.textContent = rupees(o.due - a) + ' will still be due on ' + o.id;
+  else { h.textContent = '✓ Order fully paid'; h.classList.add('ok'); }
+}
+function mbSave(){
+  var m = S.mb, p = { kind: m.kind, amount: Number(String(val('mb_amt') || '').replace(/[^\d.]/g, '')), acc: m.acc, date: val('mb_date'), note: val('mb_note') };
+  if (!(p.amount > 0)) return toast('Enter the amount');
+  if (m.kind === 'out') {
+    if (!m.f) return toast('Business or Personal?');
+    p.cat = val('mb_cat'); p.sub = val('mb_sub') || ''; if (!p.cat) return toast('What was it for?');
+  } else if (m.inT === 'xfer') { p.kind = 'xfer'; p.to = m.to; if (!p.to) return toast('Moved to which account?'); }
+  else { p.cat = m.inT; if (m.inT === 'cust') { if (!m.order) return toast('Choose the order'); p.order = m.order; p.pay = m.pay; } }
+  var btn = document.getElementById('mbSave'); btn.disabled = true; btn.textContent = 'Saving…';
+  call('bookAdd', p).then(function(r){
+    if (r.error) { btn.disabled = false; btn.textContent = 'Save'; return toast(r.error); }
+    closeSheet();
+    toast(p.order ? '✓ ' + rupees(p.amount) + ' added to ' + p.order + (r.extra > 0 ? ' · ' + rupees(r.extra) + ' extra' : r.left > 0 ? ' · ' + rupees(r.left) + ' left' : ' · fully paid') : '✓ ' + rupees(p.amount) + ' saved');
+    if (p.date && p.date.slice(0, 7) !== S.od.month) S.mbm = p.date.slice(0, 7);
+    ownerLoad(true);
+  });
+}
+function mbEntrySheet(id){
+  var x = S.od.entries.filter(function(e){ return e.id === id; })[0]; if (!x) return;
+  var c = mbCat(x.cat), a = mbAcc(x.acc);
+  var line = function(k, v){ return v ? '<div class="row between" style="padding:8px 0;border-bottom:1px solid var(--line2)"><span class="osub" style="font-size:13px">' + k + '</span><b style="font-size:14px;text-align:right">' + esc(v) + '</b></div>' : ''; };
+  sheet(shead(x.kind === 'xfer' ? 'Moved money' : x.kind === 'in' ? 'Money in' : 'Expense', mbDayLabel(x.date, S.od.today)) +
+    '<div class="card" style="gap:0"><div style="font-size:30px;font-weight:800;padding:4px 0 8px">' + (x.kind === 'out' ? '−' : x.kind === 'in' ? '+' : '') + rupees(x.amt) + '</div>' +
+    line('What for', c.i + ' ' + c.n + (x.sub ? ' · ' + x.sub : '')) + line('Type', { D: 'Business · Direct', I: 'Business · Indirect', P: 'Personal', IN: 'Money in', X: 'Between my accounts' }[x.type]) +
+    line(x.kind === 'xfer' ? 'From' : x.kind === 'in' ? 'Received in' : 'Paid from', a.name) + line('To', x.to ? mbAcc(x.to).name : '') +
+    line('Order', x.order ? x.order + (x.pay ? ' · ' + x.pay : '') : '') + line('Note', x.note) + line('Entered by', x.by) + '</div>' +
+    '<button class="btn danger" id="mbDel">Delete this entry</button>');
+  var d = document.getElementById('mbDel'), armed = false;
+  d.onclick = function(){
+    if (!armed) { armed = true; d.textContent = x.order ? 'Tap again · also removes ' + rupees(x.applied) + ' from ' + x.order : 'Tap again to delete'; return; }
+    d.disabled = true;
+    call('bookDel', { id: id }).then(function(r){ if (r.error) { d.disabled = false; return toast(r.error); } closeSheet(); toast('Deleted'); ownerLoad(true); });
+  };
+}
+
+function mbSetupSheet(){
+  var r = S.od, st = JSON.parse(JSON.stringify(r.setup));
+  S.mbs = { accounts: st.accounts.filter(function(a){ return !a.hidden; }), cats: st.cats.filter(function(c){ return !c.hidden; }) };
+  var draw = function(){
+    var A = S.mbs.accounts.map(function(a, i){
+      return '<div class="mbsrow"><span class="mblg" style="background:' + esc(a.color) + '">' + esc(mbShort(a.name || '?')) + '</span>' +
+        '<input class="mbin grow" data-ai="' + i + '" data-k="name" value="' + esc(a.name) + '" placeholder="Bank name">' +
+        '<input class="mbin" style="width:118px;text-align:right" inputmode="decimal" data-ai="' + i + '" data-k="balNow" value="' + esc(a.balNow !== undefined ? a.balNow : (r.bal[a.id] !== undefined ? r.bal[a.id] : 0)) + '">' +
+        '<button class="mbx" data-arm="' + i + '">×</button></div>'; }).join('');
+    var G = [['D','Business · Direct','making the product'],['I','Business · Indirect','running the business'],['P','Personal','']].map(function(g){
+      return '<span class="mblbl">' + g[1] + (g[2] ? ' <span style="font-weight:500">· ' + g[2] + '</span>' : '') + '</span><div class="card" style="gap:0;padding:4px 12px">' +
+        S.mbs.cats.map(function(c, i){ return c.t !== g[0] ? '' : '<div class="mbsrow"><input class="mbin" style="width:42px;text-align:center" data-ci="' + i + '" data-k="i" value="' + esc(c.i) + '">' +
+          '<div class="grow stack" style="gap:0"><input class="mbin" data-ci="' + i + '" data-k="n" value="' + esc(c.n) + '" placeholder="Category name" style="font-weight:700">' +
+          '<input class="mbin" data-ci="' + i + '" data-k="subs" value="' + esc((c.subs || []).join(', ')) + '" placeholder="Details (optional), comma separated" style="font-size:12px;color:var(--muted)"></div>' +
+          '<button class="mbx" data-crm="' + i + '">×</button></div>'; }).join('') +
+        '<button class="mbaddrow" data-cadd="' + g[0] + '">+ Add category</button></div>'; }).join('');
+    sheet(shead('Edit accounts & categories', 'Removed ones stay on old entries') +
+      '<span class="mblbl">Bank accounts · balance today</span><div class="card" style="gap:0;padding:4px 12px">' + A + '<button class="mbaddrow" id="mbAddAcc">+ Add account (e.g. Cash)</button></div>' + G +
+      '<button class="btn plum" id="mbSaveSet">Save</button>');
+    var ov = document.getElementById('overlay');
+    ov.querySelectorAll('[data-ai]').forEach(function(e){ e.oninput = function(){ var a = S.mbs.accounts[Number(e.getAttribute('data-ai'))]; a[e.getAttribute('data-k')] = e.value; if (e.getAttribute('data-k') === 'balNow') a.balEdited = 1; }; });
+    ov.querySelectorAll('[data-ci]').forEach(function(e){ e.oninput = function(){ S.mbs.cats[Number(e.getAttribute('data-ci'))][e.getAttribute('data-k')] = e.value; }; });
+    ov.querySelectorAll('[data-arm]').forEach(function(b){ b.onclick = function(){ S.mbs.accounts.splice(Number(b.getAttribute('data-arm')), 1); draw(); }; });
+    ov.querySelectorAll('[data-crm]').forEach(function(b){ b.onclick = function(){ S.mbs.cats.splice(Number(b.getAttribute('data-crm')), 1); draw(); }; });
+    ov.querySelectorAll('[data-cadd]').forEach(function(b){ b.onclick = function(){ S.mbs.cats.push({ k: '', n: '', i: '•', t: b.getAttribute('data-cadd'), subs: [] }); draw(); }; });
+    document.getElementById('mbAddAcc').onclick = function(){ var cols = ['#1F7A4D','#D97706','#0E7C86','#6B6478','#C8326B']; S.mbs.accounts.push({ id: '', name: '', color: cols[S.mbs.accounts.length % cols.length], balNow: 0, balEdited: 1 }); draw(); };
+    document.getElementById('mbSaveSet').onclick = function(){
+      var b = this; b.disabled = true; b.textContent = 'Saving…';
+      var accounts = S.mbs.accounts.map(function(a){ var o = { id: a.id, name: a.name, color: a.color }; if (a.balEdited) o.balNow = Number(String(a.balNow).replace(/[^\d.-]/g, '')) || 0; return o; });
+      var cats = S.mbs.cats.map(function(c){ return { k: c.k, n: c.n, i: c.i, t: c.t, subs: Array.isArray(c.subs) ? c.subs : String(c.subs || '').split(',') }; });
+      call('bookSetup', { accounts: accounts, cats: cats }).then(function(res){
+        if (res.error) { b.disabled = false; b.textContent = 'Save'; return toast(res.error); }
+        closeSheet(); toast('✓ Saved'); ownerLoad(true);
+      });
+    };
+  };
+  draw();
+}
+
 function renderMore(){
   S.view = null; var h = cget('ownerHome') || {};
   el().innerHTML = '<div class="pad stack"><div class="row" style="padding:6px 0"><div class="av md" style="background:var(--plum);color:#fff">'+esc(S.user.name.charAt(0))+'</div><div class="stack" style="gap:0"><span class="h1" style="font-size:20px">'+esc(S.user.name)+'</span><span class="osub" style="font-size:13px">Owner · Store Versile</span></div></div>' +
-    '<div class="grid2">' + mcard('tab','Team','c0','team','Attendance and pay','team') + mcard('tab','Stock','c1','box', h.lowCount ? h.lowCount+' running low' : 'Parts and jars','stock') +
+    '<div style="display:grid">' + mcard('tab','Expenses & bank balance','c2','cash','Where your money goes · '+(cget('book') && cget('book').total !== undefined ? inr(cget('book').total)+' in banks' : 'personal + business'),'book') + '</div>' + '<div class="grid2">' + mcard('tab','Team','c0','team','Attendance and pay','team') + mcard('tab','Stock','c1','box', h.lowCount ? h.lowCount+' running low' : 'Parts and jars','stock') +
       mcard('tab','Money','c2','chart','Profit and costs','money') + mcard('adssheet','Ads','c3','ads', h.ads && h.ads.cpa ? inr(h.ads.cpa)+' per sale' : 'Meta ads') + '</div>' +
     '<div class="group">' + gi('search','search','Find a customer') + gi('prodlist','box','Products') + gi('icarrylink','truck','iCarry tracking link') + gi('labels','qr','Print QR labels') + gi('payroll','cash','Payroll') + gi('stages','list','Jars by status') + gi('chase','chat','Customers to follow up', h.chaseCount ? String(h.chaseCount) : '') + gi('logout','logout','Log out','',true) + '</div></div>' + ownerNav();
 }
