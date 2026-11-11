@@ -70,7 +70,7 @@ PARTS = {
     "Mug": ("mug()", "white"),
     "Arch_Vase": ("arch_vase()", "beige"),
     "Silver_Heart_Plant": ("silver_hearts()", "silver"),
-    "Right_Display_Shelf": (f"display_shelf(rows={json.dumps(E['SU']['rows'])})", "ivory"),
+    "Right_Display_Shelf": (f"display_shelf(rows={json.dumps(E['SU']['rows'])}, b={E['SU']['board']})", "cream"),
     "Gold_Ornament": ("gold_ornament()", "gold"),
     "Gold_Ornament_Leaves": ("gold_ornament_leaves()", "green"),
     "Takeaway_Cup": ("takeaway_cup()", "white"),
@@ -163,7 +163,7 @@ for pid in ("PA1", "PA2"):
 # right shelving unit + cell contents
 UX0 = 223.0
 ROWS = E["SU"]["rows"]
-B = 2.5
+B = E["SU"]["board"]
 put("SU", "Right_Display_Shelf", (UX0, 2.4, 2))
 
 
@@ -189,7 +189,7 @@ cx, zf = cell(0, 1); put("EL", "Gold_Elephant", (cx - 8, 4, zf))
 MAT_RGB = {
     "floor": "#b9824c", "slat": "#ecc9a6", "ivory": "#f4e8d8", "white": "#f7f6f2", "gold": "#cfa53a",
     "black": "#232428", "brown": "#4e3426", "green": "#4f8f35", "green2": "#6c9b4a", "wood": "#d2a774",
-    "beige": "#e6cf9f", "silver": "#c3c6cc", "pampas": "#eadfc8",
+    "beige": "#e6cf9f", "cream": "#f2dcc1", "silver": "#c3c6cc", "pampas": "#eadfc8",
 }
 
 

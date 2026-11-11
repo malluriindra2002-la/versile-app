@@ -80,7 +80,11 @@ module floor_tile(w, d = 25, slot = undef, male_r = false, male_l = false, fem_l
 
 // ---- floating shelf 55 x 8 x 3 with 2 pin holes in the back face
 module floating_shelf(w = 55, d = 8, t = 3) difference() {
-    hull() { cube([w, 0.1, t]); translate([0.6, d - 0.6, 0.6]) rbox([w - 1.2, 0.6, t - 1.2], 0.29); translate([0, 0, 0.3]) cube([w, d - 0.3, t - 0.6]); }
+    hull() {                                             // flat bottom, rounded front edges (r 0.6)
+        cube([w, d - 0.6, t]);
+        for (z = [0.6, t - 0.6]) translate([0, d - 0.6, z]) rotate([0, 90, 0]) cylinder(r = 0.6, h = w, $fn = 16);
+        translate([0, 0, 0]) cube([w, d - 0.6, 0.01]);
+    }
     for (x = [12, w - 12]) translate([x, -0.01, t / 2]) rotate([-90, 0, 0]) cylinder(d = PIN_HOLE, h = 4, $fn = 16);
 }
 
@@ -256,17 +260,24 @@ module tab2d(tw = TAB_W) union() { translate([-tw / 2, -TAB_D]) square([tw, TAB_
 module leaf_plate(t = LEAF_T) xz_plate(t) children();
 module above0() intersection() { children(); translate([-100, 0]) square(200); }
 
-// Leaves 01A: main fern fan (front), 30 wide x 25 above pot
+// palm frond: long narrow leaflets swept toward the tip (areca / parlour-palm look, like the reference)
+module palm_frond2d(L, ang, bend, n = 12, leaf = 4.2, rw = 0.5) rotate(-ang) {
+    for (i = [0:n - 1]) hull() { dot(arcp(L, bend, i / n), rw * (1 - 0.35 * i / n)); dot(arcp(L, bend, (i + 1) / n), rw * (1 - 0.35 * (i + 1) / n)); }
+    for (i = [2:n - 1], s = [-1, 1]) let(t = i / n, p = arcp(L, bend, t), ph = bend * t, a = -s * 34,
+        T = [sin(ph), cos(ph)], D = [T[0] * cos(a) - T[1] * sin(a), T[0] * sin(a) + T[1] * cos(a)], ll = leaf * (1 - 0.5 * t))
+        hull() { dot(p, 0.38); dot(p + D * ll, 0.3); }
+}
+// Leaves 01A: front palm fan, about 30 wide x 25 above the vase
 module plant_leaves_01a() leaf_plate() union() {
     tab2d();
-    n = 9;
-    above0() for (i = [0:n - 1]) let(f = (i - (n - 1) / 2) / ((n - 1) / 2), a = 58 * f)
-        fern_frond2d(23.5 * (1 - 0.30 * pow(abs(f), 1.6)), a, 28 * f, 0.55, 9, 2.5);
+    n = 7;
+    above0() for (i = [0:n - 1]) let(f = (i - (n - 1) / 2) / ((n - 1) / 2))
+        palm_frond2d(24 * (1 - 0.25 * pow(abs(f), 1.5)), 50 * f, 24 * f, 12, 4.0);
 }
-// Leaves 01B: rear fan, parallel to 01A in its own slot (fills the gaps, adds depth)
+// Leaves 01B: rear palm fan, parallel to 01A in its own slot (fills the gaps, adds depth)
 module plant_leaves_01b() leaf_plate() union() {
     tab2d();
-    above0() for (f = [-1, -0.62, -0.22, 0.22, 0.62, 1]) fern_frond2d(25 * (1 - 0.22 * abs(f)), 50 * f, 24 * f, 0.55, 9, 2.4);
+    above0() for (f = [-1, -0.55, -0.15, 0.25, 0.7]) palm_frond2d(26 * (1 - 0.2 * abs(f)), 46 * f, 22 * f, 12, 4.0);
 }
 // Leaves 02: bushy grass/leaf spray for the rectangular pot, 26 x 15
 module plant_leaves_02() leaf_plate() union() {
@@ -357,16 +368,16 @@ module silver_hearts() {
 // ---- asymmetric staggered open-cube shelf. rows = [[u_left,u_right,[dividers]],..] bottom->top
 //      Local: x = u (unit datum), z = 0 at the bottom of the bottom board. Depth 12, boards 2.5.
 SU_ROWS  = [[7, 75, [51]], [3, 69, [27]], [7, 75, [23.5, 52]], [0, 73, [25]], [3, 73, [48]]];   // keep in sync with layout.py (build.py passes the layout values)
-SU_PITCH = 32.5;  SU_B = 2.5;  SU_D = 12;
-function su_zc(i) = SU_B / 2 + i * SU_PITCH;                 // board centre heights
-module display_shelf(rows = SU_ROWS) xz_plate(SU_D) union() {
+SU_PITCH = 32.5;  SU_B = 3.2;  SU_D = 12;
+function su_zc(i, b = SU_B) = b / 2 + i * SU_PITCH;          // board centre heights
+module display_shelf(rows = SU_ROWS, b = SU_B) xz_plate(SU_D) union() {
     n = len(rows);
     for (i = [0:n - 1]) let(r = rows[i]) for (u = concat([r[0]], r[2], [r[1]]))
-        translate([u - SU_B / 2, su_zc(i)]) square([SU_B, SU_PITCH]);
+        translate([u - b / 2, su_zc(i, b)]) square([b, SU_PITCH]);
     for (k = [0:n]) let(lo = rows[max(0, k - 1)], hi = rows[min(n - 1, k)],
                          a = (k == 0) ? rows[0][0] : (k == n) ? rows[n - 1][0] : min(lo[0], hi[0]),
-                         b = (k == 0) ? rows[0][1] : (k == n) ? rows[n - 1][1] : max(lo[1], hi[1]))
-        translate([a - SU_B / 2, su_zc(k) - SU_B / 2]) square([b - a + SU_B, SU_B]);
+                         bb = (k == 0) ? rows[0][1] : (k == n) ? rows[n - 1][1] : max(lo[1], hi[1]))
+        translate([a - b / 2, su_zc(k, b) - b / 2]) square([bb - a + b, b]);
 }
 
 // ---- gold ornament: sphere pot (flat back) + egg cluster; green leaves are a separate fan
@@ -425,7 +436,7 @@ module bunny() flatback() above(0) {
 // ---- geometric (low-poly) elephant 16 x 8 x 17, trunk to +X, flat back
 module gold_elephant() flatback() above(0) {
     hull() { translate([6, 0, 8.5]) sphere(5, $fn = 8); translate([9, 0, 9]) sphere(4.5, $fn = 8); }
-    for (x = [2.3, 5.4, 8.5, 11.0]) hull() { translate([x, 0.6, 5]) cube([2.6, 4.6, 0.1]); translate([x + 0.2, 0.8, 0]) cube([2.2, 4.0, 0.1]); }
+    for (x = [2.3, 5.4, 8.5, 11.0]) hull() { translate([x, 0, 5]) cube([2.6, 5.2, 0.1]); translate([x + 0.2, 0, 0]) cube([2.2, 4.8, 0.1]); }   // legs reach the flat back (print bed)
     translate([12.3, 1, 11.4]) sphere(3.7, $fn = 8);
     hull() { translate([10.6, 3.1, 11.5]) scale([1, 0.35, 1]) sphere(3.2, $fn = 6); translate([9.6, 3.0, 9.4]) scale([1, 0.35, 1]) sphere(2.2, $fn = 6); }
     for (s = [[14.3, 1.6, 10, 1.25], [15.2, 1.7, 6.5, 1.05], [15.0, 1.8, 3.4, 0.95], [15.6, 1.9, 1.4, 0.9]]) translate([s[0], s[1], s[2]]) sphere(s[3], $fn = 6);

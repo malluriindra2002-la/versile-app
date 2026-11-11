@@ -1,0 +1,158 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="297.0mm" height="210.0mm" viewBox="0 0 297.0 210.0" font-family="DejaVu Sans, Arial, sans-serif">
+<rect x="0" y="0" width="297.0" height="210.0" fill="#fff"/>
+<defs><marker id="a" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="4" markerHeight="4" orient="auto-start-reverse"><path d="M0,2 L10,5 L0,8 z" fill="#c0392b"/></marker></defs>
+<rect x="6" y="6" width="285.0" height="198.0" fill="none" stroke="#000" stroke-width="0.5"/>
+<line x1="80.00" y1="41.00" x2="79.40" y2="41.60" stroke="#777" stroke-width="0.12"/>
+<line x1="20.60" y1="41.60" x2="79.40" y2="41.60" stroke="#777" stroke-width="0.12"/>
+<line x1="80.00" y1="41.00" x2="20.00" y2="41.00" stroke="#777" stroke-width="0.12"/>
+<line x1="20.60" y1="41.60" x2="20.00" y2="41.00" stroke="#777" stroke-width="0.12"/>
+<line x1="20.00" y1="41.00" x2="20.00" y2="119.00" stroke="#777" stroke-width="0.12"/>
+<line x1="20.00" y1="41.00" x2="20.00" y2="41.00" stroke="#777" stroke-width="0.12"/>
+<line x1="20.00" y1="119.00" x2="20.00" y2="119.00" stroke="#777" stroke-width="0.12"/>
+<line x1="20.00" y1="41.00" x2="20.00" y2="119.00" stroke="#777" stroke-width="0.12"/>
+<line x1="80.00" y1="41.00" x2="80.00" y2="41.00" stroke="#777" stroke-width="0.12"/>
+<line x1="20.00" y1="41.00" x2="80.00" y2="41.00" stroke="#777" stroke-width="0.12"/>
+<line x1="78.80" y1="41.00" x2="21.20" y2="41.00" stroke="#777" stroke-width="0.12"/>
+<line x1="78.80" y1="41.00" x2="78.80" y2="41.00" stroke="#777" stroke-width="0.12"/>
+<line x1="21.20" y1="41.00" x2="21.20" y2="41.00" stroke="#777" stroke-width="0.12"/>
+<line x1="78.80" y1="41.00" x2="21.20" y2="41.00" stroke="#777" stroke-width="0.12"/>
+<line x1="20.00" y1="119.00" x2="80.00" y2="119.00" stroke="#777" stroke-width="0.12"/>
+<line x1="80.00" y1="41.00" x2="80.00" y2="119.00" stroke="#777" stroke-width="0.12"/>
+<line x1="21.80" y1="42.80" x2="21.80" y2="117.20" stroke="#777" stroke-width="0.12"/>
+<line x1="20.60" y1="41.60" x2="20.60" y2="118.40" stroke="#777" stroke-width="0.12"/>
+<line x1="20.00" y1="119.00" x2="20.60" y2="118.40" stroke="#777" stroke-width="0.12"/>
+<line x1="21.80" y1="117.20" x2="78.20" y2="117.20" stroke="#777" stroke-width="0.12"/>
+<line x1="21.80" y1="42.80" x2="78.20" y2="42.80" stroke="#777" stroke-width="0.12"/>
+<line x1="78.20" y1="117.20" x2="78.20" y2="42.80" stroke="#777" stroke-width="0.12"/>
+<line x1="79.40" y1="41.60" x2="79.40" y2="118.40" stroke="#777" stroke-width="0.12"/>
+<line x1="20.60" y1="118.40" x2="79.40" y2="118.40" stroke="#777" stroke-width="0.12"/>
+<line x1="80.00" y1="41.00" x2="80.00" y2="119.00" stroke="#777" stroke-width="0.12"/>
+<line x1="20.00" y1="119.00" x2="80.00" y2="119.00" stroke="#777" stroke-width="0.12"/>
+<line x1="80.00" y1="119.00" x2="80.00" y2="119.00" stroke="#777" stroke-width="0.12"/>
+<line x1="79.40" y1="118.40" x2="80.00" y2="119.00" stroke="#777" stroke-width="0.12"/>
+<line x1="21.80" y1="117.20" x2="22.39" y2="116.61" stroke="#777" stroke-width="0.12"/>
+<line x1="21.80" y1="42.80" x2="22.39" y2="43.39" stroke="#777" stroke-width="0.12"/>
+<line x1="22.39" y1="116.61" x2="22.39" y2="43.39" stroke="#777" stroke-width="0.12"/>
+<line x1="78.20" y1="42.80" x2="77.61" y2="43.39" stroke="#777" stroke-width="0.12"/>
+<line x1="22.39" y1="43.39" x2="77.61" y2="43.39" stroke="#777" stroke-width="0.12"/>
+<line x1="78.20" y1="117.20" x2="77.61" y2="116.61" stroke="#777" stroke-width="0.12"/>
+<line x1="22.39" y1="116.61" x2="77.61" y2="116.61" stroke="#777" stroke-width="0.12"/>
+<line x1="77.61" y1="43.39" x2="77.61" y2="116.61" stroke="#777" stroke-width="0.12"/>
+<line x1="78.80" y1="41.00" x2="78.80" y2="117.80" stroke="#777" stroke-width="0.12"/>
+<line x1="78.80" y1="41.00" x2="78.80" y2="117.80" stroke="#777" stroke-width="0.12"/>
+<line x1="78.80" y1="117.80" x2="78.80" y2="117.80" stroke="#777" stroke-width="0.12"/>
+<line x1="21.20" y1="41.00" x2="21.20" y2="117.80" stroke="#777" stroke-width="0.12"/>
+<line x1="78.80" y1="117.80" x2="21.20" y2="117.80" stroke="#777" stroke-width="0.12"/>
+<line x1="21.20" y1="41.00" x2="21.20" y2="117.80" stroke="#777" stroke-width="0.12"/>
+<line x1="78.80" y1="117.80" x2="21.20" y2="117.80" stroke="#777" stroke-width="0.12"/>
+<line x1="21.20" y1="117.80" x2="21.20" y2="117.80" stroke="#777" stroke-width="0.12"/>
+<path d="M20.00,119.00 L20.00,41.00 L21.20,41.00 L78.80,41.00 L80.00,41.00 L80.00,119.00 L20.00,119.00 Z" fill="none" stroke="#000" stroke-width="0.35" fill-rule="evenodd"/>
+<text x="20.0" y="124.0" font-size="2.6" fill="#555">FRONT</text>
+<line x1="80.00" y1="26.40" x2="79.40" y2="27.00" stroke="#777" stroke-width="0.12"/>
+<line x1="20.60" y1="27.00" x2="79.40" y2="27.00" stroke="#777" stroke-width="0.12"/>
+<line x1="80.00" y1="26.40" x2="20.00" y2="26.40" stroke="#777" stroke-width="0.12"/>
+<line x1="20.60" y1="27.00" x2="20.00" y2="26.40" stroke="#777" stroke-width="0.12"/>
+<line x1="20.00" y1="26.40" x2="20.00" y2="26.40" stroke="#777" stroke-width="0.12"/>
+<line x1="20.00" y1="26.40" x2="20.00" y2="22.00" stroke="#777" stroke-width="0.12"/>
+<line x1="20.00" y1="26.40" x2="20.00" y2="22.00" stroke="#777" stroke-width="0.12"/>
+<line x1="20.00" y1="22.00" x2="20.00" y2="22.00" stroke="#777" stroke-width="0.12"/>
+<line x1="80.00" y1="26.40" x2="80.00" y2="22.00" stroke="#777" stroke-width="0.12"/>
+<line x1="20.00" y1="22.00" x2="80.00" y2="22.00" stroke="#777" stroke-width="0.12"/>
+<line x1="78.80" y1="24.00" x2="21.20" y2="24.00" stroke="#777" stroke-width="0.12"/>
+<line x1="78.80" y1="24.00" x2="78.80" y2="25.00" stroke="#777" stroke-width="0.12"/>
+<line x1="21.20" y1="24.00" x2="21.20" y2="25.00" stroke="#777" stroke-width="0.12"/>
+<line x1="78.80" y1="25.00" x2="21.20" y2="25.00" stroke="#777" stroke-width="0.12"/>
+<line x1="20.00" y1="22.00" x2="80.00" y2="22.00" stroke="#777" stroke-width="0.12"/>
+<line x1="80.00" y1="22.00" x2="80.00" y2="22.00" stroke="#777" stroke-width="0.12"/>
+<line x1="21.80" y1="27.00" x2="21.80" y2="27.00" stroke="#777" stroke-width="0.12"/>
+<line x1="20.60" y1="27.00" x2="20.60" y2="27.00" stroke="#777" stroke-width="0.12"/>
+<line x1="20.00" y1="26.40" x2="20.60" y2="27.00" stroke="#777" stroke-width="0.12"/>
+<line x1="21.80" y1="27.00" x2="78.20" y2="27.00" stroke="#777" stroke-width="0.12"/>
+<line x1="21.80" y1="27.00" x2="78.20" y2="27.00" stroke="#777" stroke-width="0.12"/>
+<line x1="78.20" y1="27.00" x2="78.20" y2="27.00" stroke="#777" stroke-width="0.12"/>
+<line x1="79.40" y1="27.00" x2="79.40" y2="27.00" stroke="#777" stroke-width="0.12"/>
+<line x1="20.60" y1="27.00" x2="79.40" y2="27.00" stroke="#777" stroke-width="0.12"/>
+<line x1="80.00" y1="26.40" x2="80.00" y2="26.40" stroke="#777" stroke-width="0.12"/>
+<line x1="20.00" y1="26.40" x2="80.00" y2="26.40" stroke="#777" stroke-width="0.12"/>
+<line x1="80.00" y1="22.00" x2="80.00" y2="26.40" stroke="#777" stroke-width="0.12"/>
+<line x1="79.40" y1="27.00" x2="80.00" y2="26.40" stroke="#777" stroke-width="0.12"/>
+<line x1="21.80" y1="27.00" x2="22.39" y2="25.00" stroke="#777" stroke-width="0.12"/>
+<line x1="21.80" y1="27.00" x2="22.39" y2="25.00" stroke="#777" stroke-width="0.12"/>
+<line x1="22.39" y1="25.00" x2="22.39" y2="25.00" stroke="#777" stroke-width="0.12"/>
+<line x1="78.20" y1="27.00" x2="77.61" y2="25.00" stroke="#777" stroke-width="0.12"/>
+<line x1="22.39" y1="25.00" x2="77.61" y2="25.00" stroke="#777" stroke-width="0.12"/>
+<line x1="78.20" y1="27.00" x2="77.61" y2="25.00" stroke="#777" stroke-width="0.12"/>
+<line x1="22.39" y1="25.00" x2="77.61" y2="25.00" stroke="#777" stroke-width="0.12"/>
+<line x1="77.61" y1="25.00" x2="77.61" y2="25.00" stroke="#777" stroke-width="0.12"/>
+<line x1="78.80" y1="25.00" x2="78.80" y2="25.00" stroke="#777" stroke-width="0.12"/>
+<line x1="78.80" y1="24.00" x2="78.80" y2="24.00" stroke="#777" stroke-width="0.12"/>
+<line x1="78.80" y1="25.00" x2="78.80" y2="24.00" stroke="#777" stroke-width="0.12"/>
+<line x1="21.20" y1="24.00" x2="21.20" y2="24.00" stroke="#777" stroke-width="0.12"/>
+<line x1="78.80" y1="24.00" x2="21.20" y2="24.00" stroke="#777" stroke-width="0.12"/>
+<line x1="21.20" y1="25.00" x2="21.20" y2="25.00" stroke="#777" stroke-width="0.12"/>
+<line x1="78.80" y1="25.00" x2="21.20" y2="25.00" stroke="#777" stroke-width="0.12"/>
+<line x1="21.20" y1="24.00" x2="21.20" y2="25.00" stroke="#777" stroke-width="0.12"/>
+<path d="M20.00,26.40 L20.00,22.00 L80.00,22.00 L80.00,26.40 L79.40,27.00 L78.20,27.00 L20.60,27.00 L20.00,26.40 Z" fill="none" stroke="#000" stroke-width="0.35" fill-rule="evenodd"/>
+<text x="20.0" y="31.0" font-size="2.6" fill="#555">TOP</text>
+<line x1="94.60" y1="41.00" x2="94.00" y2="41.60" stroke="#777" stroke-width="0.12"/>
+<line x1="94.00" y1="41.60" x2="94.00" y2="41.60" stroke="#777" stroke-width="0.12"/>
+<line x1="94.60" y1="41.00" x2="94.60" y2="41.00" stroke="#777" stroke-width="0.12"/>
+<line x1="94.00" y1="41.60" x2="94.60" y2="41.00" stroke="#777" stroke-width="0.12"/>
+<line x1="94.60" y1="41.00" x2="94.60" y2="119.00" stroke="#777" stroke-width="0.12"/>
+<line x1="94.60" y1="41.00" x2="99.00" y2="41.00" stroke="#777" stroke-width="0.12"/>
+<line x1="94.60" y1="119.00" x2="99.00" y2="119.00" stroke="#777" stroke-width="0.12"/>
+<line x1="99.00" y1="41.00" x2="99.00" y2="119.00" stroke="#777" stroke-width="0.12"/>
+<line x1="94.60" y1="41.00" x2="99.00" y2="41.00" stroke="#777" stroke-width="0.12"/>
+<line x1="99.00" y1="41.00" x2="99.00" y2="41.00" stroke="#777" stroke-width="0.12"/>
+<line x1="97.00" y1="41.00" x2="97.00" y2="41.00" stroke="#777" stroke-width="0.12"/>
+<line x1="97.00" y1="41.00" x2="96.00" y2="41.00" stroke="#777" stroke-width="0.12"/>
+<line x1="97.00" y1="41.00" x2="96.00" y2="41.00" stroke="#777" stroke-width="0.12"/>
+<line x1="96.00" y1="41.00" x2="96.00" y2="41.00" stroke="#777" stroke-width="0.12"/>
+<line x1="99.00" y1="119.00" x2="99.00" y2="119.00" stroke="#777" stroke-width="0.12"/>
+<line x1="99.00" y1="41.00" x2="99.00" y2="119.00" stroke="#777" stroke-width="0.12"/>
+<line x1="94.00" y1="42.80" x2="94.00" y2="117.20" stroke="#777" stroke-width="0.12"/>
+<line x1="94.00" y1="41.60" x2="94.00" y2="118.40" stroke="#777" stroke-width="0.12"/>
+<line x1="94.60" y1="119.00" x2="94.00" y2="118.40" stroke="#777" stroke-width="0.12"/>
+<line x1="94.00" y1="117.20" x2="94.00" y2="117.20" stroke="#777" stroke-width="0.12"/>
+<line x1="94.00" y1="42.80" x2="94.00" y2="42.80" stroke="#777" stroke-width="0.12"/>
+<line x1="94.00" y1="117.20" x2="94.00" y2="42.80" stroke="#777" stroke-width="0.12"/>
+<line x1="94.00" y1="41.60" x2="94.00" y2="118.40" stroke="#777" stroke-width="0.12"/>
+<line x1="94.00" y1="118.40" x2="94.00" y2="118.40" stroke="#777" stroke-width="0.12"/>
+<line x1="94.60" y1="41.00" x2="94.60" y2="119.00" stroke="#777" stroke-width="0.12"/>
+<line x1="94.60" y1="119.00" x2="94.60" y2="119.00" stroke="#777" stroke-width="0.12"/>
+<line x1="99.00" y1="119.00" x2="94.60" y2="119.00" stroke="#777" stroke-width="0.12"/>
+<line x1="94.00" y1="118.40" x2="94.60" y2="119.00" stroke="#777" stroke-width="0.12"/>
+<line x1="94.00" y1="117.20" x2="96.00" y2="116.61" stroke="#777" stroke-width="0.12"/>
+<line x1="94.00" y1="42.80" x2="96.00" y2="43.39" stroke="#777" stroke-width="0.12"/>
+<line x1="96.00" y1="116.61" x2="96.00" y2="43.39" stroke="#777" stroke-width="0.12"/>
+<line x1="94.00" y1="42.80" x2="96.00" y2="43.39" stroke="#777" stroke-width="0.12"/>
+<line x1="96.00" y1="43.39" x2="96.00" y2="43.39" stroke="#777" stroke-width="0.12"/>
+<line x1="94.00" y1="117.20" x2="96.00" y2="116.61" stroke="#777" stroke-width="0.12"/>
+<line x1="96.00" y1="116.61" x2="96.00" y2="116.61" stroke="#777" stroke-width="0.12"/>
+<line x1="96.00" y1="43.39" x2="96.00" y2="116.61" stroke="#777" stroke-width="0.12"/>
+<line x1="96.00" y1="41.00" x2="96.00" y2="117.80" stroke="#777" stroke-width="0.12"/>
+<line x1="97.00" y1="41.00" x2="97.00" y2="117.80" stroke="#777" stroke-width="0.12"/>
+<line x1="96.00" y1="117.80" x2="97.00" y2="117.80" stroke="#777" stroke-width="0.12"/>
+<line x1="97.00" y1="41.00" x2="97.00" y2="117.80" stroke="#777" stroke-width="0.12"/>
+<line x1="97.00" y1="117.80" x2="97.00" y2="117.80" stroke="#777" stroke-width="0.12"/>
+<line x1="96.00" y1="41.00" x2="96.00" y2="117.80" stroke="#777" stroke-width="0.12"/>
+<line x1="96.00" y1="117.80" x2="96.00" y2="117.80" stroke="#777" stroke-width="0.12"/>
+<line x1="97.00" y1="117.80" x2="96.00" y2="117.80" stroke="#777" stroke-width="0.12"/>
+<path d="M94.00,117.20 L94.00,42.80 L94.00,41.60 L94.26,41.34 L94.60,41.00 L96.00,41.00 L97.00,41.00 L99.00,41.00 L99.00,119.00 L94.60,119.00 L94.36,118.76 L94.00,118.40 L94.00,117.20 Z" fill="none" stroke="#000" stroke-width="0.35" fill-rule="evenodd"/>
+<text x="94.0" y="124.0" font-size="2.6" fill="#555">RIGHT SIDE</text>
+<line x1="20.00" y1="128.00" x2="80.00" y2="128.00" stroke="#c0392b" stroke-width="0.2" marker-start="url(#a)" marker-end="url(#a)"/>
+<text x="50.00" y="127.00" font-size="3" fill="#c0392b" text-anchor="middle">30.0</text>
+<line x1="14.00" y1="119.00" x2="14.00" y2="41.00" stroke="#c0392b" stroke-width="0.2" marker-start="url(#a)" marker-end="url(#a)"/>
+<text x="12.80" y="80.00" font-size="3" fill="#c0392b" text-anchor="middle" transform="rotate(-90 12.80 80.00)">39.0</text>
+<line x1="94.00" y1="128.00" x2="99.00" y2="128.00" stroke="#c0392b" stroke-width="0.2" marker-start="url(#a)" marker-end="url(#a)"/>
+<text x="96.50" y="127.00" font-size="3" fill="#c0392b" text-anchor="middle">2.5</text>
+<rect x="171.0" y="164.0" width="120" height="40" fill="none" stroke="#000" stroke-width="0.4"/>
+<text x="173.0" y="170.0" font-size="2.4" fill="#666">PART</text><text x="191.0" y="170.0" font-size="2.8" fill="#000">Photo_Frame_Large_P</text>
+<text x="173.0" y="176.0" font-size="2.4" fill="#666">FILE</text><text x="191.0" y="176.0" font-size="2.8" fill="#000">stl/Photo_Frame_Large_P.stl   QTY 2</text>
+<text x="173.0" y="182.0" font-size="2.4" fill="#666">MATERIAL</text><text x="191.0" y="182.0" font-size="2.8" fill="#000">Gold silk (e.g. PLA Silk+ Gold)</text>
+<text x="173.0" y="188.0" font-size="2.4" fill="#666">PRINT</text><text x="191.0" y="188.0" font-size="2.8" fill="#000">back | layer 0.12 | infill 100% | 2 walls | no supports</text>
+<text x="173.0" y="194.0" font-size="2.4" fill="#666">SCALE</text><text x="191.0" y="194.0" font-size="2.8" fill="#000">2 : 1   units mm   third-angle projection   Rev C</text>
+<text x="173.0" y="200.0" font-size="2.4" fill="#666">PROJECT</text><text x="191.0" y="200.0" font-size="2.8" fill="#000">Store Versile miniature room frame 300 x 200 x 25</text>
+<text x="10" y="176.0" font-size="2.8" fill="#000">Face border 1.2. Photo slot 28.8 wide, open at top. Photo insert 28.6 x 38.4.</text>
+<text x="10" y="171.0" font-size="2.6" fill="#666">KEY DIMENSIONS</text>
+</svg>

@@ -1,0 +1,214 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="297.0mm" height="210.0mm" viewBox="0 0 297.0 210.0" font-family="DejaVu Sans, Arial, sans-serif">
+<rect width="297.0" height="210.0" fill="#fff"/>
+<rect x="6" y="6" width="285.0" height="198.0" fill="none" stroke="#000" stroke-width="0.5"/>
+<text x="12" y="16" font-size="5" font-weight="bold">ASSEMBLY POSITIONS (1/3)</text>
+<text x="12" y="22" font-size="2.8" fill="#444">Position of each piece's reference corner, mm. X from the inner left wall, Y from the back wall toward the glass, Z from the inner floor. Rotation in degrees (CAD frame).</text>
+<text x="12" y="31" font-size="3" font-weight="bold">Piece</text>
+<text x="52" y="31" font-size="3" font-weight="bold">File (stl/)</text>
+<text x="150" y="31" font-size="3" font-weight="bold">X</text>
+<text x="172" y="31" font-size="3" font-weight="bold">Y</text>
+<text x="194" y="31" font-size="3" font-weight="bold">Z</text>
+<text x="218" y="31" font-size="3" font-weight="bold">Rotation</text>
+<rect x="10" y="32.9" width="277.0" height="5" fill="#f3efe9"/>
+<text x="12" y="36.5" font-size="2.9">FL1</text>
+<text x="52" y="36.5" font-size="2.9">Floor_Tile_L.stl</text>
+<text x="150" y="36.5" font-size="2.9">0.00</text>
+<text x="172" y="36.5" font-size="2.9">-0.00</text>
+<text x="194" y="36.5" font-size="2.9">0.00</text>
+<text x="218" y="36.5" font-size="2.9">[0, 0, 0]</text>
+<text x="12" y="41.5" font-size="2.9">FL2</text>
+<text x="52" y="41.5" font-size="2.9">Floor_Tile_C.stl</text>
+<text x="150" y="41.5" font-size="2.9">106.00</text>
+<text x="172" y="41.5" font-size="2.9">-0.00</text>
+<text x="194" y="41.5" font-size="2.9">0.00</text>
+<text x="218" y="41.5" font-size="2.9">[0, 0, 0]</text>
+<rect x="10" y="42.9" width="277.0" height="5" fill="#f3efe9"/>
+<text x="12" y="46.5" font-size="2.9">FL3</text>
+<text x="52" y="46.5" font-size="2.9">Floor_Tile_R.stl</text>
+<text x="150" y="46.5" font-size="2.9">218.00</text>
+<text x="172" y="46.5" font-size="2.9">-0.00</text>
+<text x="194" y="46.5" font-size="2.9">0.00</text>
+<text x="218" y="46.5" font-size="2.9">[0, 0, 0]</text>
+<text x="12" y="51.5" font-size="2.9">LW_lower</text>
+<text x="52" y="51.5" font-size="2.9">Left_Wall_Panel_Lower.stl</text>
+<text x="150" y="51.5" font-size="2.9">2.00</text>
+<text x="172" y="51.5" font-size="2.9">-0.00</text>
+<text x="194" y="51.5" font-size="2.9">1.00</text>
+<text x="218" y="51.5" font-size="2.9">[0, 0, 0]</text>
+<rect x="10" y="52.9" width="277.0" height="5" fill="#f3efe9"/>
+<text x="12" y="56.5" font-size="2.9">LW_upper</text>
+<text x="52" y="56.5" font-size="2.9">Left_Wall_Panel_Upper.stl</text>
+<text x="150" y="56.5" font-size="2.9">2.00</text>
+<text x="172" y="56.5" font-size="2.9">-0.00</text>
+<text x="194" y="56.5" font-size="2.9">30.00</text>
+<text x="218" y="56.5" font-size="2.9">[0, 0, 0]</text>
+<text x="12" y="61.5" font-size="2.9">RW_lower</text>
+<text x="52" y="61.5" font-size="2.9">Right_Wall_Panel_Lower.stl</text>
+<text x="150" y="61.5" font-size="2.9">219.00</text>
+<text x="172" y="61.5" font-size="2.9">-0.00</text>
+<text x="194" y="61.5" font-size="2.9">1.00</text>
+<text x="218" y="61.5" font-size="2.9">[0, 0, 0]</text>
+<rect x="10" y="62.9" width="277.0" height="5" fill="#f3efe9"/>
+<text x="12" y="66.5" font-size="2.9">RW_upper</text>
+<text x="52" y="66.5" font-size="2.9">Right_Wall_Panel_Upper.stl</text>
+<text x="150" y="66.5" font-size="2.9">219.00</text>
+<text x="172" y="66.5" font-size="2.9">-0.00</text>
+<text x="194" y="66.5" font-size="2.9">30.00</text>
+<text x="218" y="66.5" font-size="2.9">[0, 0, 0]</text>
+<text x="12" y="71.5" font-size="2.9">S1</text>
+<text x="52" y="71.5" font-size="2.9">Floating_Shelf.stl</text>
+<text x="150" y="71.5" font-size="2.9">3.00</text>
+<text x="172" y="71.5" font-size="2.9">2.40</text>
+<text x="194" y="71.5" font-size="2.9">162.00</text>
+<text x="218" y="71.5" font-size="2.9">[0, 0, 0]</text>
+<rect x="10" y="72.9" width="277.0" height="5" fill="#f3efe9"/>
+<text x="12" y="76.5" font-size="2.9">S2</text>
+<text x="52" y="76.5" font-size="2.9">Floating_Shelf.stl</text>
+<text x="150" y="76.5" font-size="2.9">3.00</text>
+<text x="172" y="76.5" font-size="2.9">2.40</text>
+<text x="194" y="76.5" font-size="2.9">127.00</text>
+<text x="218" y="76.5" font-size="2.9">[0, 0, 0]</text>
+<text x="12" y="81.5" font-size="2.9">S3</text>
+<text x="52" y="81.5" font-size="2.9">Floating_Shelf.stl</text>
+<text x="150" y="81.5" font-size="2.9">3.00</text>
+<text x="172" y="81.5" font-size="2.9">2.40</text>
+<text x="194" y="81.5" font-size="2.9">93.00</text>
+<text x="218" y="81.5" font-size="2.9">[0, 0, 0]</text>
+<rect x="10" y="82.9" width="277.0" height="5" fill="#f3efe9"/>
+<text x="12" y="86.5" font-size="2.9">LOVE</text>
+<text x="52" y="86.5" font-size="2.9">LOVE_Letters.stl</text>
+<text x="150" y="86.5" font-size="2.9">7.00</text>
+<text x="172" y="86.5" font-size="2.9">3.00</text>
+<text x="194" y="86.5" font-size="2.9">165.00</text>
+<text x="218" y="86.5" font-size="2.9">[0, 0, 0]</text>
+<text x="12" y="91.5" font-size="2.9">F1</text>
+<text x="52" y="91.5" font-size="2.9">Photo_Frame_Small_P.stl</text>
+<text x="150" y="91.5" font-size="2.9">32.00</text>
+<text x="172" y="91.5" font-size="2.9">3.00</text>
+<text x="194" y="91.5" font-size="2.9">165.00</text>
+<text x="218" y="91.5" font-size="2.9">[0, 0, 0]</text>
+<rect x="10" y="92.9" width="277.0" height="5" fill="#f3efe9"/>
+<text x="12" y="96.5" font-size="2.9">F2</text>
+<text x="52" y="96.5" font-size="2.9">Photo_Frame_Small_P.stl</text>
+<text x="150" y="96.5" font-size="2.9">7.00</text>
+<text x="172" y="96.5" font-size="2.9">3.00</text>
+<text x="194" y="96.5" font-size="2.9">130.00</text>
+<text x="218" y="96.5" font-size="2.9">[0, 0, 0]</text>
+<text x="12" y="101.5" font-size="2.9">F3</text>
+<text x="52" y="101.5" font-size="2.9">Photo_Frame_Small_P.stl</text>
+<text x="150" y="101.5" font-size="2.9">32.00</text>
+<text x="172" y="101.5" font-size="2.9">3.00</text>
+<text x="194" y="101.5" font-size="2.9">96.00</text>
+<text x="218" y="101.5" font-size="2.9">[0, 0, 0]</text>
+<rect x="10" y="102.9" width="277.0" height="5" fill="#f3efe9"/>
+<text x="12" y="106.5" font-size="2.9">F4</text>
+<text x="52" y="106.5" font-size="2.9">Photo_Frame_Large_P.stl</text>
+<text x="150" y="106.5" font-size="2.9">68.00</text>
+<text x="172" y="106.5" font-size="2.9">2.40</text>
+<text x="194" y="106.5" font-size="2.9">135.00</text>
+<text x="218" y="106.5" font-size="2.9">[0, 0, 0]</text>
+<text x="12" y="111.5" font-size="2.9">F5</text>
+<text x="52" y="111.5" font-size="2.9">Photo_Frame_Large_P.stl</text>
+<text x="150" y="111.5" font-size="2.9">68.00</text>
+<text x="172" y="111.5" font-size="2.9">2.40</text>
+<text x="194" y="111.5" font-size="2.9">76.00</text>
+<text x="218" y="111.5" font-size="2.9">[0, 0, 0]</text>
+<rect x="10" y="112.9" width="277.0" height="5" fill="#f3efe9"/>
+<text x="12" y="116.5" font-size="2.9">PB_pot</text>
+<text x="52" y="116.5" font-size="2.9">Plant_Pot_02.stl</text>
+<text x="150" y="116.5" font-size="2.9">33.00</text>
+<text x="172" y="116.5" font-size="2.9">3.00</text>
+<text x="194" y="116.5" font-size="2.9">130.00</text>
+<text x="218" y="116.5" font-size="2.9">[0, 0, 0]</text>
+<text x="12" y="121.5" font-size="2.9">PB_leaves</text>
+<text x="52" y="121.5" font-size="2.9">Plant_Leaves_02.stl</text>
+<text x="150" y="121.5" font-size="2.9">45.00</text>
+<text x="172" y="121.5" font-size="2.9">6.00</text>
+<text x="194" y="121.5" font-size="2.9">142.00</text>
+<text x="218" y="121.5" font-size="2.9">[0, 0, 0]</text>
+<rect x="10" y="122.9" width="277.0" height="5" fill="#f3efe9"/>
+<text x="12" y="126.5" font-size="2.9">PC_pot</text>
+<text x="52" y="126.5" font-size="2.9">Plant_Pot_03.stl</text>
+<text x="150" y="126.5" font-size="2.9">8.00</text>
+<text x="172" y="126.5" font-size="2.9">3.00</text>
+<text x="194" y="126.5" font-size="2.9">96.00</text>
+<text x="218" y="126.5" font-size="2.9">[0, 0, 0]</text>
+<text x="12" y="131.5" font-size="2.9">PC_leaves</text>
+<text x="52" y="131.5" font-size="2.9">Plant_Leaves_03.stl</text>
+<text x="150" y="131.5" font-size="2.9">15.50</text>
+<text x="172" y="131.5" font-size="2.9">5.90</text>
+<text x="194" y="131.5" font-size="2.9">108.00</text>
+<text x="218" y="131.5" font-size="2.9">[0, 0, 0]</text>
+<rect x="10" y="132.9" width="277.0" height="5" fill="#f3efe9"/>
+<text x="12" y="136.5" font-size="2.9">TV_body</text>
+<text x="52" y="136.5" font-size="2.9">TV_Console_Body.stl</text>
+<text x="150" y="136.5" font-size="2.9">3.00</text>
+<text x="172" y="136.5" font-size="2.9">2.40</text>
+<text x="194" y="136.5" font-size="2.9">11.00</text>
+<text x="218" y="136.5" font-size="2.9">[0, 0, 0]</text>
+<text x="12" y="141.5" font-size="2.9">TV_drawers</text>
+<text x="52" y="141.5" font-size="2.9">TV_Console_Drawer_Fronts.stl</text>
+<text x="150" y="141.5" font-size="2.9">3.00</text>
+<text x="172" y="141.5" font-size="2.9">11.60</text>
+<text x="194" y="141.5" font-size="2.9">11.00</text>
+<text x="218" y="141.5" font-size="2.9">[0, 0, 0]</text>
+<rect x="10" y="142.9" width="277.0" height="5" fill="#f3efe9"/>
+<text x="12" y="146.5" font-size="2.9">TV_leg_9_2.5</text>
+<text x="52" y="146.5" font-size="2.9">TV_Console_Leg.stl</text>
+<text x="150" y="146.5" font-size="2.9">12.00</text>
+<text x="172" y="146.5" font-size="2.9">4.90</text>
+<text x="194" y="146.5" font-size="2.9">11.00</text>
+<text x="218" y="146.5" font-size="2.9">[0, 0, 0]</text>
+<text x="12" y="151.5" font-size="2.9">TV_leg_9_7.5</text>
+<text x="52" y="151.5" font-size="2.9">TV_Console_Leg.stl</text>
+<text x="150" y="151.5" font-size="2.9">12.00</text>
+<text x="172" y="151.5" font-size="2.9">9.90</text>
+<text x="194" y="151.5" font-size="2.9">11.00</text>
+<text x="218" y="151.5" font-size="2.9">[0, 0, 0]</text>
+<rect x="10" y="152.9" width="277.0" height="5" fill="#f3efe9"/>
+<text x="12" y="156.5" font-size="2.9">TV_leg_93_2.5</text>
+<text x="52" y="156.5" font-size="2.9">TV_Console_Leg.stl</text>
+<text x="150" y="156.5" font-size="2.9">96.00</text>
+<text x="172" y="156.5" font-size="2.9">4.90</text>
+<text x="194" y="156.5" font-size="2.9">11.00</text>
+<text x="218" y="156.5" font-size="2.9">[0, 0, -180]</text>
+<text x="12" y="161.5" font-size="2.9">TV_leg_93_7.5</text>
+<text x="52" y="161.5" font-size="2.9">TV_Console_Leg.stl</text>
+<text x="150" y="161.5" font-size="2.9">96.00</text>
+<text x="172" y="161.5" font-size="2.9">9.90</text>
+<text x="194" y="161.5" font-size="2.9">11.00</text>
+<text x="218" y="161.5" font-size="2.9">[0, 0, -180]</text>
+<rect x="10" y="162.9" width="277.0" height="5" fill="#f3efe9"/>
+<text x="12" y="166.5" font-size="2.9">GR_base</text>
+<text x="52" y="166.5" font-size="2.9">Gramophone_Base.stl</text>
+<text x="150" y="166.5" font-size="2.9">10.00</text>
+<text x="172" y="166.5" font-size="2.9">3.00</text>
+<text x="194" y="166.5" font-size="2.9">35.00</text>
+<text x="218" y="166.5" font-size="2.9">[0, 0, 0]</text>
+<text x="12" y="171.5" font-size="2.9">GR_horn</text>
+<text x="52" y="171.5" font-size="2.9">Gramophone_Horn.stl</text>
+<text x="150" y="171.5" font-size="2.9">18.50</text>
+<text x="172" y="171.5" font-size="2.9">7.00</text>
+<text x="194" y="171.5" font-size="2.9">48.50</text>
+<text x="218" y="171.5" font-size="2.9">[15, -35, 0]</text>
+<rect x="10" y="172.9" width="277.0" height="5" fill="#f3efe9"/>
+<text x="12" y="176.5" font-size="2.9">PD2_pot</text>
+<text x="52" y="176.5" font-size="2.9">Plant_Pot_04.stl</text>
+<text x="150" y="176.5" font-size="2.9">44.00</text>
+<text x="172" y="176.5" font-size="2.9">4.00</text>
+<text x="194" y="176.5" font-size="2.9">35.00</text>
+<text x="218" y="176.5" font-size="2.9">[0, 0, 0]</text>
+<text x="12" y="181.5" font-size="2.9">PD2_leaves</text>
+<text x="52" y="181.5" font-size="2.9">Plant_Leaves_04.stl</text>
+<text x="150" y="181.5" font-size="2.9">51.00</text>
+<text x="172" y="181.5" font-size="2.9">7.00</text>
+<text x="194" y="181.5" font-size="2.9">45.00</text>
+<text x="218" y="181.5" font-size="2.9">[0, 0, 0]</text>
+<rect x="10" y="182.9" width="277.0" height="5" fill="#f3efe9"/>
+<text x="12" y="186.5" font-size="2.9">BK_1</text>
+<text x="52" y="186.5" font-size="2.9">Book_01.stl</text>
+<text x="150" y="186.5" font-size="2.9">74.00</text>
+<text x="172" y="186.5" font-size="2.9">3.50</text>
+<text x="194" y="186.5" font-size="2.9">35.00</text>
+<text x="218" y="186.5" font-size="2.9">[0, 0, 0]</text>
+</svg>

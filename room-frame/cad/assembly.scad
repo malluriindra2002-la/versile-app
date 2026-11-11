@@ -96,35 +96,35 @@ color("#4f8f35") translate([206.0, -12.3, 31]) rotate([0, 0, 0]) mirror([0,1,0])
 // PA2_leavesB: Plant_Leaves_01B
 color("#4f8f35") translate([206.0, -8.7, 31]) rotate([0, 0, 0]) mirror([0,1,0]) plant_leaves_01b();
 // SU: Right_Display_Shelf
-color("#f4e8d8") translate([223.0, -2.4, 2]) rotate([0, 0, 0]) mirror([0,1,0]) display_shelf(rows=[[7, 75, [51]], [3, 69, [27]], [7, 75, [23.5, 52]], [0, 73, [25]], [3, 73, [48]]]);
+color("#f2dcc1") translate([223.0, -2.4, 2]) rotate([0, 0, 0]) mirror([0,1,0]) display_shelf(rows=[[7, 75, [51]], [3, 69, [27]], [7, 75, [23.5, 52]], [0, 73, [25]], [3, 73, [48]]], b=3.2);
 // F7: Photo_Frame_Small_L
-color("#cfa53a") translate([235.0, -2.6, 134.5]) rotate([0, 0, 0]) mirror([0,1,0]) photo_frame_small_l();
+color("#cfa53a") translate([235.0, -2.6, 135.2]) rotate([0, 0, 0]) mirror([0,1,0]) photo_frame_small_l();
 // GO: Gold_Ornament
-color("#cfa53a") translate([275.0, -5.2, 134.5]) rotate([0, 0, 0]) mirror([0,1,0]) gold_ornament();
+color("#cfa53a") translate([275.0, -5.2, 135.2]) rotate([0, 0, 0]) mirror([0,1,0]) gold_ornament();
 // GO_leaves: Gold_Ornament_Leaves
-color("#4f8f35") translate([283.5, -4.2, 142.9]) rotate([0, 0, 0]) mirror([0,1,0]) gold_ornament_leaves();
+color("#4f8f35") translate([283.5, -4.2, 143.6]) rotate([0, 0, 0]) mirror([0,1,0]) gold_ornament_leaves();
 // CUP: Takeaway_Cup
-color("#f7f6f2") translate([231.0, -4.0, 102.0]) rotate([0, 0, 0]) mirror([0,1,0]) takeaway_cup();
+color("#f7f6f2") translate([231.0, -4.0, 102.7]) rotate([0, 0, 0]) mirror([0,1,0]) takeaway_cup();
 // F8: Photo_Frame_Small_L
-color("#cfa53a") translate([258.5, -2.6, 102.0]) rotate([0, 0, 0]) mirror([0,1,0]) photo_frame_small_l();
+color("#cfa53a") translate([258.5, -2.6, 102.7]) rotate([0, 0, 0]) mirror([0,1,0]) photo_frame_small_l();
 // DV: Donut_Vase
-color("#f7f6f2") translate([232.25, -5.0, 69.5]) rotate([0, 0, 0]) mirror([0,1,0]) donut_vase();
+color("#f7f6f2") translate([232.25, -5.0, 70.2]) rotate([0, 0, 0]) mirror([0,1,0]) donut_vase();
 // DV_pampas: Pampas_Spray
-color("#eadfc8") translate([238.25, -5.5, 83.1]) rotate([0, 0, 0]) mirror([0,1,0]) pampas_spray();
+color("#eadfc8") translate([238.25, -5.5, 83.8]) rotate([0, 0, 0]) mirror([0,1,0]) pampas_spray();
 // PQ: Photo_Frame_Small_P
-color("#cfa53a") translate([248.75, -2.6, 69.5]) rotate([0, 0, 0]) mirror([0,1,0]) photo_frame_small_p();
+color("#cfa53a") translate([248.75, -2.6, 70.2]) rotate([0, 0, 0]) mirror([0,1,0]) photo_frame_small_p();
 // PD_pot: Plant_Pot_04
-color("#f7f6f2") translate([279.5, -4.0, 69.5]) rotate([0, 0, 0]) mirror([0,1,0]) plant_pot_04();
+color("#f7f6f2") translate([279.5, -4.0, 70.2]) rotate([0, 0, 0]) mirror([0,1,0]) plant_pot_04();
 // PD_leaves: Plant_Leaves_04
-color("#4f8f35") translate([286.5, -7.0, 79.5]) rotate([0, 0, 0]) mirror([0,1,0]) plant_leaves_04();
+color("#4f8f35") translate([286.5, -7.0, 80.2]) rotate([0, 0, 0]) mirror([0,1,0]) plant_leaves_04();
 // BN: Bunny
-color("#f7f6f2") translate([231.5, -4.0, 37.0]) rotate([0, 0, 0]) mirror([0,1,0]) bunny();
+color("#f7f6f2") translate([231.5, -4.0, 37.7]) rotate([0, 0, 0]) mirror([0,1,0]) bunny();
 // F9: Photo_Frame_Small_L
-color("#cfa53a") translate([257.5, -2.6, 37.0]) rotate([0, 0, 0]) mirror([0,1,0]) photo_frame_small_l();
+color("#cfa53a") translate([257.5, -2.6, 37.7]) rotate([0, 0, 0]) mirror([0,1,0]) photo_frame_small_l();
 // BK2_1: Book_01
-color("#f7f6f2") translate([240.0, -3.5, 4.5]) rotate([0, 0, 0]) mirror([0,1,0]) book_01();
+color("#f7f6f2") translate([240.0, -3.5, 5.2]) rotate([0, 0, 0]) mirror([0,1,0]) book_01();
 // BK2_2: Book_02
-color("#232428") translate([240.75, -3.7, 10.0]) rotate([0, 0, 0]) mirror([0,1,0]) book_02();
+color("#232428") translate([240.75, -3.7, 10.7]) rotate([0, 0, 0]) mirror([0,1,0]) book_02();
 // EL: Gold_Elephant
-color("#cfa53a") translate([278.0, -4.0, 4.5]) rotate([0, 0, 0]) mirror([0,1,0]) gold_elephant();
+color("#cfa53a") translate([278.0, -4.0, 5.2]) rotate([0, 0, 0]) mirror([0,1,0]) gold_elephant();
 %translate([-12,-28,-12]) difference(){cube([324,31,224]); translate([12,-1,12]) cube([300,29,200]);}

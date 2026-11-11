@@ -6,7 +6,7 @@
 <text x="196.0" y="430.0" font-size="11" fill="#4aa3df">GLASS (y=25)</text>
 <rect x="180.4" y="110.0" width="9.600000000000001" height="640.0" fill="#4aa3df" opacity="0.08"/>
 <text x="182.4" y="558.0" font-size="9" fill="#4aa3df" transform="rotate(-90 190.4 558.0)">3 mm keep-out</text>
-<rect x="117.68" y="219.60000000000002" width="38.400000000000006" height="524.0" fill="#f3e6d3" fill-opacity="0.55" stroke="#333" stroke-width="0.7"/>
+<rect x="117.68" y="218.48000000000002" width="38.400000000000006" height="525.12" fill="#f3e6d3" fill-opacity="0.55" stroke="#333" stroke-width="0.7"/>
 <rect x="122.8" y="570.8" width="51.2" height="172.8" fill="#5f9a3c" fill-opacity="0.55" stroke="#333" stroke-width="0.7"/>
 <rect x="122.8" y="570.8" width="51.2" height="172.8" fill="#5f9a3c" fill-opacity="0.55" stroke="#333" stroke-width="0.7"/>
 <rect x="110.0" y="180.4" width="9.600000000000001" height="563.2" fill="#f1eeec" fill-opacity="0.55" stroke="#333" stroke-width="0.7"/>
@@ -15,30 +15,30 @@
 <rect x="126.0" y="660.4" width="44.800000000000004" height="83.2" fill="#f3e6d3" fill-opacity="0.55" stroke="#333" stroke-width="0.7"/>
 <rect x="117.68" y="638.0" width="32.0" height="105.60000000000001" fill="#26272b" fill-opacity="0.55" stroke="#333" stroke-width="0.7"/>
 <rect x="119.6" y="551.6" width="25.6" height="86.4" fill="#c9a227" fill-opacity="0.55" stroke="#333" stroke-width="0.7"/>
-<rect x="122.8" y="357.20000000000005" width="28.8" height="70.4" fill="#fbfaf7" fill-opacity="0.55" stroke="#333" stroke-width="0.7"/>
-<rect x="122.8" y="558.8" width="25.6" height="76.80000000000001" fill="#fbfaf7" fill-opacity="0.55" stroke="#333" stroke-width="0.7"/>
+<rect x="122.8" y="356.08000000000004" width="28.8" height="70.4" fill="#fbfaf7" fill-opacity="0.55" stroke="#333" stroke-width="0.7"/>
+<rect x="122.8" y="557.6800000000001" width="25.6" height="76.80000000000001" fill="#fbfaf7" fill-opacity="0.55" stroke="#333" stroke-width="0.7"/>
 <rect x="119.6" y="247.6" width="22.400000000000002" height="86.4" fill="#5f9a3c" fill-opacity="0.55" stroke="#333" stroke-width="0.7"/>
 <rect x="119.6" y="359.6" width="22.400000000000002" height="83.2" fill="#5f9a3c" fill-opacity="0.55" stroke="#333" stroke-width="0.7"/>
-<rect x="122.8" y="256.4" width="25.6" height="67.2" fill="#c9a227" fill-opacity="0.55" stroke="#333" stroke-width="0.7"/>
-<rect x="122.8" y="685.2" width="25.6" height="54.400000000000006" fill="#c9a227" fill-opacity="0.55" stroke="#333" stroke-width="0.7"/>
-<rect x="126.0" y="448.40000000000003" width="16.0" height="83.2" fill="#fbfaf7" fill-opacity="0.55" stroke="#333" stroke-width="0.7"/>
+<rect x="122.8" y="255.28000000000003" width="25.6" height="67.2" fill="#c9a227" fill-opacity="0.55" stroke="#333" stroke-width="0.7"/>
+<rect x="122.8" y="684.08" width="25.6" height="54.400000000000006" fill="#c9a227" fill-opacity="0.55" stroke="#333" stroke-width="0.7"/>
+<rect x="126.0" y="447.28000000000003" width="16.0" height="83.2" fill="#fbfaf7" fill-opacity="0.55" stroke="#333" stroke-width="0.7"/>
 <rect x="121.2" y="585.2" width="24.0" height="52.800000000000004" fill="#fbfaf7" fill-opacity="0.55" stroke="#333" stroke-width="0.7"/>
 <rect x="122.8" y="583.6" width="22.400000000000002" height="54.400000000000006" fill="#5f9a3c" fill-opacity="0.55" stroke="#333" stroke-width="0.7"/>
-<rect x="122.8" y="477.20000000000005" width="22.400000000000002" height="54.400000000000006" fill="#5f9a3c" fill-opacity="0.55" stroke="#333" stroke-width="0.7"/>
+<rect x="122.8" y="476.08000000000004" width="22.400000000000002" height="54.400000000000006" fill="#5f9a3c" fill-opacity="0.55" stroke="#333" stroke-width="0.7"/>
 <rect x="117.68" y="193.2" width="8.000000000000002" height="124.80000000000001" fill="#c9a227" fill-opacity="0.55" stroke="#333" stroke-width="0.7"/>
 <rect x="117.68" y="382.0" width="8.000000000000002" height="124.80000000000001" fill="#c9a227" fill-opacity="0.55" stroke="#333" stroke-width="0.7"/>
-<rect x="121.2" y="704.4" width="24.0" height="35.2" fill="#fbfaf7" fill-opacity="0.55" stroke="#333" stroke-width="0.7"/>
+<rect x="121.2" y="703.2800000000001" width="24.0" height="35.2" fill="#fbfaf7" fill-opacity="0.55" stroke="#333" stroke-width="0.7"/>
 <rect x="119.6" y="164.4" width="12.8" height="57.6" fill="#fbfaf7" fill-opacity="0.55" stroke="#333" stroke-width="0.7"/>
 <rect x="138.8" y="615.6" width="16.0" height="44.800000000000004" fill="#c89a62" fill-opacity="0.55" stroke="#333" stroke-width="0.7"/>
 <rect x="119.6" y="135.6" width="8.0" height="86.4" fill="#c9a227" fill-opacity="0.55" stroke="#333" stroke-width="0.7"/>
 <rect x="119.6" y="247.6" width="8.0" height="86.4" fill="#c9a227" fill-opacity="0.55" stroke="#333" stroke-width="0.7"/>
 <rect x="119.6" y="356.4" width="8.0" height="86.4" fill="#c9a227" fill-opacity="0.55" stroke="#333" stroke-width="0.7"/>
-<rect x="119.6" y="445.20000000000005" width="8.0" height="86.4" fill="#c9a227" fill-opacity="0.55" stroke="#333" stroke-width="0.7"/>
+<rect x="119.6" y="444.08000000000004" width="8.0" height="86.4" fill="#c9a227" fill-opacity="0.55" stroke="#333" stroke-width="0.7"/>
 <rect x="137.2" y="630.0" width="24.0" height="25.6" fill="#fbfaf7" fill-opacity="0.55" stroke="#333" stroke-width="0.7"/>
 <rect x="137.2" y="630.0" width="24.0" height="25.6" fill="#fbfaf7" fill-opacity="0.55" stroke="#333" stroke-width="0.7"/>
-<rect x="119.6" y="246.8" width="8.0" height="76.80000000000001" fill="#c9a227" fill-opacity="0.55" stroke="#333" stroke-width="0.7"/>
-<rect x="119.6" y="350.8" width="8.0" height="76.80000000000001" fill="#c9a227" fill-opacity="0.55" stroke="#333" stroke-width="0.7"/>
-<rect x="119.6" y="558.8" width="8.0" height="76.80000000000001" fill="#c9a227" fill-opacity="0.55" stroke="#333" stroke-width="0.7"/>
+<rect x="119.6" y="245.68000000000004" width="8.0" height="76.80000000000001" fill="#c9a227" fill-opacity="0.55" stroke="#333" stroke-width="0.7"/>
+<rect x="119.6" y="349.68000000000006" width="8.0" height="76.80000000000001" fill="#c9a227" fill-opacity="0.55" stroke="#333" stroke-width="0.7"/>
+<rect x="119.6" y="557.6800000000001" width="8.0" height="76.80000000000001" fill="#c9a227" fill-opacity="0.55" stroke="#333" stroke-width="0.7"/>
 <rect x="110.0" y="743.6" width="80.0" height="6.4" fill="#b9824c" fill-opacity="0.55" stroke="#333" stroke-width="0.7"/>
 <rect x="110.0" y="743.6" width="80.0" height="6.4" fill="#b9824c" fill-opacity="0.55" stroke="#333" stroke-width="0.7"/>
 <rect x="110.0" y="743.6" width="80.0" height="6.4" fill="#b9824c" fill-opacity="0.55" stroke="#333" stroke-width="0.7"/>

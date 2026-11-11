@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="297.0mm" height="210.0mm" viewBox="0 0 297.0 210.0" font-family="DejaVu Sans, Arial, sans-serif">
+<rect width="297.0" height="210.0" fill="#fff"/>
+<rect x="6" y="6" width="285.0" height="198.0" fill="none" stroke="#000" stroke-width="0.5"/>
+<text x="12" y="16" font-size="5" font-weight="bold">ASSEMBLY POSITIONS (3/3)</text>
+<text x="12" y="22" font-size="2.8" fill="#444">Position of each piece's reference corner, mm. X from the inner left wall, Y from the back wall toward the glass, Z from the inner floor. Rotation in degrees (CAD frame).</text>
+<text x="12" y="31" font-size="3" font-weight="bold">Piece</text>
+<text x="52" y="31" font-size="3" font-weight="bold">File (stl/)</text>
+<text x="150" y="31" font-size="3" font-weight="bold">X</text>
+<text x="172" y="31" font-size="3" font-weight="bold">Y</text>
+<text x="194" y="31" font-size="3" font-weight="bold">Z</text>
+<text x="218" y="31" font-size="3" font-weight="bold">Rotation</text>
+<rect x="10" y="32.9" width="277.0" height="5" fill="#f3efe9"/>
+<text x="12" y="36.5" font-size="2.9">EL</text>
+<text x="52" y="36.5" font-size="2.9">Gold_Elephant.stl</text>
+<text x="150" y="36.5" font-size="2.9">278.00</text>
+<text x="172" y="36.5" font-size="2.9">4.00</text>
+<text x="194" y="36.5" font-size="2.9">5.20</text>
+<text x="218" y="36.5" font-size="2.9">[0, 0, 0]</text>
+</svg>

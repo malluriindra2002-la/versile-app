@@ -1,0 +1,1021 @@
+<!doctype html><html><head><meta charset="utf-8"><title>Store Versile manufacturing guide</title><style>
+body { font-family: "DejaVu Sans", Arial, sans-serif; font-size: 9.5pt; color: #222; line-height: 1.4 }
+h1 { font-size: 17pt } h2 { font-size: 13pt; margin-top: 18pt; border-bottom: 1px solid #ccc } h3 { font-size: 11pt }
+table { border-collapse: collapse; width: 100%; margin: 6pt 0; font-size: 7.6pt }
+th, td { border: 1px solid #bbb; padding: 2pt 4pt; vertical-align: top; text-align: left }
+th { background: #efe7dc } tr:nth-child(even) td { background: #faf7f3 }
+code { font-size: 7.4pt }
+</style></head><body><h1>Store Versile miniature room frame: manufacturing guide (Rev C)</h1>
+<p>Box: 300 × 200 × 25 mm inside · Printer: Bambu Lab A1 Mini (single colour, 0.4 mm nozzle) · PLA · Scale about 1:12</p>
+<h2>1. Status and what was checked</h2>
+<table>
+<thead>
+<tr>
+<th>Check</th>
+<th>Result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>STL files</td>
+<td>45 files (44 parts + optional LED channel), 63 printed pieces per frame</td>
+</tr>
+<tr>
+<td>Watertight, one closed body, no non-manifold edges (trimesh)</td>
+<td><strong>All pass</strong></td>
+</tr>
+<tr>
+<td>Fits A1 Mini 180 × 180 × 180 in print orientation</td>
+<td><strong>All pass</strong> (largest: arch 78 × 176, wall panel 104 × 168, shelf unit 78 × 166)</td>
+</tr>
+<tr>
+<td>Parts overlapping in the assembly (<code>cad/check_interference.py</code>)</td>
+<td><strong>None</strong></td>
+</tr>
+<tr>
+<td>Sliced with PrusaSlicer 2.7 (Bambu Studio is built on it) with an A1-Mini-like profile, <strong>no supports</strong></td>
+<td><strong>All slice</strong></td>
+</tr>
+<tr>
+<td>Overhangs steeper than 45°</td>
+<td>Only small rounded edges (largest 35 mm² on the coffee-table chamfer). Flat ceilings are short bridges of 0.3–4 mm (frame photo slot, panel key notches, book covers)</td>
+</tr>
+<tr>
+<td><strong>Bambu Studio slicing and a physical test print</strong></td>
+<td><strong>Still to do on your side.</strong> Nothing here is called production-ready until the test prints in section 8 fit</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Per frame:</strong> 63 pieces, about <strong>212 g</strong> of PLA, about <strong>8 h 25 min</strong> of printing if every part is printed alone. Batching many parts on one plate per colour is faster. These estimates come from PrusaSlicer; Bambu Studio's numbers will be close but not identical (expect ±30 %).</p>
+<h2>2. Bill of materials</h2>
+<p><strong>Printed:</strong> see the print list (section 3). <strong>Bought per frame:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Item</th>
+<th>Qty</th>
+<th>Note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Shadow-box frame, inside 300 × 200 × 25 mm, white back</td>
+<td>1</td>
+<td>Your existing frame</td>
+</tr>
+<tr>
+<td>Warm-white LED strip, 5 mm wide, about 300 mm, with battery box or USB</td>
+<td>1</td>
+<td>Under the top front edge (optional printed channel: <code>LED_Channel</code> × 2)</td>
+</tr>
+<tr>
+<td>PLA filament off-cuts, 1.75 mm</td>
+<td>6 × 6.4 mm</td>
+<td>Shelf pins</td>
+</tr>
+<tr>
+<td>Gel CA glue (super glue)</td>
+<td>—</td>
+<td>Plastic to plastic</td>
+</tr>
+<tr>
+<td>Glue stick or photo-safe double-sided tape</td>
+<td>—</td>
+<td>Paper prints</td>
+</tr>
+<tr>
+<td>Photo paper, max 0.3 mm thick</td>
+<td>1 A4</td>
+<td>Arch print, 8 photo inserts, quote</td>
+</tr>
+<tr>
+<td>Sticker paper (or paper + glue)</td>
+<td>1 A4</td>
+<td>Wood floor, book spines</td>
+</tr>
+<tr>
+<td>Pink acrylic paint, fine brush</td>
+<td>—</td>
+<td>Bunny inner ears (optional)</td>
+</tr>
+</tbody>
+</table>
+<h2>3. Print list</h2>
+<p>Settings that apply to every part: PLA, 0.4 mm nozzle, <strong>supports OFF</strong>, first layer 0.2 mm, nozzle 220 °C, bed 65 °C, gyroid infill (rectilinear at 100 %). Use Bambu Studio's <em>0.12mm Fine</em>, <em>0.16mm Optimal</em> or <em>0.20mm Standard</em> A1 Mini profile to match the layer column. Each STL already lies in its print orientation, so keep it as imported.</p>
+<table>
+<thead>
+<tr>
+<th>STL file</th>
+<th>Qty</th>
+<th>Colour</th>
+<th>Size W×D×H mm (as printed)</th>
+<th>Orientation</th>
+<th>Layer</th>
+<th>Infill</th>
+<th>Walls</th>
+<th>Brim</th>
+<th>g each</th>
+<th>Time each</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Floor_Tile_L.stl</code></td>
+<td>1</td>
+<td>Any colour</td>
+<td>110 × 25 × 2</td>
+<td>As installed (bottom down)</td>
+<td>0.2</td>
+<td>15%</td>
+<td>2</td>
+<td>–</td>
+<td>6.11</td>
+<td>8m 55s</td>
+<td>Wood sticker on top after printing.</td>
+</tr>
+<tr>
+<td><code>Floor_Tile_C.stl</code></td>
+<td>1</td>
+<td>Any colour</td>
+<td>112 × 25 × 2</td>
+<td>As installed (bottom down)</td>
+<td>0.2</td>
+<td>15%</td>
+<td>2</td>
+<td>–</td>
+<td>6.65</td>
+<td>9m 40s</td>
+<td>Wood sticker on top after printing.</td>
+</tr>
+<tr>
+<td><code>Floor_Tile_R.stl</code></td>
+<td>1</td>
+<td>Any colour</td>
+<td>86 × 25 × 2</td>
+<td>As installed (bottom down)</td>
+<td>0.2</td>
+<td>15%</td>
+<td>2</td>
+<td>–</td>
+<td>4.75</td>
+<td>7m 5s</td>
+<td>Wood sticker on top after printing.</td>
+</tr>
+<tr>
+<td><code>Left_Wall_Panel_Lower.stl</code></td>
+<td>1</td>
+<td>Peach-beige</td>
+<td>104 × 31.99 × 2.4</td>
+<td>On its back, front up</td>
+<td>0.16</td>
+<td>15%</td>
+<td>2</td>
+<td>–</td>
+<td>6.82</td>
+<td>13m 19s</td>
+<td>Flutes up. Seam is hidden behind the TV console.</td>
+</tr>
+<tr>
+<td><code>Left_Wall_Panel_Upper.stl</code></td>
+<td>1</td>
+<td>Peach-beige</td>
+<td>104 × 168 × 2.4</td>
+<td>On its back, front up</td>
+<td>0.16</td>
+<td>15%</td>
+<td>2</td>
+<td>–</td>
+<td>38.93</td>
+<td>1h 0m 33s</td>
+<td>Flutes up. 6 shelf-pin holes.</td>
+</tr>
+<tr>
+<td><code>Right_Wall_Panel_Lower.stl</code></td>
+<td>1</td>
+<td>Peach-beige</td>
+<td>78 × 31.99 × 2.4</td>
+<td>On its back, front up</td>
+<td>0.16</td>
+<td>15%</td>
+<td>2</td>
+<td>–</td>
+<td>5.12</td>
+<td>10m 8s</td>
+<td>Flutes up. Seam is hidden behind the shelving.</td>
+</tr>
+<tr>
+<td><code>Right_Wall_Panel_Upper.stl</code></td>
+<td>1</td>
+<td>Peach-beige</td>
+<td>78 × 168 × 2.4</td>
+<td>On its back, front up</td>
+<td>0.16</td>
+<td>15%</td>
+<td>2</td>
+<td>–</td>
+<td>29.20</td>
+<td>43m 9s</td>
+<td>Flutes up.</td>
+</tr>
+<tr>
+<td><code>Floating_Shelf.stl</code></td>
+<td>3</td>
+<td>Ivory white</td>
+<td>55 × 8 × 3</td>
+<td>As installed (bottom down)</td>
+<td>0.16</td>
+<td>100%</td>
+<td>3</td>
+<td>–</td>
+<td>1.60</td>
+<td>3m 22s</td>
+<td>Print 3. Two pin holes in the back edge.</td>
+</tr>
+<tr>
+<td><code>LOVE_Letters.stl</code></td>
+<td>1</td>
+<td>White</td>
+<td>22.47 × 17.83 × 4</td>
+<td>On its back, front up</td>
+<td>0.12</td>
+<td>100%</td>
+<td>2</td>
+<td>–</td>
+<td>1.21</td>
+<td>5m 39s</td>
+<td>Letters face up.</td>
+</tr>
+<tr>
+<td><code>Photo_Frame_Small_P.stl</code></td>
+<td>4</td>
+<td>Gold silk</td>
+<td>24 × 27 × 2.5</td>
+<td>On its back, front up</td>
+<td>0.12</td>
+<td>100%</td>
+<td>2</td>
+<td>–</td>
+<td>0.99</td>
+<td>2m 45s</td>
+<td>Gold face up (ironing on). Photo slot opens at the top.</td>
+</tr>
+<tr>
+<td><code>Photo_Frame_Small_L.stl</code></td>
+<td>3</td>
+<td>Gold silk</td>
+<td>27 × 24 × 2.5</td>
+<td>On its back, front up</td>
+<td>0.12</td>
+<td>100%</td>
+<td>2</td>
+<td>–</td>
+<td>0.99</td>
+<td>2m 45s</td>
+<td>Gold face up (ironing on). Photo slot opens at the top.</td>
+</tr>
+<tr>
+<td><code>Photo_Frame_Large_P.stl</code></td>
+<td>2</td>
+<td>Gold silk</td>
+<td>30 × 39 × 2.5</td>
+<td>On its back, front up</td>
+<td>0.12</td>
+<td>100%</td>
+<td>2</td>
+<td>–</td>
+<td>1.73</td>
+<td>4m 1s</td>
+<td>Gold face up (ironing on). Photo slot opens at the top.</td>
+</tr>
+<tr>
+<td><code>TV_Console_Body.stl</code></td>
+<td>1</td>
+<td>Black</td>
+<td>102 × 24 × 10</td>
+<td>On its back, front up</td>
+<td>0.16</td>
+<td>15%</td>
+<td>3</td>
+<td>–</td>
+<td>12.27</td>
+<td>25m 14s</td>
+<td>Lying on its back: bays and drawer recess face up.</td>
+</tr>
+<tr>
+<td><code>TV_Console_Drawer_Fronts.stl</code></td>
+<td>1</td>
+<td>White</td>
+<td>96.7 × 9.2 × 0.8</td>
+<td>On its back, front up</td>
+<td>0.12</td>
+<td>100%</td>
+<td>2</td>
+<td>–</td>
+<td>0.89</td>
+<td>2m 37s</td>
+<td>0.8 mm plate, grooves up. Glue into the body recess.</td>
+</tr>
+<tr>
+<td><code>TV_Console_Leg.stl</code></td>
+<td>4</td>
+<td>White</td>
+<td>3.76 × 2.2 × 11.6</td>
+<td>As installed (bottom down)</td>
+<td>0.12</td>
+<td>100%</td>
+<td>2</td>
+<td>3</td>
+<td>0.05</td>
+<td>51s</td>
+<td>Print 4 together with a 3 mm brim, slow small-layer cooling on.</td>
+</tr>
+<tr>
+<td><code>Gramophone_Base.stl</code></td>
+<td>1</td>
+<td>Dark brown</td>
+<td>14.98 × 8.1 × 13.48</td>
+<td>As installed (bottom down)</td>
+<td>0.12</td>
+<td>20%</td>
+<td>2</td>
+<td>–</td>
+<td>1.19</td>
+<td>8m 58s</td>
+<td>Angled hole for the horn on top.</td>
+</tr>
+<tr>
+<td><code>Gramophone_Horn.stl</code></td>
+<td>1</td>
+<td>Gold silk</td>
+<td>11 × 7.92 × 14</td>
+<td>Upside down</td>
+<td>0.12</td>
+<td>100%</td>
+<td>2</td>
+<td>–</td>
+<td>0.09</td>
+<td>2m 6s</td>
+<td>Bell mouth down on the bed, peg up.</td>
+</tr>
+<tr>
+<td><code>Book_01.stl</code></td>
+<td>2</td>
+<td>White</td>
+<td>24 × 8 × 5.5</td>
+<td>As installed (bottom down)</td>
+<td>0.12</td>
+<td>20%</td>
+<td>2</td>
+<td>–</td>
+<td>0.74</td>
+<td>3m 47s</td>
+<td>Spine label = printed paper.</td>
+</tr>
+<tr>
+<td><code>Book_02.stl</code></td>
+<td>2</td>
+<td>Black</td>
+<td>22.5 × 7.5 × 5.5</td>
+<td>As installed (bottom down)</td>
+<td>0.12</td>
+<td>20%</td>
+<td>2</td>
+<td>–</td>
+<td>0.66</td>
+<td>3m 40s</td>
+<td>Spine label = printed paper.</td>
+</tr>
+<tr>
+<td><code>Book_03.stl</code></td>
+<td>1</td>
+<td>White</td>
+<td>23.5 × 8 × 5.5</td>
+<td>As installed (bottom down)</td>
+<td>0.12</td>
+<td>20%</td>
+<td>2</td>
+<td>–</td>
+<td>0.72</td>
+<td>3m 46s</td>
+<td>Spine label = printed paper.</td>
+</tr>
+<tr>
+<td><code>Plant_Pot_01.stl</code></td>
+<td>2</td>
+<td>White</td>
+<td>14.9 × 9.93 × 29</td>
+<td>As installed (bottom down)</td>
+<td>0.12</td>
+<td>15%</td>
+<td>3</td>
+<td>–</td>
+<td>3.46</td>
+<td>22m 21s</td>
+<td>Print 2. Two parallel leaf slots.</td>
+</tr>
+<tr>
+<td><code>Plant_Leaves_01A.stl</code></td>
+<td>2</td>
+<td>Leaf green</td>
+<td>33.44 × 29.32 × 1</td>
+<td>On its back, front up</td>
+<td>0.12</td>
+<td>100%</td>
+<td>2</td>
+<td>–</td>
+<td>0.42</td>
+<td>5m 43s</td>
+<td>Print 2. Flat, 1.0 mm. Front palm fan.</td>
+</tr>
+<tr>
+<td><code>Plant_Leaves_01B.stl</code></td>
+<td>2</td>
+<td>Leaf green</td>
+<td>33.54 × 30.26 × 1</td>
+<td>On its back, front up</td>
+<td>0.12</td>
+<td>100%</td>
+<td>2</td>
+<td>–</td>
+<td>0.34</td>
+<td>4m 42s</td>
+<td>Print 2. Flat, 1.0 mm. Rear palm fan.</td>
+</tr>
+<tr>
+<td><code>Plant_Pot_02.stl</code></td>
+<td>1</td>
+<td>White</td>
+<td>24 × 7 × 12</td>
+<td>As installed (bottom down)</td>
+<td>0.12</td>
+<td>15%</td>
+<td>3</td>
+<td>–</td>
+<td>1.92</td>
+<td>9m 3s</td>
+<td></td>
+</tr>
+<tr>
+<td><code>Plant_Leaves_02.stl</code></td>
+<td>1</td>
+<td>Leaf green</td>
+<td>28.44 × 20.97 × 1</td>
+<td>On its back, front up</td>
+<td>0.12</td>
+<td>100%</td>
+<td>2</td>
+<td>–</td>
+<td>0.31</td>
+<td>1m 19s</td>
+<td>Flat, 1.0 mm.</td>
+</tr>
+<tr>
+<td><code>Plant_Pot_03.stl</code></td>
+<td>1</td>
+<td>White</td>
+<td>15 × 7 × 12</td>
+<td>As installed (bottom down)</td>
+<td>0.12</td>
+<td>15%</td>
+<td>3</td>
+<td>–</td>
+<td>1.09</td>
+<td>8m 59s</td>
+<td>Diamond-knurl texture.</td>
+</tr>
+<tr>
+<td><code>Plant_Leaves_03.stl</code></td>
+<td>1</td>
+<td>Light green</td>
+<td>17.89 × 18.85 × 1.2</td>
+<td>On its back, front up</td>
+<td>0.12</td>
+<td>100%</td>
+<td>2</td>
+<td>–</td>
+<td>0.17</td>
+<td>1m 2s</td>
+<td>Flat, 1.2 mm.</td>
+</tr>
+<tr>
+<td><code>Plant_Pot_04.stl</code></td>
+<td>2</td>
+<td>White</td>
+<td>14 × 7 × 10</td>
+<td>As installed (bottom down)</td>
+<td>0.12</td>
+<td>15%</td>
+<td>3</td>
+<td>–</td>
+<td>0.86</td>
+<td>7m 7s</td>
+<td>Print 2 (shelf unit + TV console).</td>
+</tr>
+<tr>
+<td><code>Plant_Leaves_04.stl</code></td>
+<td>2</td>
+<td>Leaf green</td>
+<td>13.06 × 13 × 1</td>
+<td>On its back, front up</td>
+<td>0.12</td>
+<td>100%</td>
+<td>2</td>
+<td>–</td>
+<td>0.10</td>
+<td>58s</td>
+<td>Print 2. Flat, 1.0 mm.</td>
+</tr>
+<tr>
+<td><code>Central_Arch.stl</code></td>
+<td>1</td>
+<td>White</td>
+<td>78 × 176 × 3</td>
+<td>On its back, front up</td>
+<td>0.16</td>
+<td>15%</td>
+<td>2</td>
+<td>–</td>
+<td>17.93</td>
+<td>26m 48s</td>
+<td>Border up. 176 mm long: place diagonally if your plate edge is tight; no brim needed.</td>
+</tr>
+<tr>
+<td><code>Name_Plate.stl</code></td>
+<td>1</td>
+<td>White</td>
+<td>20 × 8 × 1.6</td>
+<td>On its back, front up</td>
+<td>0.12</td>
+<td>100%</td>
+<td>2</td>
+<td>–</td>
+<td>0.22</td>
+<td>1m 12s</td>
+<td>FILAMENT CHANGE at 1.0 mm: white base, then dark text. Edit the NAME line in this file per order.</td>
+</tr>
+<tr>
+<td><code>Coffee_Table.stl</code></td>
+<td>1</td>
+<td>White</td>
+<td>60 × 14 × 26</td>
+<td>Upside down</td>
+<td>0.12</td>
+<td>20%</td>
+<td>2</td>
+<td>–</td>
+<td>2.73</td>
+<td>19m 16s</td>
+<td>Upside down. FILAMENT CHANGE at 2.6 mm: white top first, then wood legs.</td>
+</tr>
+<tr>
+<td><code>Serving_Tray.stl</code></td>
+<td>1</td>
+<td>Light wood</td>
+<td>38 × 10 × 1.5</td>
+<td>As installed (bottom down)</td>
+<td>0.12</td>
+<td>100%</td>
+<td>2</td>
+<td>–</td>
+<td>0.69</td>
+<td>2m 19s</td>
+<td>Ripple grooves up.</td>
+</tr>
+<tr>
+<td><code>Mug.stl</code></td>
+<td>2</td>
+<td>White</td>
+<td>9.8 × 7.5 × 8</td>
+<td>As installed (bottom down)</td>
+<td>0.12</td>
+<td>100%</td>
+<td>2</td>
+<td>–</td>
+<td>0.20</td>
+<td>2m 56s</td>
+<td>Print 2 (one is turned so the handles face outward).</td>
+</tr>
+<tr>
+<td><code>Arch_Vase.stl</code></td>
+<td>1</td>
+<td>Beige</td>
+<td>15 × 14 × 5</td>
+<td>On its back, front up</td>
+<td>0.12</td>
+<td>20%</td>
+<td>2</td>
+<td>–</td>
+<td>0.71</td>
+<td>3m 36s</td>
+<td>Arch grooves up.</td>
+</tr>
+<tr>
+<td><code>Silver_Heart_Plant.stl</code></td>
+<td>1</td>
+<td>Silver silk</td>
+<td>12.68 × 11.73 × 2.11</td>
+<td>On its back, front up</td>
+<td>0.12</td>
+<td>100%</td>
+<td>2</td>
+<td>–</td>
+<td>0.17</td>
+<td>1m 27s</td>
+<td>Bumps up. Push the stem into the arch vase.</td>
+</tr>
+<tr>
+<td><code>Right_Display_Shelf.stl</code></td>
+<td>1</td>
+<td>Cream</td>
+<td>78.2 × 165.7 × 12</td>
+<td>On its back, front up</td>
+<td>0.2</td>
+<td>15%</td>
+<td>3</td>
+<td>–</td>
+<td>39.93</td>
+<td>55m 26s</td>
+<td>Lying on its back: every board is a vertical wall, no supports, no bridges.</td>
+</tr>
+<tr>
+<td><code>Gold_Ornament.stl</code></td>
+<td>1</td>
+<td>Gold silk</td>
+<td>9.97 × 13.68 × 4.98</td>
+<td>On its back, front up</td>
+<td>0.12</td>
+<td>20%</td>
+<td>2</td>
+<td>–</td>
+<td>0.41</td>
+<td>3m 11s</td>
+<td>Flat back down.</td>
+</tr>
+<tr>
+<td><code>Gold_Ornament_Leaves.stl</code></td>
+<td>1</td>
+<td>Leaf green</td>
+<td>14.01 × 11.2 × 1</td>
+<td>On its back, front up</td>
+<td>0.12</td>
+<td>100%</td>
+<td>2</td>
+<td>–</td>
+<td>0.07</td>
+<td>39s</td>
+<td>Glue the tab to the back of the gold pot.</td>
+</tr>
+<tr>
+<td><code>Takeaway_Cup.stl</code></td>
+<td>1</td>
+<td>White</td>
+<td>9.3 × 9.3 × 22</td>
+<td>As installed (bottom down)</td>
+<td>0.12</td>
+<td>20%</td>
+<td>2</td>
+<td>–</td>
+<td>1.43</td>
+<td>13m 30s</td>
+<td>Plain cup, no logo. Optional own-brand sticker on the sleeve.</td>
+</tr>
+<tr>
+<td><code>Donut_Vase.stl</code></td>
+<td>1</td>
+<td>White</td>
+<td>12 × 13.6 × 3</td>
+<td>On its back, front up</td>
+<td>0.12</td>
+<td>20%</td>
+<td>2</td>
+<td>–</td>
+<td>0.34</td>
+<td>2m 17s</td>
+<td>Flat back down.</td>
+</tr>
+<tr>
+<td><code>Pampas_Spray.stl</code></td>
+<td>1</td>
+<td>Bone / ivory white</td>
+<td>11.03 × 13.74 × 1</td>
+<td>On its back, front up</td>
+<td>0.12</td>
+<td>100%</td>
+<td>2</td>
+<td>–</td>
+<td>0.07</td>
+<td>54s</td>
+<td>Flat, 1.0 mm. Peg goes into the donut vase neck.</td>
+</tr>
+<tr>
+<td><code>Bunny.stl</code></td>
+<td>1</td>
+<td>White</td>
+<td>13.15 × 24.68 × 6.18</td>
+<td>On its back, front up</td>
+<td>0.12</td>
+<td>20%</td>
+<td>2</td>
+<td>–</td>
+<td>0.71</td>
+<td>4m 39s</td>
+<td>Flat back down. Paint inner ears pink.</td>
+</tr>
+<tr>
+<td><code>Gold_Elephant.stl</code></td>
+<td>1</td>
+<td>Gold silk</td>
+<td>16.65 × 14.82 × 5.2</td>
+<td>On its back, front up</td>
+<td>0.12</td>
+<td>20%</td>
+<td>2</td>
+<td>–</td>
+<td>0.70</td>
+<td>4m 42s</td>
+<td>Flat back down.</td>
+</tr>
+<tr>
+<td><code>LED_Channel.stl</code></td>
+<td>2</td>
+<td>White</td>
+<td>148 × 5 × 6</td>
+<td>Upside down</td>
+<td>0.2</td>
+<td>15%</td>
+<td>2</td>
+<td>–</td>
+<td>1.82</td>
+<td>3m 40s</td>
+<td>Optional, print 2. Hides the LED strip under the top front edge.</td>
+</tr>
+</tbody>
+</table>
+<h2>4. Plates by colour (batch printing)</h2>
+<p>Group parts by colour and fill each 180 × 180 plate. Small figurines print much better several at a time (each layer gets time to cool). Totals per frame:</p>
+<table>
+<thead>
+<tr>
+<th>Colour</th>
+<th>Pieces</th>
+<th>Filament</th>
+<th>Time (parts printed alone)</th>
+<th>Parts</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Peach-beige (e.g. Bambu PLA Matte Desert Tan / Latte Brown, or PLA Sparkle for shimmer)</td>
+<td>4</td>
+<td>80.1 g</td>
+<td>2 h 07 min</td>
+<td>Left_Wall_Panel_Lower x1, Left_Wall_Panel_Upper x1, Right_Wall_Panel_Lower x1, Right_Wall_Panel_Upper x1</td>
+</tr>
+<tr>
+<td>Cream (e.g. PLA Matte Ivory White; or the panel colour)</td>
+<td>1</td>
+<td>39.9 g</td>
+<td>55 min</td>
+<td>Right_Display_Shelf x1</td>
+</tr>
+<tr>
+<td>White (e.g. PLA Basic Jade White / Matte Ivory White)</td>
+<td>23</td>
+<td>39.9 g</td>
+<td>2 h 54 min</td>
+<td>LOVE_Letters x1, TV_Console_Drawer_Fronts x1, TV_Console_Leg x4, Book_01 x2, Book_03 x1, Plant_Pot_01 x2, Plant_Pot_02 x1, Plant_Pot_03 x1, Plant_Pot_04 x2, Central_Arch x1, Name_Plate x1, Coffee_Table x1, Mug x2, Takeaway_Cup x1, Donut_Vase x1, Bunny x1</td>
+</tr>
+<tr>
+<td>Any colour (covered by the wood-grain sticker)</td>
+<td>3</td>
+<td>17.5 g</td>
+<td>26 min</td>
+<td>Floor_Tile_L x1, Floor_Tile_C x1, Floor_Tile_R x1</td>
+</tr>
+<tr>
+<td>Black (PLA Basic / Matte Charcoal)</td>
+<td>3</td>
+<td>13.6 g</td>
+<td>33 min</td>
+<td>TV_Console_Body x1, Book_02 x2</td>
+</tr>
+<tr>
+<td>Gold silk (e.g. PLA Silk+ Gold)</td>
+<td>12</td>
+<td>11.6 g</td>
+<td>38 min</td>
+<td>Photo_Frame_Small_P x4, Photo_Frame_Small_L x3, Photo_Frame_Large_P x2, Gramophone_Horn x1, Gold_Ornament x1, Gold_Elephant x1</td>
+</tr>
+<tr>
+<td>Ivory white (e.g. PLA Matte Ivory White)</td>
+<td>3</td>
+<td>4.8 g</td>
+<td>10 min</td>
+<td>Floating_Shelf x3</td>
+</tr>
+<tr>
+<td>Leaf green (e.g. PLA Matte Grass Green)</td>
+<td>8</td>
+<td>2.1 g</td>
+<td>25 min</td>
+<td>Plant_Leaves_01A x2, Plant_Leaves_01B x2, Plant_Leaves_02 x1, Plant_Leaves_04 x2, Gold_Ornament_Leaves x1</td>
+</tr>
+<tr>
+<td>Dark brown (e.g. PLA Matte Dark Brown)</td>
+<td>1</td>
+<td>1.2 g</td>
+<td>9 min</td>
+<td>Gramophone_Base x1</td>
+</tr>
+<tr>
+<td>Beige (e.g. PLA Matte Desert Tan)</td>
+<td>1</td>
+<td>0.7 g</td>
+<td>4 min</td>
+<td>Arch_Vase x1</td>
+</tr>
+<tr>
+<td>Light wood (e.g. PLA Matte Latte Brown or PLA-Wood)</td>
+<td>1</td>
+<td>0.7 g</td>
+<td>2 min</td>
+<td>Serving_Tray x1</td>
+</tr>
+<tr>
+<td>Light green (e.g. PLA Matte Apple Green)</td>
+<td>1</td>
+<td>0.2 g</td>
+<td>1 min</td>
+<td>Plant_Leaves_03 x1</td>
+</tr>
+<tr>
+<td>Silver silk (e.g. PLA Silk+ Silver)</td>
+<td>1</td>
+<td>0.2 g</td>
+<td>1 min</td>
+<td>Silver_Heart_Plant x1</td>
+</tr>
+<tr>
+<td>Bone / ivory white</td>
+<td>1</td>
+<td>0.1 g</td>
+<td>1 min</td>
+<td>Pampas_Spray x1</td>
+</tr>
+</tbody>
+</table>
+<h3>Two-colour parts on a single-colour printer</h3>
+<p>In Bambu Studio's preview, drag the layer slider to the height below, right-click the <strong>+</strong> and add a <strong>Pause</strong> (or <em>Change filament</em>). When the printer stops, swap the filament and resume.</p>
+<table>
+<thead>
+<tr>
+<th>Part</th>
+<th>Height</th>
+<th>First colour</th>
+<th>Second colour</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Coffee_Table</code> (printed upside down)</td>
+<td>first layer <strong>above 2.6 mm</strong></td>
+<td>White (table top)</td>
+<td>Light wood (apron and legs)</td>
+</tr>
+<tr>
+<td><code>Name_Plate</code> (printed on its back)</td>
+<td>first layer <strong>above 1.0 mm</strong></td>
+<td>White (plate)</td>
+<td>Dark brown/black (raised name)</td>
+</tr>
+</tbody>
+</table>
+<h2>5. Per-order customisation</h2>
+<ol>
+<li><strong>Name plate:</strong> open <code>cad/parts/Name_Plate.scad</code> in OpenSCAD, change the <code>NAME = "...";</code> line, press F6, then File &gt; Export &gt; STL. Command line: <code>openscad -D 'NAME="Ananya"' -o Name_Plate.stl cad/parts/Name_Plate.scad</code>. The text auto-fits to 17 mm wide.</li>
+<li><strong>Arch print:</strong> make the artwork 72.6 × 173.3 mm (marble + gold veins + customer cut-out), using page 1 of <code>templates/Store_Versile_Print_Templates.pdf</code> as the guide.</li>
+<li><strong>Photos:</strong> 3 small portrait (22.6 × 26.4), 3 small landscape (25.6 × 23.4), 2 large portrait (28.6 × 38.4), plus the quote insert. Keep the image inside the blue window with a 1.4 mm white mat. Template page 2.</li>
+<li>Print the PDF at <strong>100 % / Actual size</strong>. Measure the 50 mm test bar before cutting.</li>
+</ol>
+<h2>6. Assembly (three modules, then the box)</h2>
+<p>Positions are in mm. X is measured from the inside left wall, Y from the back wall forward, Z from the inside floor. Exact positions for every piece are on the <em>Assembly positions</em> sheets in <code>drawings/Store_Versile_Drawings.pdf</code>.</p>
+<p><strong>Prepare</strong>
+1. Remove any brims and lightly sand the edges. Slide the photos into the frames from the top, with a dot of glue.
+2. Stick the wood sticker on the three floor tiles. Cut the sticker open over the wall-panel slots at the back of tiles L and R.
+3. Glue the arch print inside the arch's raised border. Glue the name plate on the print, centred, 150–158 mm above the arch bottom.</p>
+<p><strong>Module L (tile L, x 0–106)</strong>
+1. Glue <code>Left_Wall_Panel_Lower</code> into the slot, flutes facing forward. Push <code>Left_Wall_Panel_Upper</code> onto its two key tabs and glue the seam.
+2. Push 6 filament pins (1.75 mm × 6.4 mm) through the panel holes from the back, so 4 mm stick out. Slide the 3 <code>Floating_Shelf</code> parts onto the pins and glue.
+3. Glue the large frames on the flutes: F4 at x 68, z 135; F5 at x 68, z 76 (bottom-left corners).
+4. TV console: glue the white drawer plate into the front recess. Glue the 4 legs into the sockets, splaying outward (turn the right-hand pair 180°). Glue the console to the tile at x 3, touching the panel.
+5. On the console: gramophone at x 10 (horn into its angled hole), small fern pot (<code>Plant_Pot_04</code> + <code>Plant_Leaves_04</code>) at x 44, 3 books at x 74.
+6. Shelves, top to bottom: LOVE + frame; frame + leafy plant (<code>Plant_Pot_02</code>); succulent (<code>Plant_Pot_03</code>) + frame.</p>
+<p><strong>Module C (tile C, x 106–218)</strong>
+1. Glue the arch standing on the tile at the back, centred at x 162.
+2. Floor palms: push <code>Plant_Leaves_01A</code> into the front slot and <code>01B</code> into the rear slot of each <code>Plant_Pot_01</code>. Glue the pots at x 118 and x 206, 6 mm in front of the back wall.
+3. Coffee table centred at x 162, 5 mm in front of the back wall. On it: tray, two mugs (handles outward), arch vase at the right end with the silver hearts pushed into its hole.</p>
+<p><strong>Module R (tile R, x 218–300)</strong>
+1. Right wall panels: same as module L.
+2. Glue <code>Right_Display_Shelf</code> on the tile against the panel, left board datum at x 223.
+3. Fill the cells, top to bottom: frame | gold ornament (+ green leaves glued behind the eggs); cup | frame; donut vase + pampas | quote plaque | small fern; bunny | frame; 2 books | gold elephant.</p>
+<p><strong>Into the box</strong>
+1. Join the three tiles with their dovetails. Dry-fit them in the box: the arch and panels touch the back board.
+2. Glue the tiles to the box floor and the panels and arch to the back board (thin CA or double-sided tape).
+3. Fit the LED strip under the top front edge (optional printed channel). Clean the glass, then close the frame.</p>
+<h2>7. Quality checklist (every order)</h2>
+<ul>
+<li>[ ] Name spelled correctly and centred on the arch</li>
+<li>[ ] 8 photos, the right ones in the right frames, nothing crooked; the quote is in the plaque</li>
+<li>[ ] No glue strings or haze on the glass side</li>
+<li>[ ] All plants upright, leaves not touching the glass (≥ 3 mm gap)</li>
+<li>[ ] LED lights evenly; battery or cable is reachable</li>
+<li>[ ] Nothing rattles when the frame is gently tilted</li>
+</ul>
+<h2>8. First test prints (do these before production)</h2>
+<table>
+<thead>
+<tr>
+<th>Test</th>
+<th>Print</th>
+<th>Pass when</th>
+<th>If not, change in <code>versile_parts.scad</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Photo slot</td>
+<td><code>Photo_Frame_Small_P</code> + a cut photo-paper insert</td>
+<td>Insert slides in fully, no gap at the window</td>
+<td>slot (0.5) in <code>photo_frame()</code></td>
+</tr>
+<tr>
+<td>Panel key + shelf pin</td>
+<td>Both wall panels (L) + 1 shelf</td>
+<td>Panels align flute-to-flute; shelf slides onto 2 pins</td>
+<td><code>CLR</code> (0.2), <code>PIN_HOLE</code> (1.95)</td>
+</tr>
+<tr>
+<td>Leaf fit</td>
+<td><code>Plant_Pot_04</code> + <code>Plant_Leaves_04</code></td>
+<td>Tab pushes in by hand and holds</td>
+<td><code>CLR</code></td>
+</tr>
+<tr>
+<td>Console legs</td>
+<td><code>TV_Console_Body</code> + 4 legs</td>
+<td>Pegs press in, console stands level</td>
+<td>leg socket (1.7)</td>
+</tr>
+<tr>
+<td>Fine detail</td>
+<td><code>Plant_Leaves_01A</code>, <code>Pampas_Spray</code>, <code>Bunny</code> at 0.12 mm</td>
+<td>Leaflets complete, no stringing</td>
+<td>slow down, more cooling, or use a 0.2 mm nozzle</td>
+</tr>
+</tbody>
+</table>
+<h2>9. Files</h2>
+<table>
+<thead>
+<tr>
+<th>Folder / file</th>
+<th>Contents</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>stl/</code></td>
+<td>One print-oriented STL per part</td>
+</tr>
+<tr>
+<td><code>cad/versile_parts.scad</code></td>
+<td>Parametric OpenSCAD library (all dimensions)</td>
+</tr>
+<tr>
+<td><code>cad/parts/*.scad</code></td>
+<td>One editable file per STL, already in print orientation</td>
+</tr>
+<tr>
+<td><code>cad/assembly.scad</code>, <code>assembly/Store_Versile_Assembly.3mf</code></td>
+<td>Complete assembled room</td>
+</tr>
+<tr>
+<td><code>drawings/Store_Versile_Drawings.pdf</code></td>
+<td>Layout, assembly positions, joint details and a dimensioned sheet for every part</td>
+</tr>
+<tr>
+<td><code>templates/Store_Versile_Print_Templates.pdf</code></td>
+<td>1:1 paper templates</td>
+</tr>
+<tr>
+<td><code>preview/renders/</code></td>
+<td>Rendered views</td>
+</tr>
+<tr>
+<td><code>layout/layout.py</code></td>
+<td>The approved layout (single source of truth)</td>
+</tr>
+</tbody>
+</table>
+<p>STEP export isn't produced: the OpenSCAD (mesh) workflow cannot write true STEP solids. The 3MF and the parametric <code>.scad</code> source cover the assembly and editing needs.</p></body></html>

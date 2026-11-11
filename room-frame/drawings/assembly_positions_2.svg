@@ -1,0 +1,214 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="297.0mm" height="210.0mm" viewBox="0 0 297.0 210.0" font-family="DejaVu Sans, Arial, sans-serif">
+<rect width="297.0" height="210.0" fill="#fff"/>
+<rect x="6" y="6" width="285.0" height="198.0" fill="none" stroke="#000" stroke-width="0.5"/>
+<text x="12" y="16" font-size="5" font-weight="bold">ASSEMBLY POSITIONS (2/3)</text>
+<text x="12" y="22" font-size="2.8" fill="#444">Position of each piece's reference corner, mm. X from the inner left wall, Y from the back wall toward the glass, Z from the inner floor. Rotation in degrees (CAD frame).</text>
+<text x="12" y="31" font-size="3" font-weight="bold">Piece</text>
+<text x="52" y="31" font-size="3" font-weight="bold">File (stl/)</text>
+<text x="150" y="31" font-size="3" font-weight="bold">X</text>
+<text x="172" y="31" font-size="3" font-weight="bold">Y</text>
+<text x="194" y="31" font-size="3" font-weight="bold">Z</text>
+<text x="218" y="31" font-size="3" font-weight="bold">Rotation</text>
+<rect x="10" y="32.9" width="277.0" height="5" fill="#f3efe9"/>
+<text x="12" y="36.5" font-size="2.9">BK_2</text>
+<text x="52" y="36.5" font-size="2.9">Book_02.stl</text>
+<text x="150" y="36.5" font-size="2.9">74.80</text>
+<text x="172" y="36.5" font-size="2.9">3.70</text>
+<text x="194" y="36.5" font-size="2.9">40.50</text>
+<text x="218" y="36.5" font-size="2.9">[0, 0, 0]</text>
+<text x="12" y="41.5" font-size="2.9">BK_3</text>
+<text x="52" y="41.5" font-size="2.9">Book_03.stl</text>
+<text x="150" y="41.5" font-size="2.9">74.30</text>
+<text x="172" y="41.5" font-size="2.9">3.50</text>
+<text x="194" y="41.5" font-size="2.9">46.00</text>
+<text x="218" y="41.5" font-size="2.9">[0, 0, 0]</text>
+<rect x="10" y="42.9" width="277.0" height="5" fill="#f3efe9"/>
+<text x="12" y="46.5" font-size="2.9">AR</text>
+<text x="52" y="46.5" font-size="2.9">Central_Arch.stl</text>
+<text x="150" y="46.5" font-size="2.9">123.00</text>
+<text x="172" y="46.5" font-size="2.9">-0.00</text>
+<text x="194" y="46.5" font-size="2.9">2.00</text>
+<text x="218" y="46.5" font-size="2.9">[0, 0, 0]</text>
+<text x="12" y="51.5" font-size="2.9">NP</text>
+<text x="52" y="51.5" font-size="2.9">Name_Plate.stl</text>
+<text x="150" y="51.5" font-size="2.9">152.00</text>
+<text x="172" y="51.5" font-size="2.9">1.30</text>
+<text x="194" y="51.5" font-size="2.9">152.00</text>
+<text x="218" y="51.5" font-size="2.9">[0, 0, 0]</text>
+<rect x="10" y="52.9" width="277.0" height="5" fill="#f3efe9"/>
+<text x="12" y="56.5" font-size="2.9">CT</text>
+<text x="52" y="56.5" font-size="2.9">Coffee_Table.stl</text>
+<text x="150" y="56.5" font-size="2.9">132.00</text>
+<text x="172" y="56.5" font-size="2.9">5.00</text>
+<text x="194" y="56.5" font-size="2.9">2.00</text>
+<text x="218" y="56.5" font-size="2.9">[0, 0, 0]</text>
+<text x="12" y="61.5" font-size="2.9">TR</text>
+<text x="52" y="61.5" font-size="2.9">Serving_Tray.stl</text>
+<text x="150" y="61.5" font-size="2.9">135.00</text>
+<text x="172" y="61.5" font-size="2.9">7.00</text>
+<text x="194" y="61.5" font-size="2.9">28.00</text>
+<text x="218" y="61.5" font-size="2.9">[0, 0, 0]</text>
+<rect x="10" y="62.9" width="277.0" height="5" fill="#f3efe9"/>
+<text x="12" y="66.5" font-size="2.9">M1</text>
+<text x="52" y="66.5" font-size="2.9">Mug.stl</text>
+<text x="150" y="66.5" font-size="2.9">150.00</text>
+<text x="172" y="66.5" font-size="2.9">16.00</text>
+<text x="194" y="66.5" font-size="2.9">29.50</text>
+<text x="218" y="66.5" font-size="2.9">[0, 0, -180]</text>
+<text x="12" y="71.5" font-size="2.9">M2</text>
+<text x="52" y="71.5" font-size="2.9">Mug.stl</text>
+<text x="150" y="71.5" font-size="2.9">151.00</text>
+<text x="172" y="71.5" font-size="2.9">8.50</text>
+<text x="194" y="71.5" font-size="2.9">29.50</text>
+<text x="218" y="71.5" font-size="2.9">[0, 0, 0]</text>
+<rect x="10" y="72.9" width="277.0" height="5" fill="#f3efe9"/>
+<text x="12" y="76.5" font-size="2.9">AV</text>
+<text x="52" y="76.5" font-size="2.9">Arch_Vase.stl</text>
+<text x="150" y="76.5" font-size="2.9">175.00</text>
+<text x="172" y="76.5" font-size="2.9">9.00</text>
+<text x="194" y="76.5" font-size="2.9">28.00</text>
+<text x="218" y="76.5" font-size="2.9">[0, 0, 0]</text>
+<text x="12" y="81.5" font-size="2.9">SH</text>
+<text x="52" y="81.5" font-size="2.9">Silver_Heart_Plant.stl</text>
+<text x="150" y="81.5" font-size="2.9">182.50</text>
+<text x="172" y="81.5" font-size="2.9">10.55</text>
+<text x="194" y="81.5" font-size="2.9">38.00</text>
+<text x="218" y="81.5" font-size="2.9">[0, 0, 0]</text>
+<rect x="10" y="82.9" width="277.0" height="5" fill="#f3efe9"/>
+<text x="12" y="86.5" font-size="2.9">PA1_pot</text>
+<text x="52" y="86.5" font-size="2.9">Plant_Pot_01.stl</text>
+<text x="150" y="86.5" font-size="2.9">110.50</text>
+<text x="172" y="86.5" font-size="2.9">6.00</text>
+<text x="194" y="86.5" font-size="2.9">2.00</text>
+<text x="218" y="86.5" font-size="2.9">[0, 0, 0]</text>
+<text x="12" y="91.5" font-size="2.9">PA1_leavesA</text>
+<text x="52" y="91.5" font-size="2.9">Plant_Leaves_01A.stl</text>
+<text x="150" y="91.5" font-size="2.9">118.00</text>
+<text x="172" y="91.5" font-size="2.9">12.30</text>
+<text x="194" y="91.5" font-size="2.9">31.00</text>
+<text x="218" y="91.5" font-size="2.9">[0, 0, 0]</text>
+<rect x="10" y="92.9" width="277.0" height="5" fill="#f3efe9"/>
+<text x="12" y="96.5" font-size="2.9">PA1_leavesB</text>
+<text x="52" y="96.5" font-size="2.9">Plant_Leaves_01B.stl</text>
+<text x="150" y="96.5" font-size="2.9">118.00</text>
+<text x="172" y="96.5" font-size="2.9">8.70</text>
+<text x="194" y="96.5" font-size="2.9">31.00</text>
+<text x="218" y="96.5" font-size="2.9">[0, 0, 0]</text>
+<text x="12" y="101.5" font-size="2.9">PA2_pot</text>
+<text x="52" y="101.5" font-size="2.9">Plant_Pot_01.stl</text>
+<text x="150" y="101.5" font-size="2.9">198.50</text>
+<text x="172" y="101.5" font-size="2.9">6.00</text>
+<text x="194" y="101.5" font-size="2.9">2.00</text>
+<text x="218" y="101.5" font-size="2.9">[0, 0, 0]</text>
+<rect x="10" y="102.9" width="277.0" height="5" fill="#f3efe9"/>
+<text x="12" y="106.5" font-size="2.9">PA2_leavesA</text>
+<text x="52" y="106.5" font-size="2.9">Plant_Leaves_01A.stl</text>
+<text x="150" y="106.5" font-size="2.9">206.00</text>
+<text x="172" y="106.5" font-size="2.9">12.30</text>
+<text x="194" y="106.5" font-size="2.9">31.00</text>
+<text x="218" y="106.5" font-size="2.9">[0, 0, 0]</text>
+<text x="12" y="111.5" font-size="2.9">PA2_leavesB</text>
+<text x="52" y="111.5" font-size="2.9">Plant_Leaves_01B.stl</text>
+<text x="150" y="111.5" font-size="2.9">206.00</text>
+<text x="172" y="111.5" font-size="2.9">8.70</text>
+<text x="194" y="111.5" font-size="2.9">31.00</text>
+<text x="218" y="111.5" font-size="2.9">[0, 0, 0]</text>
+<rect x="10" y="112.9" width="277.0" height="5" fill="#f3efe9"/>
+<text x="12" y="116.5" font-size="2.9">SU</text>
+<text x="52" y="116.5" font-size="2.9">Right_Display_Shelf.stl</text>
+<text x="150" y="116.5" font-size="2.9">223.00</text>
+<text x="172" y="116.5" font-size="2.9">2.40</text>
+<text x="194" y="116.5" font-size="2.9">2.00</text>
+<text x="218" y="116.5" font-size="2.9">[0, 0, 0]</text>
+<text x="12" y="121.5" font-size="2.9">F7</text>
+<text x="52" y="121.5" font-size="2.9">Photo_Frame_Small_L.stl</text>
+<text x="150" y="121.5" font-size="2.9">235.00</text>
+<text x="172" y="121.5" font-size="2.9">2.60</text>
+<text x="194" y="121.5" font-size="2.9">135.20</text>
+<text x="218" y="121.5" font-size="2.9">[0, 0, 0]</text>
+<rect x="10" y="122.9" width="277.0" height="5" fill="#f3efe9"/>
+<text x="12" y="126.5" font-size="2.9">GO</text>
+<text x="52" y="126.5" font-size="2.9">Gold_Ornament.stl</text>
+<text x="150" y="126.5" font-size="2.9">275.00</text>
+<text x="172" y="126.5" font-size="2.9">5.20</text>
+<text x="194" y="126.5" font-size="2.9">135.20</text>
+<text x="218" y="126.5" font-size="2.9">[0, 0, 0]</text>
+<text x="12" y="131.5" font-size="2.9">GO_leaves</text>
+<text x="52" y="131.5" font-size="2.9">Gold_Ornament_Leaves.stl</text>
+<text x="150" y="131.5" font-size="2.9">283.50</text>
+<text x="172" y="131.5" font-size="2.9">4.20</text>
+<text x="194" y="131.5" font-size="2.9">143.60</text>
+<text x="218" y="131.5" font-size="2.9">[0, 0, 0]</text>
+<rect x="10" y="132.9" width="277.0" height="5" fill="#f3efe9"/>
+<text x="12" y="136.5" font-size="2.9">CUP</text>
+<text x="52" y="136.5" font-size="2.9">Takeaway_Cup.stl</text>
+<text x="150" y="136.5" font-size="2.9">231.00</text>
+<text x="172" y="136.5" font-size="2.9">4.00</text>
+<text x="194" y="136.5" font-size="2.9">102.70</text>
+<text x="218" y="136.5" font-size="2.9">[0, 0, 0]</text>
+<text x="12" y="141.5" font-size="2.9">F8</text>
+<text x="52" y="141.5" font-size="2.9">Photo_Frame_Small_L.stl</text>
+<text x="150" y="141.5" font-size="2.9">258.50</text>
+<text x="172" y="141.5" font-size="2.9">2.60</text>
+<text x="194" y="141.5" font-size="2.9">102.70</text>
+<text x="218" y="141.5" font-size="2.9">[0, 0, 0]</text>
+<rect x="10" y="142.9" width="277.0" height="5" fill="#f3efe9"/>
+<text x="12" y="146.5" font-size="2.9">DV</text>
+<text x="52" y="146.5" font-size="2.9">Donut_Vase.stl</text>
+<text x="150" y="146.5" font-size="2.9">232.25</text>
+<text x="172" y="146.5" font-size="2.9">5.00</text>
+<text x="194" y="146.5" font-size="2.9">70.20</text>
+<text x="218" y="146.5" font-size="2.9">[0, 0, 0]</text>
+<text x="12" y="151.5" font-size="2.9">DV_pampas</text>
+<text x="52" y="151.5" font-size="2.9">Pampas_Spray.stl</text>
+<text x="150" y="151.5" font-size="2.9">238.25</text>
+<text x="172" y="151.5" font-size="2.9">5.50</text>
+<text x="194" y="151.5" font-size="2.9">83.80</text>
+<text x="218" y="151.5" font-size="2.9">[0, 0, 0]</text>
+<rect x="10" y="152.9" width="277.0" height="5" fill="#f3efe9"/>
+<text x="12" y="156.5" font-size="2.9">PQ</text>
+<text x="52" y="156.5" font-size="2.9">Photo_Frame_Small_P.stl</text>
+<text x="150" y="156.5" font-size="2.9">248.75</text>
+<text x="172" y="156.5" font-size="2.9">2.60</text>
+<text x="194" y="156.5" font-size="2.9">70.20</text>
+<text x="218" y="156.5" font-size="2.9">[0, 0, 0]</text>
+<text x="12" y="161.5" font-size="2.9">PD_pot</text>
+<text x="52" y="161.5" font-size="2.9">Plant_Pot_04.stl</text>
+<text x="150" y="161.5" font-size="2.9">279.50</text>
+<text x="172" y="161.5" font-size="2.9">4.00</text>
+<text x="194" y="161.5" font-size="2.9">70.20</text>
+<text x="218" y="161.5" font-size="2.9">[0, 0, 0]</text>
+<rect x="10" y="162.9" width="277.0" height="5" fill="#f3efe9"/>
+<text x="12" y="166.5" font-size="2.9">PD_leaves</text>
+<text x="52" y="166.5" font-size="2.9">Plant_Leaves_04.stl</text>
+<text x="150" y="166.5" font-size="2.9">286.50</text>
+<text x="172" y="166.5" font-size="2.9">7.00</text>
+<text x="194" y="166.5" font-size="2.9">80.20</text>
+<text x="218" y="166.5" font-size="2.9">[0, 0, 0]</text>
+<text x="12" y="171.5" font-size="2.9">BN</text>
+<text x="52" y="171.5" font-size="2.9">Bunny.stl</text>
+<text x="150" y="171.5" font-size="2.9">231.50</text>
+<text x="172" y="171.5" font-size="2.9">4.00</text>
+<text x="194" y="171.5" font-size="2.9">37.70</text>
+<text x="218" y="171.5" font-size="2.9">[0, 0, 0]</text>
+<rect x="10" y="172.9" width="277.0" height="5" fill="#f3efe9"/>
+<text x="12" y="176.5" font-size="2.9">F9</text>
+<text x="52" y="176.5" font-size="2.9">Photo_Frame_Small_L.stl</text>
+<text x="150" y="176.5" font-size="2.9">257.50</text>
+<text x="172" y="176.5" font-size="2.9">2.60</text>
+<text x="194" y="176.5" font-size="2.9">37.70</text>
+<text x="218" y="176.5" font-size="2.9">[0, 0, 0]</text>
+<text x="12" y="181.5" font-size="2.9">BK2_1</text>
+<text x="52" y="181.5" font-size="2.9">Book_01.stl</text>
+<text x="150" y="181.5" font-size="2.9">240.00</text>
+<text x="172" y="181.5" font-size="2.9">3.50</text>
+<text x="194" y="181.5" font-size="2.9">5.20</text>
+<text x="218" y="181.5" font-size="2.9">[0, 0, 0]</text>
+<rect x="10" y="182.9" width="277.0" height="5" fill="#f3efe9"/>
+<text x="12" y="186.5" font-size="2.9">BK2_2</text>
+<text x="52" y="186.5" font-size="2.9">Book_02.stl</text>
+<text x="150" y="186.5" font-size="2.9">240.75</text>
+<text x="172" y="186.5" font-size="2.9">3.70</text>
+<text x="194" y="186.5" font-size="2.9">10.70</text>
+<text x="218" y="186.5" font-size="2.9">[0, 0, 0]</text>
+</svg>

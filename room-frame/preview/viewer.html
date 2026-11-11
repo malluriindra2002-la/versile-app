@@ -40,7 +40,7 @@ scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
 // ------------------------------------------------------------- materials
 const M = (c, o = {}) => new THREE.MeshStandardMaterial(Object.assign({ color: c, roughness: 0.6, metalness: 0 }, o));
 const MATS = {
-  floor: M('#b9824c'), slat: M('#efcba7', { roughness: 0.55, metalness: 0.08 }), ivory: M('#f6ecdf', { roughness: 0.55 }),
+  floor: M('#b9824c'), slat: M('#efcba7', { roughness: 0.55, metalness: 0.08 }), ivory: M('#f6ecdf', { roughness: 0.55 }), cream: M('#f3dcc0', { roughness: 0.5 }),
   white: M('#f7f6f2', { roughness: 0.5 }), gold: M('#e0b850', { roughness: 0.3, metalness: 0.75, envMapIntensity: 2.2 }),
   black: M('#1f2024', { roughness: 0.45 }), brown: M('#4b3226', { roughness: 0.6 }), green: M('#4d8c34', { roughness: 0.65 }),
   green2: M('#79a35a', { roughness: 0.65 }), wood: M('#d6ac78', { roughness: 0.6 }), beige: M('#ead3a2', { roughness: 0.6 }),

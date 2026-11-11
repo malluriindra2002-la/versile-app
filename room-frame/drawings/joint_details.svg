@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="297.0mm" height="210.0mm" viewBox="0 0 297.0 210.0" font-family="DejaVu Sans, Arial, sans-serif">
+<rect width="297.0" height="210.0" fill="#fff"/>
+<rect x="6" y="6" width="285.0" height="198.0" fill="none" stroke="#000" stroke-width="0.5"/>
+<text x="12" y="16" font-size="5" font-weight="bold">JOINT DETAILS  (schematic sketches, dimensions in mm)</text>
+<text x="20" y="30" font-size="3.2" fill="#000" font-weight="bold">1  Floor-tile dovetail (plan view)</text>
+<rect x="20" y="36" width="30" height="30.0" fill="#e8e1d8" stroke="#000" stroke-width="0.3"/>
+<polygon points="50.0,41.0 70.0,36.0 70.0,66.0 50.0,61.0" fill="#e8e1d8" stroke="#000" stroke-width="0.3"/>
+<text x="20" y="74" font-size="2.8" fill="#000">Male on tile L (right edge) and tile R (left edge),</text>
+<text x="20" y="78" font-size="2.8" fill="#000">4 long, half-width 2 at root, 3 at tip. Female in tile C:</text>
+<text x="20" y="82" font-size="2.8" fill="#000">same shape + 0.15 clearance per side.</text>
+<text x="110" y="30" font-size="3.2" fill="#000" font-weight="bold">2  Wall-panel key (seam at z = 30)</text>
+<rect x="110" y="60" width="50" height="10" fill="#e8e1d8" stroke="#000" stroke-width="0.3"/>
+<rect x="120" y="52.5" width="7.5" height="7.5" fill="#cfe3c9" stroke="#000" stroke-width="0.3"/>
+<text x="110" y="76" font-size="2.8" fill="#000">Lower panel: 2 tabs 3 x 0.9 x 3 on top.</text>
+<text x="110" y="80" font-size="2.8" fill="#000">Upper panel: notches 3.4 x 1.25 x 3.2.</text>
+<text x="110" y="84" font-size="2.8" fill="#000">Seam hidden behind the TV console / shelving unit.</text>
+<text x="200" y="30" font-size="3.2" fill="#000" font-weight="bold">3  Floating-shelf pins</text>
+<rect x="200" y="40" width="12.0" height="30" fill="#e8e1d8" stroke="#000" stroke-width="0.3"/>
+<rect x="212.0" y="50" width="40" height="15" fill="#e8e1d8" stroke="#000" stroke-width="0.3"/>
+<rect x="198" y="53.125" width="34.0" height="8.75" fill="#9ec3e6" stroke="#000" stroke-width="0.3"/>
+<text x="200" y="76" font-size="2.8" fill="#000">Pin = 1.75 mm filament, cut 6.4 long.</text>
+<text x="200" y="80" font-size="2.8" fill="#000">Holes 1.95: through the panel,</text>
+<text x="200" y="84" font-size="2.8" fill="#000">4 deep in the shelf. 2 per shelf.</text>
+<text x="20" y="100" font-size="3.2" fill="#000" font-weight="bold">4  Photo-frame section</text>
+<rect x="20" y="108" width="5.0" height="40" fill="#e8e1d8" stroke="#000" stroke-width="0.3"/>
+<rect x="25.0" y="138" width="2.5" height="10" fill="#fff" stroke="#000" stroke-width="0.3"/>
+<rect x="25.0" y="108" width="2.5" height="30" fill="#f6d5a8" stroke="#000" stroke-width="0.3"/>
+<rect x="27.5" y="138" width="5.0" height="10" fill="#e8e1d8" stroke="#000" stroke-width="0.3"/>
+<text x="36" y="114" font-size="2.8" fill="#000">back 1.0</text>
+<text x="36" y="120" font-size="2.8" fill="#c0392b">photo slot 0.5 (photo paper 0.2-0.3)</text>
+<text x="36" y="126" font-size="2.8" fill="#000">front lip 1.0, face border 1.2</text>
+<text x="36" y="132" font-size="2.8" fill="#000">insert = frame W - 1.4  x  H - 0.6</text>
+<text x="110" y="100" font-size="3.2" fill="#000" font-weight="bold">5  Leaf fan into pot (section)</text>
+<rect x="110" y="120" width="40" height="25" fill="#e8e1d8" stroke="#000" stroke-width="0.3"/>
+<rect x="126.5" y="120" width="7.0" height="13.0" fill="#fff" stroke="#000" stroke-width="0.3"/>
+<rect x="127.5" y="105" width="5.0" height="27.5" fill="#9fcf8a" stroke="#000" stroke-width="0.3"/>
+<text x="110" y="152" font-size="2.8" fill="#000">Tab 1.0 thick x 5 deep. Slot = tab + 0.2 each side,</text>
+<text x="110" y="156" font-size="2.8" fill="#000">5.2 deep. Drop of CA glue. Floor vase: 2 parallel slots.</text>
+<text x="200" y="100" font-size="3.2" fill="#000" font-weight="bold">6  TV-console leg socket</text>
+<rect x="200" y="110" width="40" height="12" fill="#e8e1d8" stroke="#000" stroke-width="0.3"/>
+<rect x="215" y="116.0" width="8.5" height="6.0" fill="#fff" stroke="#000" stroke-width="0.3"/>
+<polygon points="215.5,122 222.5,122 223.0,150 209,150" fill="#ddd" stroke="#000" stroke-width="0.3"/>
+<text x="200" y="156" font-size="2.8" fill="#000">Socket 1.7 sq x 3. Peg 1.4 sq x 2.6. Leg splays</text>
+<text x="200" y="160" font-size="2.8" fill="#000">12 deg outward; turn the right-hand legs 180 deg.</text>
+<text x="12" y="198.0" font-size="2.6" fill="#666">Sketches are not to scale. Exact geometry is in cad/versile_parts.scad and the part sheets.</text>
+</svg>

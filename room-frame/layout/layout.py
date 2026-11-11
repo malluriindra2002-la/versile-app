@@ -132,7 +132,7 @@ add("RW", "Right fluted wall panel (2 pcs, seam z=30 hidden behind shelving)",
     stl="Right_Wall_Panel_Lower + Right_Wall_Panel_Upper", pitch=FLUTE_PITCH, seam_z=30.0)
 
 UX0 = 223.0          # shelving unit datum
-BOARD = 2.5
+BOARD = 3.2          # Rev C: chunkier cream boards like the reference
 UNIT_D = 12.0
 ROW_Z = [2.0, 34.5, 67.0, 99.5, 132.0, 164.5]      # board centre heights bottom->top
 # rows listed bottom -> top : (u_left, u_right, [divider u positions])

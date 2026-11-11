@@ -1,0 +1,10 @@
+// Central_Arch.stl  -  Store Versile room frame (Rev C)
+// Quantity: 1   Filament: White (e.g. PLA Basic Jade White / Matte Ivory White)
+// Print: layer 0.16 mm, infill 15%, 2 walls, brim 0 mm, NO supports
+// Orientation: back  (lying on its back, front face up)
+// Notes: Border up. 176 mm long: place diagonally if your plate edge is tight; no brim needed.
+// The library draws parts with their front toward +Y; mirror([0,1,0]) makes the real
+// part face the viewer correctly (see build.py). Edit dimensions in versile_parts.scad.
+use <../versile_parts.scad>
+
+rotate([-90, 0, 0]) mirror([0, 1, 0]) central_arch();

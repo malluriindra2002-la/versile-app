@@ -1,0 +1,126 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="297.0mm" height="210.0mm" viewBox="0 0 297.0 210.0" font-family="DejaVu Sans, Arial, sans-serif">
+<rect x="0" y="0" width="297.0" height="210.0" fill="#fff"/>
+<defs><marker id="a" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="4" markerHeight="4" orient="auto-start-reverse"><path d="M0,2 L10,5 L0,8 z" fill="#c0392b"/></marker></defs>
+<rect x="6" y="6" width="285.0" height="198.0" fill="none" stroke="#000" stroke-width="0.5"/>
+<line x1="20.00" y1="76.50" x2="179.00" y2="76.50" stroke="#777" stroke-width="0.12"/>
+<line x1="179.00" y1="76.50" x2="179.00" y2="76.50" stroke="#777" stroke-width="0.12"/>
+<line x1="20.00" y1="76.50" x2="20.00" y2="76.50" stroke="#777" stroke-width="0.12"/>
+<line x1="179.00" y1="76.50" x2="179.00" y2="76.50" stroke="#777" stroke-width="0.12"/>
+<line x1="20.00" y1="76.50" x2="179.00" y2="76.50" stroke="#777" stroke-width="0.12"/>
+<line x1="179.00" y1="76.50" x2="185.00" y2="76.50" stroke="#777" stroke-width="0.12"/>
+<line x1="179.00" y1="76.50" x2="185.00" y2="76.50" stroke="#777" stroke-width="0.12"/>
+<line x1="185.00" y1="76.50" x2="185.00" y2="76.50" stroke="#777" stroke-width="0.12"/>
+<line x1="20.00" y1="76.50" x2="20.00" y2="73.50" stroke="#777" stroke-width="0.12"/>
+<line x1="22.70" y1="73.50" x2="20.00" y2="73.50" stroke="#777" stroke-width="0.12"/>
+<line x1="22.70" y1="73.50" x2="22.70" y2="73.50" stroke="#777" stroke-width="0.12"/>
+<line x1="179.00" y1="76.50" x2="179.00" y2="73.50" stroke="#777" stroke-width="0.12"/>
+<line x1="22.70" y1="73.50" x2="179.00" y2="73.50" stroke="#777" stroke-width="0.12"/>
+<line x1="179.00" y1="73.50" x2="179.00" y2="73.50" stroke="#777" stroke-width="0.12"/>
+<line x1="179.00" y1="76.50" x2="179.00" y2="73.50" stroke="#777" stroke-width="0.12"/>
+<line x1="20.00" y1="76.50" x2="20.00" y2="73.50" stroke="#777" stroke-width="0.12"/>
+<line x1="20.00" y1="73.50" x2="20.00" y2="73.50" stroke="#777" stroke-width="0.12"/>
+<line x1="179.00" y1="76.50" x2="179.00" y2="73.50" stroke="#777" stroke-width="0.12"/>
+<line x1="179.00" y1="73.50" x2="179.00" y2="73.50" stroke="#777" stroke-width="0.12"/>
+<line x1="20.00" y1="73.50" x2="179.00" y2="73.50" stroke="#777" stroke-width="0.12"/>
+<line x1="185.00" y1="76.50" x2="185.00" y2="73.50" stroke="#777" stroke-width="0.12"/>
+<line x1="179.00" y1="73.50" x2="185.00" y2="73.50" stroke="#777" stroke-width="0.12"/>
+<line x1="185.00" y1="76.50" x2="185.00" y2="73.50" stroke="#777" stroke-width="0.12"/>
+<line x1="179.00" y1="73.50" x2="185.00" y2="73.50" stroke="#777" stroke-width="0.12"/>
+<line x1="185.00" y1="73.50" x2="185.00" y2="73.50" stroke="#777" stroke-width="0.12"/>
+<line x1="179.00" y1="76.50" x2="179.00" y2="75.00" stroke="#777" stroke-width="0.12"/>
+<line x1="22.70" y1="73.50" x2="22.70" y2="75.00" stroke="#777" stroke-width="0.12"/>
+<line x1="179.00" y1="75.00" x2="22.70" y2="75.00" stroke="#777" stroke-width="0.12"/>
+<line x1="179.00" y1="73.50" x2="179.00" y2="75.00" stroke="#777" stroke-width="0.12"/>
+<line x1="179.00" y1="75.00" x2="179.00" y2="75.00" stroke="#777" stroke-width="0.12"/>
+<line x1="22.70" y1="73.50" x2="22.70" y2="75.00" stroke="#777" stroke-width="0.12"/>
+<line x1="22.70" y1="75.00" x2="22.70" y2="75.00" stroke="#777" stroke-width="0.12"/>
+<line x1="179.00" y1="75.00" x2="22.70" y2="75.00" stroke="#777" stroke-width="0.12"/>
+<path d="M20.00,73.50 L20.00,73.50 L179.00,73.50 L179.00,73.50 L185.00,73.50 L185.00,76.50 L179.00,76.50 L179.00,76.50 L179.00,76.50 L20.00,76.50 L20.00,76.50 L20.00,76.50 L20.00,76.50 L20.00,76.50 L20.00,73.50 Z" fill="none" stroke="#000" stroke-width="0.35" fill-rule="evenodd"/>
+<text x="20.0" y="81.5" font-size="2.6" fill="#555">FRONT</text>
+<line x1="20.00" y1="59.50" x2="179.00" y2="59.50" stroke="#777" stroke-width="0.12"/>
+<line x1="179.00" y1="43.75" x2="179.00" y2="59.50" stroke="#777" stroke-width="0.12"/>
+<line x1="20.00" y1="59.50" x2="20.00" y2="22.00" stroke="#777" stroke-width="0.12"/>
+<line x1="179.00" y1="37.75" x2="179.00" y2="22.00" stroke="#777" stroke-width="0.12"/>
+<line x1="20.00" y1="22.00" x2="179.00" y2="22.00" stroke="#777" stroke-width="0.12"/>
+<line x1="179.00" y1="37.75" x2="185.00" y2="36.25" stroke="#777" stroke-width="0.12"/>
+<line x1="179.00" y1="43.75" x2="185.00" y2="45.25" stroke="#777" stroke-width="0.12"/>
+<line x1="185.00" y1="36.25" x2="185.00" y2="45.25" stroke="#777" stroke-width="0.12"/>
+<line x1="20.00" y1="22.00" x2="20.00" y2="22.00" stroke="#777" stroke-width="0.12"/>
+<line x1="22.70" y1="22.00" x2="20.00" y2="22.00" stroke="#777" stroke-width="0.12"/>
+<line x1="22.70" y1="22.00" x2="22.70" y2="26.04" stroke="#777" stroke-width="0.12"/>
+<line x1="179.00" y1="37.75" x2="179.00" y2="37.75" stroke="#777" stroke-width="0.12"/>
+<line x1="22.70" y1="26.04" x2="179.00" y2="26.04" stroke="#777" stroke-width="0.12"/>
+<line x1="179.00" y1="37.75" x2="179.00" y2="26.04" stroke="#777" stroke-width="0.12"/>
+<line x1="179.00" y1="43.75" x2="179.00" y2="43.75" stroke="#777" stroke-width="0.12"/>
+<line x1="20.00" y1="59.50" x2="20.00" y2="59.50" stroke="#777" stroke-width="0.12"/>
+<line x1="20.00" y1="22.00" x2="20.00" y2="59.50" stroke="#777" stroke-width="0.12"/>
+<line x1="179.00" y1="59.50" x2="179.00" y2="59.50" stroke="#777" stroke-width="0.12"/>
+<line x1="179.00" y1="43.75" x2="179.00" y2="59.50" stroke="#777" stroke-width="0.12"/>
+<line x1="20.00" y1="59.50" x2="179.00" y2="59.50" stroke="#777" stroke-width="0.12"/>
+<line x1="185.00" y1="45.25" x2="185.00" y2="45.25" stroke="#777" stroke-width="0.12"/>
+<line x1="179.00" y1="43.75" x2="185.00" y2="45.25" stroke="#777" stroke-width="0.12"/>
+<line x1="185.00" y1="36.25" x2="185.00" y2="36.25" stroke="#777" stroke-width="0.12"/>
+<line x1="179.00" y1="37.75" x2="185.00" y2="36.25" stroke="#777" stroke-width="0.12"/>
+<line x1="185.00" y1="45.25" x2="185.00" y2="36.25" stroke="#777" stroke-width="0.12"/>
+<line x1="179.00" y1="22.00" x2="179.00" y2="22.00" stroke="#777" stroke-width="0.12"/>
+<line x1="22.70" y1="22.00" x2="22.70" y2="22.00" stroke="#777" stroke-width="0.12"/>
+<line x1="179.00" y1="22.00" x2="22.70" y2="22.00" stroke="#777" stroke-width="0.12"/>
+<line x1="179.00" y1="26.04" x2="179.00" y2="26.04" stroke="#777" stroke-width="0.12"/>
+<line x1="179.00" y1="22.00" x2="179.00" y2="26.04" stroke="#777" stroke-width="0.12"/>
+<line x1="22.70" y1="26.04" x2="22.70" y2="26.04" stroke="#777" stroke-width="0.12"/>
+<line x1="22.70" y1="22.00" x2="22.70" y2="26.04" stroke="#777" stroke-width="0.12"/>
+<line x1="179.00" y1="26.04" x2="22.70" y2="26.04" stroke="#777" stroke-width="0.12"/>
+<path d="M20.00,59.50 L20.00,22.00 L22.70,22.00 L179.00,22.00 L179.00,26.04 L179.00,37.75 L185.00,36.25 L185.00,45.25 L179.00,43.75 L179.00,59.50 L20.00,59.50 Z" fill="none" stroke="#000" stroke-width="0.35" fill-rule="evenodd"/>
+<text x="20.0" y="63.5" font-size="2.6" fill="#555">TOP</text>
+<line x1="199.00" y1="76.50" x2="199.00" y2="76.50" stroke="#777" stroke-width="0.12"/>
+<line x1="214.75" y1="76.50" x2="199.00" y2="76.50" stroke="#777" stroke-width="0.12"/>
+<line x1="199.00" y1="76.50" x2="236.50" y2="76.50" stroke="#777" stroke-width="0.12"/>
+<line x1="220.75" y1="76.50" x2="236.50" y2="76.50" stroke="#777" stroke-width="0.12"/>
+<line x1="236.50" y1="76.50" x2="236.50" y2="76.50" stroke="#777" stroke-width="0.12"/>
+<line x1="220.75" y1="76.50" x2="222.25" y2="76.50" stroke="#777" stroke-width="0.12"/>
+<line x1="214.75" y1="76.50" x2="213.25" y2="76.50" stroke="#777" stroke-width="0.12"/>
+<line x1="222.25" y1="76.50" x2="213.25" y2="76.50" stroke="#777" stroke-width="0.12"/>
+<line x1="236.50" y1="76.50" x2="236.50" y2="73.50" stroke="#777" stroke-width="0.12"/>
+<line x1="236.50" y1="73.50" x2="236.50" y2="73.50" stroke="#777" stroke-width="0.12"/>
+<line x1="236.50" y1="73.50" x2="232.47" y2="73.50" stroke="#777" stroke-width="0.12"/>
+<line x1="220.75" y1="76.50" x2="220.75" y2="73.50" stroke="#777" stroke-width="0.12"/>
+<line x1="232.47" y1="73.50" x2="232.47" y2="73.50" stroke="#777" stroke-width="0.12"/>
+<line x1="220.75" y1="73.50" x2="232.47" y2="73.50" stroke="#777" stroke-width="0.12"/>
+<line x1="214.75" y1="76.50" x2="214.75" y2="73.50" stroke="#777" stroke-width="0.12"/>
+<line x1="199.00" y1="76.50" x2="199.00" y2="73.50" stroke="#777" stroke-width="0.12"/>
+<line x1="236.50" y1="73.50" x2="199.00" y2="73.50" stroke="#777" stroke-width="0.12"/>
+<line x1="199.00" y1="76.50" x2="199.00" y2="73.50" stroke="#777" stroke-width="0.12"/>
+<line x1="214.75" y1="73.50" x2="199.00" y2="73.50" stroke="#777" stroke-width="0.12"/>
+<line x1="199.00" y1="73.50" x2="199.00" y2="73.50" stroke="#777" stroke-width="0.12"/>
+<line x1="213.25" y1="76.50" x2="213.25" y2="73.50" stroke="#777" stroke-width="0.12"/>
+<line x1="214.75" y1="73.50" x2="213.25" y2="73.50" stroke="#777" stroke-width="0.12"/>
+<line x1="222.25" y1="76.50" x2="222.25" y2="73.50" stroke="#777" stroke-width="0.12"/>
+<line x1="220.75" y1="73.50" x2="222.25" y2="73.50" stroke="#777" stroke-width="0.12"/>
+<line x1="213.25" y1="73.50" x2="222.25" y2="73.50" stroke="#777" stroke-width="0.12"/>
+<line x1="236.50" y1="76.50" x2="236.50" y2="75.00" stroke="#777" stroke-width="0.12"/>
+<line x1="236.50" y1="73.50" x2="236.50" y2="75.00" stroke="#777" stroke-width="0.12"/>
+<line x1="236.50" y1="75.00" x2="236.50" y2="75.00" stroke="#777" stroke-width="0.12"/>
+<line x1="232.47" y1="73.50" x2="232.47" y2="75.00" stroke="#777" stroke-width="0.12"/>
+<line x1="236.50" y1="75.00" x2="232.47" y2="75.00" stroke="#777" stroke-width="0.12"/>
+<line x1="232.47" y1="73.50" x2="232.47" y2="75.00" stroke="#777" stroke-width="0.12"/>
+<line x1="236.50" y1="75.00" x2="232.47" y2="75.00" stroke="#777" stroke-width="0.12"/>
+<line x1="232.47" y1="75.00" x2="232.47" y2="75.00" stroke="#777" stroke-width="0.12"/>
+<path d="M199.00,73.50 L199.00,73.50 L213.25,73.50 L213.25,73.50 L213.25,73.50 L220.75,73.50 L220.75,73.50 L232.47,73.50 L236.50,73.50 L236.50,73.50 L236.50,73.50 L236.50,73.50 L236.50,73.50 L236.50,75.00 L236.50,75.00 L236.50,76.50 L222.25,76.50 L220.75,76.50 L214.75,76.50 L214.75,76.50 L199.00,76.50 L199.00,76.50 L199.00,76.50 L199.00,76.50 L199.00,73.50 Z" fill="none" stroke="#000" stroke-width="0.35" fill-rule="evenodd"/>
+<text x="199.0" y="81.5" font-size="2.6" fill="#555">RIGHT SIDE</text>
+<line x1="20.00" y1="85.50" x2="185.00" y2="85.50" stroke="#c0392b" stroke-width="0.2" marker-start="url(#a)" marker-end="url(#a)"/>
+<text x="102.50" y="84.50" font-size="3" fill="#c0392b" text-anchor="middle">110.0</text>
+<line x1="14.00" y1="76.50" x2="14.00" y2="73.50" stroke="#c0392b" stroke-width="0.2" marker-start="url(#a)" marker-end="url(#a)"/>
+<text x="12.80" y="75.00" font-size="3" fill="#c0392b" text-anchor="middle" transform="rotate(-90 12.80 75.00)">2.0</text>
+<line x1="199.00" y1="85.50" x2="236.50" y2="85.50" stroke="#c0392b" stroke-width="0.2" marker-start="url(#a)" marker-end="url(#a)"/>
+<text x="217.75" y="84.50" font-size="3" fill="#c0392b" text-anchor="middle">25.0</text>
+<rect x="171.0" y="164.0" width="120" height="40" fill="none" stroke="#000" stroke-width="0.4"/>
+<text x="173.0" y="170.0" font-size="2.4" fill="#666">PART</text><text x="191.0" y="170.0" font-size="2.8" fill="#000">Floor_Tile_L</text>
+<text x="173.0" y="176.0" font-size="2.4" fill="#666">FILE</text><text x="191.0" y="176.0" font-size="2.8" fill="#000">stl/Floor_Tile_L.stl   QTY 1</text>
+<text x="173.0" y="182.0" font-size="2.4" fill="#666">MATERIAL</text><text x="191.0" y="182.0" font-size="2.8" fill="#000">Any colour (covered by the wood-grain sticker)</text>
+<text x="173.0" y="188.0" font-size="2.4" fill="#666">PRINT</text><text x="191.0" y="188.0" font-size="2.8" fill="#000">flat | layer 0.2 | infill 15% | 2 walls | no supports</text>
+<text x="173.0" y="194.0" font-size="2.4" fill="#666">SCALE</text><text x="191.0" y="194.0" font-size="2.8" fill="#000">1.5 : 1   units mm   third-angle projection   Rev C</text>
+<text x="173.0" y="200.0" font-size="2.4" fill="#666">PROJECT</text><text x="191.0" y="200.0" font-size="2.8" fill="#000">Store Versile miniature room frame 300 x 200 x 25</text>
+<text x="10" y="176.0" font-size="2.8" fill="#000">2 thick. Panel slot 104.4 x 2.7 x 1 deep at back. Male dovetail 4 long (2->3 half-width) on the</text>
+<text x="10" y="180.2" font-size="2.8" fill="#000">right edge.</text>
+<text x="10" y="171.0" font-size="2.6" fill="#666">KEY DIMENSIONS</text>
+</svg>

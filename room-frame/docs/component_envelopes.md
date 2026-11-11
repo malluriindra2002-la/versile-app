@@ -34,16 +34,16 @@ Origin: inside bottom-left-back corner. X = width (left->right), Y = depth (back
 | PA1 | Floor plant A - fern in ribbed oval vase | C | 103-133 | 2-56 | 4-20 | 30 x 16 x 54 | Plant_Pot_01 + Plant_Leaves_01 |
 | PA2 | Floor plant A - fern in ribbed oval vase | C | 191-221 | 2-56 | 4-20 | 30 x 16 x 54 | Plant_Pot_01 + Plant_Leaves_01 |
 | RW | Right fluted wall panel (2 pcs, seam z=30 hidden behind shelving) | R | 219-297 | 2-198 | 0-2.4 | 78 x 2.4 x 196 | Right_Wall_Panel_Lower + Right_Wall_Panel_Upper |
-| SU | Asymmetric staggered open-cube display shelf (no back) | R | 223-298 | 2-165.75 | 2.4-14.4 | 75 x 12 x 163.75 | Right_Display_Shelf |
-| F7 | Photo frame - small landscape | R | 235-262 | 133.25-157.25 | 3-5.5 | 27 x 2.5 x 24 | Photo_Frame_Small |
-| GO | Gold ornament (gold sphere pot + egg/leaf cluster) | R | 275-292 | 133.25-154.25 | 4-12 | 17 x 8 x 21 | Gold_Ornament |
-| CUP | Takeaway coffee cup with lid & sleeve (plain, unbranded) | R | 231-240 | 100.75-122.75 | 4-13 | 9 x 9 x 22 | Takeaway_Cup |
-| F8 | Photo frame - small landscape | R | 258.5-285.5 | 100.75-124.75 | 3-5.5 | 27 x 2.5 x 24 | Photo_Frame_Small |
-| DV | Donut vase + pampas spray | R | 232.25-244.25 | 68.25-94.25 | 5-10 | 12 x 5 x 26 | Donut_Vase + Pampas_Spray |
-| PQ | Message plaque (small frame, portrait) | R | 248.75-272.75 | 68.25-95.25 | 3-5.5 | 24 x 2.5 x 27 | Photo_Frame_Small (+ quote print) |
-| PD | Shelf plant D - small fern in swirl pot | R | 279.5-293.5 | 68.25-85.25 | 4-11 | 14 x 7 x 17 | Plant_Pot_04 + Plant_Leaves_04 |
-| BN | Bunny figurine (sitting) | R | 231.5-244.5 | 35.75-59.75 | 4-12 | 13 x 8 x 24 | Bunny |
-| F9 | Photo frame - small landscape | R | 257.5-284.5 | 35.75-59.75 | 3-5.5 | 27 x 2.5 x 24 | Photo_Frame_Small |
-| BK2 | Book stack (2 books, same parts as BK) | R | 240-264 | 3.25-14.25 | 3.5-11 | 24 x 7.5 x 11 | Book_01 + Book_02 |
-| EL | Geometric gold elephant | R | 278-294 | 3.25-20.25 | 4-12 | 16 x 8 x 17 | Gold_Elephant |
+| SU | Asymmetric staggered open-cube display shelf (no back) | R | 223-298 | 2-166.1 | 2.4-14.4 | 75 x 12 x 164.1 | Right_Display_Shelf |
+| F7 | Photo frame - small landscape | R | 235-262 | 133.6-157.6 | 3-5.5 | 27 x 2.5 x 24 | Photo_Frame_Small |
+| GO | Gold ornament (gold sphere pot + egg/leaf cluster) | R | 275-292 | 133.6-154.6 | 4-12 | 17 x 8 x 21 | Gold_Ornament |
+| CUP | Takeaway coffee cup with lid & sleeve (plain, unbranded) | R | 231-240 | 101.1-123.1 | 4-13 | 9 x 9 x 22 | Takeaway_Cup |
+| F8 | Photo frame - small landscape | R | 258.5-285.5 | 101.1-125.1 | 3-5.5 | 27 x 2.5 x 24 | Photo_Frame_Small |
+| DV | Donut vase + pampas spray | R | 232.25-244.25 | 68.6-94.6 | 5-10 | 12 x 5 x 26 | Donut_Vase + Pampas_Spray |
+| PQ | Message plaque (small frame, portrait) | R | 248.75-272.75 | 68.6-95.6 | 3-5.5 | 24 x 2.5 x 27 | Photo_Frame_Small (+ quote print) |
+| PD | Shelf plant D - small fern in swirl pot | R | 279.5-293.5 | 68.6-85.6 | 4-11 | 14 x 7 x 17 | Plant_Pot_04 + Plant_Leaves_04 |
+| BN | Bunny figurine (sitting) | R | 231.5-244.5 | 36.1-60.1 | 4-12 | 13 x 8 x 24 | Bunny |
+| F9 | Photo frame - small landscape | R | 257.5-284.5 | 36.1-60.1 | 3-5.5 | 27 x 2.5 x 24 | Photo_Frame_Small |
+| BK2 | Book stack (2 books, same parts as BK) | R | 240-264 | 3.6-14.6 | 3.5-11 | 24 x 7.5 x 11 | Book_01 + Book_02 |
+| EL | Geometric gold elephant | R | 278-294 | 3.6-20.6 | 4-12 | 16 x 8 x 17 | Gold_Elephant |
 | LED | LED strip channel (optional, 2 pcs) | - | 2-298 | 192-198 | 17-22 | 296 x 5 x 6 | LED_Channel_L + LED_Channel_R |
