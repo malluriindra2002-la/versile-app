@@ -11,4 +11,4 @@ Printer: Bambu Lab A1 Mini · PLA · Bambu Studio.
 
 Regenerate: `python3 layout/layout.py`
 
-Status: **Stage 1–2 done, waiting for layout approval.** No STLs until it is approved.
+Status: **Stage 1–2 Rev B (25 mm depth, 8 frames, single-colour A1 Mini). Waiting for layout approval.** No STLs until it is approved.

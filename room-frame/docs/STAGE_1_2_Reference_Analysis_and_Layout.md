@@ -1,7 +1,37 @@
 # Store Versile – Miniature Room Frame
 ## Stage 1: Reference analysis & component inventory · Stage 2: Dimensioned layout proposal
 
-**Status: Draft, waiting for your approval. No STLs are exported until you approve this layout.**
+**Status: Rev B. Your answers are applied (see §0). Waiting for final layout approval; no STLs yet.**
+
+## 0. Rev B: decisions from the customer (supersede anything below)
+| # | Decision | What changed |
+|---|---|---|
+| 1 | **8 photo frames** (not 10) | The frame on the TV console (F6) was replaced by a small fern in a swirl pot (same parts as PD). The bottom-left frame in the shelving unit (F10) was replaced by a 2-book stack (same parts as the console books). **No new parts were needed.** Frames left: 3 on shelves, 2 on the wall, 3 in the shelving unit, plus the quote plaque |
+| 2 | **Internal depth is 25 mm** (was 50) | The front view (all widths and heights) is **unchanged**. Every part is made shallower, like a relief. Round pots, the cup and the vases become **oval in plan**, so they still look round from the front. New depth plan below |
+| 3 | Printed floor tiles + wood sticker | Approved: 3 tiles, 2 mm thick, each 106 / 112 / 82 × 25 mm |
+| 4 | Plain A1 Mini (no AMS, 0.4 mm nozzle) | Every part is **single colour**. Multi-colour items are split into separate parts that are glued together: console body (black) + drawer fronts (white) + legs (white); every pot (white) + leaves (green). Tiny accents (bunny's pink ears, book spine titles) are paint or printed paper labels. The name plate can use Bambu Studio's "pause/change filament at layer" for 2-colour text. All details are sized for a 0.4 mm nozzle: ≥ 0.8 mm walls and leaves, ≥ 1 mm pins |
+| 5 | 3D-printed leaves | Leaves are printed **flat** (0.8–1.0 mm thick, leaflets ≥ 1 mm wide) as fan-shaped sprays that slot into the pot. The fans are mostly flat (side to side), which suits the 25 mm depth |
+| 6 | Plain cup, no logo | Plain takeaway cup with lid and a raised sleeve band |
+
+### Rev B depth plan (Y, back wall 0 → glass 25)
+| Layer | Y range | Depth |
+|---|---|---|
+| Fluted panels (1.2 backer + 1.2 flutes) | 0 – 2.4 | 2.4 |
+| Arch backer 1.0 + border 2.5 wide × 2 high | 0 – 3.0 | 3.0 |
+| Photo frames (all) | 2.4 – 5.5 | 2.5 thick |
+| Floating shelves | 2.4 – 10.4 | 8 |
+| TV console | 2.4 – 12.4 | 10 |
+| Shelving unit | 2.4 – 14.4 | 12 (boards 2.5) |
+| Coffee table | 5 – 19 | 14 |
+| Floor plants (oval vase 15 × 10, flat fan foliage) | 4 – 20 | 16 |
+| **Keep-out to glass** | 22 – 25 | ≥ 3 mm everywhere (closest part: plant leaves at 20 → 5 mm clear) |
+| LED strip channel (optional) | 17 – 22, z 192 – 198 | |
+
+**Effect of 25 mm:** the room looks almost the same from the front, but there's less 3D depth when you view it from the side. The furniture reads more like a high relief than a full dollhouse. All parts still fit and print.
+
+> The original Rev A text below is kept for reference. Where a depth or frame count below differs from §0, **§0 applies**. Exact current numbers for every part are in `component_envelopes.md`.
+
+---
 
 Box: 300 W × 200 H × 50 D mm inside · Printer: Bambu Lab A1 Mini (180³ mm) · PLA · Bambu Studio
 Coordinates: X = width (0 = inner left wall) · Y = depth (0 = back wall, 50 = inner face of glass) · Z = height (0 = inner floor)

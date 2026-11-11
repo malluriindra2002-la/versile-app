@@ -5,7 +5,7 @@ Stage 2 layout: single source of truth for every component envelope.
 
 Coordinate system (mm), origin = inside bottom-left-back corner of the frame:
   X = width  (0 = left inner wall,  300 = right inner wall)
-  Y = depth  (0 = back wall,         50 = inside face of the glass)
+  Y = depth  (0 = back wall,         25 = inside face of the glass)
   Z = height (0 = inside floor,     200 = inside top)
 
 Run:  python3 layout.py            -> writes layout.json + drawings/*.svg
@@ -19,10 +19,14 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 OUT_DRAW = os.path.join(HERE, "..", "drawings")
 
 # ---------------------------------------------------------------- box
-BOX = dict(W=300.0, H=200.0, D=50.0)
-FLOOR_T = 2.0          # printed modular floor tiles (Option A, see docs)
-GLASS_CLEAR = 8.0      # keep >= 8 mm between any part and the glass
-LED_ZONE = dict(z0=190.0, z1=200.0, y0=40.0, y1=50.0)   # LED strip under top front lip
+# Rev B: internal depth reduced to 25 mm (customer request). Front view is
+# unchanged; every part is made shallower ("relief" depth), round pots become
+# oval in plan so they still look round from the front.
+BOX = dict(W=300.0, H=200.0, D=25.0)
+FLOOR_T = 2.0          # printed modular floor tiles
+GLASS_CLEAR = 3.0      # keep >= 3 mm between any part and the glass
+WALL_T = 2.4           # fluted panel: 1.2 backer + 1.2 flutes
+FT = 2.5               # photo frame thickness (depth)
 
 # ---------------------------------------------------------------- zones
 ZONES = [
@@ -51,91 +55,96 @@ def add(id, name, x0, x1, z0, z1, y0, y1, shape="rect", color="white",
     return d
 
 
+D = BOX["D"]
+
 # ================================================================ FLOOR
-add("FL1", "Floor tile - left",   0, 106, 0, FLOOR_T, 0, 50, color="floor", zone="L", stl="Floor_Tile_L")
-add("FL2", "Floor tile - centre", 106, 218, 0, FLOOR_T, 0, 50, color="floor", zone="C", stl="Floor_Tile_C")
-add("FL3", "Floor tile - right",  218, 300, 0, FLOOR_T, 0, 50, color="floor", zone="R", stl="Floor_Tile_R")
+add("FL1", "Floor tile - left",   0, 106, 0, FLOOR_T, 0, D, color="floor", zone="L", stl="Floor_Tile_L")
+add("FL2", "Floor tile - centre", 106, 218, 0, FLOOR_T, 0, D, color="floor", zone="C", stl="Floor_Tile_C")
+add("FL3", "Floor tile - right",  218, 300, 0, FLOOR_T, 0, D, color="floor", zone="R", stl="Floor_Tile_R")
 
 # ================================================================ LEFT ZONE
 FLUTE_PITCH = 5.2
 add("LW", "Left fluted wall panel (2 pcs, seam z=30 hidden behind console)",
-    2, 106, FLOOR_T, 198, 0, 3.0, shape="fluted", color="slat", zone="L",
+    2, 106, FLOOR_T, 198, 0, WALL_T, shape="fluted", color="slat", zone="L",
     stl="Left_Wall_Panel_Lower + Left_Wall_Panel_Upper", pitch=FLUTE_PITCH, seam_z=30.0)
 
 SHELF_TOPS = [165.0, 130.0, 96.0]
+SHELF_D = 8.0
 for i, zt in enumerate(SHELF_TOPS, 1):
-    add(f"S{i}", f"Floating shelf {i}", 3, 58, zt - 3.0, zt, 3.0, 15.0,
+    add(f"S{i}", f"Floating shelf {i}", 3, 58, zt - 3.0, zt, WALL_T, WALL_T + SHELF_D,
         color="ivory", zone="L", stl="Floating_Shelf")
 
 SF = (24.0, 27.0)   # small frame W x H (portrait); landscape = 27 x 24
 LF = (30.0, 39.0)   # large frame W x H (portrait)
-FT = 3.5            # frame thickness (depth)
+FY = (WALL_T + 0.6, WALL_T + 0.6 + FT)   # frames stand/lean against the wall
 
-add("LOVE", "LOVE lettering (LO/VE stacked)", 7, 28, 165, 183, 6, 11, color="white", zone="L", stl="LOVE_Letters")
-add("F1", "Photo frame - small portrait", 32, 32 + SF[0], 165, 165 + SF[1], 4, 4 + FT, shape="frame", color="gold", zone="L", stl="Photo_Frame_Small")
-add("F2", "Photo frame - small portrait", 7, 7 + SF[0], 130, 130 + SF[1], 4, 4 + FT, shape="frame", color="gold", zone="L", stl="Photo_Frame_Small")
-add("PB", "Shelf plant B - leafy spray in rectangular pot", 33, 57, 130, 157, 4, 14, shape="plant", color="green", zone="L",
+add("LOVE", "LOVE lettering (LO/VE stacked)", 7, 28, 165, 183, 3, 7, color="white", zone="L", stl="LOVE_Letters")
+add("F1", "Photo frame - small portrait", 32, 32 + SF[0], 165, 165 + SF[1], *FY, shape="frame", color="gold", zone="L", stl="Photo_Frame_Small")
+add("F2", "Photo frame - small portrait", 7, 7 + SF[0], 130, 130 + SF[1], *FY, shape="frame", color="gold", zone="L", stl="Photo_Frame_Small")
+add("PB", "Shelf plant B - leafy spray in rectangular pot", 33, 57, 130, 157, 3, 10, shape="plant", color="green", zone="L",
     stl="Plant_Pot_02 + Plant_Leaves_02", pot_h=12.0, pot_w=24.0)
-add("PC", "Shelf plant C - succulent in textured round pot", 8, 23, 96, 122, 5, 14, shape="plant", color="green", zone="L",
+add("PC", "Shelf plant C - succulent in textured oval pot", 8, 23, 96, 122, 3, 10, shape="plant", color="green", zone="L",
     stl="Plant_Pot_03 + Plant_Leaves_03", pot_h=12.0, pot_w=15.0)
-add("F3", "Photo frame - small portrait", 32, 32 + SF[0], 96, 96 + SF[1], 4, 4 + FT, shape="frame", color="gold", zone="L", stl="Photo_Frame_Small")
-add("F4", "Photo frame - large portrait (wall)", 68, 68 + LF[0], 135, 135 + LF[1], 3, 3 + FT, shape="frame", color="gold", zone="L", stl="Photo_Frame_Large")
-add("F5", "Photo frame - large portrait (wall)", 68, 68 + LF[0], 76, 76 + LF[1], 3, 3 + FT, shape="frame", color="gold", zone="L", stl="Photo_Frame_Large")
+add("F3", "Photo frame - small portrait", 32, 32 + SF[0], 96, 96 + SF[1], *FY, shape="frame", color="gold", zone="L", stl="Photo_Frame_Small")
+add("F4", "Photo frame - large portrait (wall)", 68, 68 + LF[0], 135, 135 + LF[1], WALL_T, WALL_T + FT, shape="frame", color="gold", zone="L", stl="Photo_Frame_Large")
+add("F5", "Photo frame - large portrait (wall)", 68, 68 + LF[0], 76, 76 + LF[1], WALL_T, WALL_T + FT, shape="frame", color="gold", zone="L", stl="Photo_Frame_Large")
 
 CON_TOP = FLOOR_T + 9.0 + 24.0    # legs 9, body 24 -> top at z=35
 add("TV", "TV console (black body, 3 open bays, 3 white drawer fronts, 4 splayed legs)",
-    3, 105, FLOOR_T, CON_TOP, 3, 19, shape="console", color="black", zone="L",
+    3, 105, FLOOR_T, CON_TOP, WALL_T, WALL_T + 10, shape="console", color="black", zone="L",
     stl="TV_Console_Body + TV_Console_Drawer_Fronts + TV_Console_Leg x4", leg_h=9.0)
-add("GR", "Gramophone on stacked box base", 10, 28, CON_TOP, CON_TOP + 27, 5, 16, shape="gramophone", color="gold", zone="L",
+add("GR", "Gramophone on stacked box base", 10, 28, CON_TOP, CON_TOP + 27, 3, 11, shape="gramophone", color="gold", zone="L",
     stl="Gramophone_Base + Gramophone_Horn")
-add("F6", "Photo frame - small landscape", 38, 38 + SF[1], CON_TOP, CON_TOP + SF[0], 4, 4 + FT, shape="frame", color="gold", zone="L", stl="Photo_Frame_Small")
-add("BK", "Book stack (3 books)", 74, 98, CON_TOP, CON_TOP + 16.5, 5, 15, shape="books", color="white", zone="L",
+add("PD2", "Small fern in swirl pot (same parts as PD)", 44, 58, CON_TOP, CON_TOP + 17, 4, 11, shape="plant", color="green", zone="L",
+    stl="Plant_Pot_04 + Plant_Leaves_04", pot_h=10.0, pot_w=14.0)
+add("BK", "Book stack (3 books)", 74, 98, CON_TOP, CON_TOP + 16.5, 3.5, 11, shape="books", color="white", zone="L",
     stl="Book_01 + Book_02 + Book_03")
 
 # ================================================================ CENTRE ZONE
 CX = 162.0   # centre line of arch / table / plants
 ARCH_W, ARCH_TOP = 78.0, 178.0
-add("AR", "Central arch: 1.2 mm backer + 3x3 mm raised rounded border; photo insert in front",
-    CX - ARCH_W / 2, CX + ARCH_W / 2, FLOOR_T, ARCH_TOP, 0, 4.2, shape="arch", color="marble", zone="C",
-    stl="Central_Arch", border=3.0)
-add("NP", "Name plate (parametric raised text)", CX - 10, CX + 10, 152, 160, 4.2, 5.7, color="white", zone="C",
+add("AR", "Central arch: 1.0 mm backer + 2.5 wide x 2 mm raised rounded border; photo insert in front",
+    CX - ARCH_W / 2, CX + ARCH_W / 2, FLOOR_T, ARCH_TOP, 0, 3.0, shape="arch", color="marble", zone="C",
+    stl="Central_Arch", border=2.5)
+add("NP", "Name plate (parametric raised text)", CX - 10, CX + 10, 152, 160, 1.3, 2.8, color="white", zone="C",
     stl="Name_Plate (generated per order)")
 
-TBL_W, TBL_D, TBL_H = 60.0, 27.0, 26.0
-TBL_Y0 = 13.0
+TBL_W, TBL_D, TBL_H = 60.0, 14.0, 26.0
+TBL_Y0 = 5.0
 TBL_TOP = FLOOR_T + TBL_H
 add("CT", "Coffee table (rounded top, apron, 4 tapered legs)", CX - TBL_W / 2, CX + TBL_W / 2, FLOOR_T, TBL_TOP,
     TBL_Y0, TBL_Y0 + TBL_D, shape="table", color="ivory", zone="C", stl="Coffee_Table")
-add("TR", "Serving tray (arch-ripple pattern)", 135, 173, TBL_TOP, TBL_TOP + 1.5, 19, 34, color="wood", zone="C", stl="Serving_Tray")
-add("M1", "Coffee mug 1", 140, 150, TBL_TOP + 1.5, TBL_TOP + 9.5, 23, 31, shape="mug", color="white", zone="C", stl="Mug_01")
-add("M2", "Coffee mug 2", 151, 161, TBL_TOP + 1.5, TBL_TOP + 9.5, 23, 31, shape="mug", color="white", zone="C", stl="Mug_02")
-add("AV", "Rainbow-arch vase", 175, 190, TBL_TOP, TBL_TOP + 14, 22, 28, shape="archvase", color="wood", zone="C", stl="Arch_Vase")
-add("SH", "Silver heart foliage", 177, 188, TBL_TOP + 12, TBL_TOP + 24, 23, 27, shape="blob", color="silver", zone="C", stl="Silver_Heart_Plant")
+add("TR", "Serving tray (arch-ripple pattern)", 135, 173, TBL_TOP, TBL_TOP + 1.5, 7, 17, color="wood", zone="C", stl="Serving_Tray")
+add("M1", "Coffee mug 1", 140, 150, TBL_TOP + 1.5, TBL_TOP + 9.5, 8.5, 16, shape="mug", color="white", zone="C", stl="Mug_01")
+add("M2", "Coffee mug 2", 151, 161, TBL_TOP + 1.5, TBL_TOP + 9.5, 8.5, 16, shape="mug", color="white", zone="C", stl="Mug_02")
+add("AV", "Rainbow-arch vase", 175, 190, TBL_TOP, TBL_TOP + 14, 9, 14, shape="archvase", color="wood", zone="C", stl="Arch_Vase")
+add("SH", "Silver heart foliage", 177, 188, TBL_TOP + 12, TBL_TOP + 24, 9.5, 13.5, shape="blob", color="silver", zone="C", stl="Silver_Heart_Plant")
 
 PLANT_DX = 44.0
 for sid, sx in (("PA1", CX - PLANT_DX), ("PA2", CX + PLANT_DX)):
-    add(sid, "Floor plant A - fern in ribbed vase", sx - 15, sx + 15, FLOOR_T, FLOOR_T + 54, 20, 42,
+    add(sid, "Floor plant A - fern in ribbed oval vase", sx - 15, sx + 15, FLOOR_T, FLOOR_T + 54, 4, 20,
         shape="plant", color="green", zone="C", stl="Plant_Pot_01 + Plant_Leaves_01", pot_h=29.0, pot_w=15.0,
-        pot_y=(23.5, 38.5))
+        pot_y=(6.0, 16.0))
 
 # ================================================================ RIGHT ZONE
 add("RW", "Right fluted wall panel (2 pcs, seam z=30 hidden behind shelving)",
-    219, 297, FLOOR_T, 198, 0, 3.0, shape="fluted", color="slat", zone="R",
+    219, 297, FLOOR_T, 198, 0, WALL_T, shape="fluted", color="slat", zone="R",
     stl="Right_Wall_Panel_Lower + Right_Wall_Panel_Upper", pitch=FLUTE_PITCH, seam_z=30.0)
 
 UX0 = 223.0          # shelving unit datum
 BOARD = 2.5
+UNIT_D = 12.0
 ROW_Z = [2.0, 34.5, 67.0, 99.5, 132.0, 164.5]      # board centre heights bottom->top
 # rows listed bottom -> top : (u_left, u_right, [divider u positions])
 ROWS = [
-    (7, 75, [51]),        # row 5 (bottom): photo | elephant
+    (7, 75, [51]),        # row 5 (bottom): books | elephant
     (3, 69, [27]),        # row 4: bunny | photo
     (7, 75, [23, 48]),    # row 3: donut vase | plaque | plant D
     (0, 73, [25]),        # row 2: cup | photo
     (3, 73, [48]),        # row 1 (top): photo | gold ornament
 ]
 add("SU", "Asymmetric staggered open-cube display shelf (no back)", UX0, UX0 + 75, FLOOR_T, ROW_Z[-1] + BOARD / 2,
-    3, 23, shape="unit", color="ivory", zone="R", stl="Right_Display_Shelf", rows=ROWS, row_z=ROW_Z, board=BOARD, ux0=UX0)
+    WALL_T, WALL_T + UNIT_D, shape="unit", color="ivory", zone="R", stl="Right_Display_Shelf", rows=ROWS, row_z=ROW_Z, board=BOARD, ux0=UX0)
 
 
 def cell(row, idx):
@@ -152,21 +161,21 @@ def place(id, name, row, idx, w, h, y0, y1, **kw):
     return add(id, name, cx - w / 2, cx + w / 2, zf, zf + h, y0, y1, zone="R", **kw)
 
 
-place("F7", "Photo frame - small landscape", 4, 0, SF[1], SF[0], 6, 6 + FT, shape="frame", color="gold", stl="Photo_Frame_Small")
-place("GO", "Gold ornament (gold sphere pot + egg/leaf cluster)", 4, 1, 17, 21, 8, 18, shape="blob", color="gold", stl="Gold_Ornament")
-place("CUP", "Takeaway coffee cup with lid & sleeve (unbranded)", 3, 0, 11, 23, 8, 19, shape="cup", color="white", stl="Takeaway_Cup")
-place("F8", "Photo frame - small landscape", 3, 1, SF[1], SF[0], 6, 6 + FT, shape="frame", color="gold", stl="Photo_Frame_Small")
-place("DV", "Donut vase + pampas spray", 2, 0, 12, 26, 9, 17, shape="donut", color="white", stl="Donut_Vase + Pampas_Spray")
-place("PQ", "Message plaque (small frame, portrait)", 2, 1, SF[0], SF[1], 6, 6 + FT, shape="frame", color="gold", stl="Photo_Frame_Small (+ quote print)")
-place("PD", "Shelf plant D - small fern in swirl pot", 2, 2, 14, 17, 8, 20, shape="plant", color="green",
+place("F7", "Photo frame - small landscape", 4, 0, SF[1], SF[0], *FY, shape="frame", color="gold", stl="Photo_Frame_Small")
+place("GO", "Gold ornament (gold sphere pot + egg/leaf cluster)", 4, 1, 17, 21, 4, 12, shape="blob", color="gold", stl="Gold_Ornament")
+place("CUP", "Takeaway coffee cup with lid & sleeve (plain, unbranded)", 3, 0, 9, 22, 4, 13, shape="cup", color="white", stl="Takeaway_Cup")
+place("F8", "Photo frame - small landscape", 3, 1, SF[1], SF[0], *FY, shape="frame", color="gold", stl="Photo_Frame_Small")
+place("DV", "Donut vase + pampas spray", 2, 0, 12, 26, 5, 10, shape="donut", color="white", stl="Donut_Vase + Pampas_Spray")
+place("PQ", "Message plaque (small frame, portrait)", 2, 1, SF[0], SF[1], *FY, shape="frame", color="gold", stl="Photo_Frame_Small (+ quote print)")
+place("PD", "Shelf plant D - small fern in swirl pot", 2, 2, 14, 17, 4, 11, shape="plant", color="green",
       stl="Plant_Pot_04 + Plant_Leaves_04", pot_h=10.0, pot_w=14.0)
-place("BN", "Bunny figurine (sitting)", 1, 0, 13, 24, 8, 18, shape="bunny", color="white", stl="Bunny")
-place("F9", "Photo frame - small landscape", 1, 1, SF[1], SF[0], 6, 6 + FT, shape="frame", color="gold", stl="Photo_Frame_Small")
-place("F10", "Photo frame - small landscape", 0, 0, SF[1], SF[0], 6, 6 + FT, shape="frame", color="gold", stl="Photo_Frame_Small")
-place("EL", "Geometric gold elephant", 0, 1, 16, 17, 8, 17, shape="blob", color="gold", stl="Gold_Elephant")
+place("BN", "Bunny figurine (sitting)", 1, 0, 13, 24, 4, 12, shape="bunny", color="white", stl="Bunny")
+place("F9", "Photo frame - small landscape", 1, 1, SF[1], SF[0], *FY, shape="frame", color="gold", stl="Photo_Frame_Small")
+place("BK2", "Book stack (2 books, same parts as BK)", 0, 0, 24, 11, 3.5, 11, shape="books", color="white", stl="Book_01 + Book_02")
+place("EL", "Geometric gold elephant", 0, 1, 16, 17, 4, 12, shape="blob", color="gold", stl="Gold_Elephant")
 
 # optional
-add("LED", "LED strip channel (optional, 2 pcs)", 2, 298, 192, 198, 42, 49, color="white", zone="-", stl="LED_Channel_L + LED_Channel_R",
+add("LED", "LED strip channel (optional, 2 pcs)", 2, 298, 192, 198, 17, 22, color="white", zone="-", stl="LED_Channel_L + LED_Channel_R",
     note="optional")
 
 
@@ -179,7 +188,7 @@ def checks():
         if c["id"] != "LED" and not c["id"].startswith("FL") and c["y1"] > BOX["D"] - GLASS_CLEAR:
             out.append(f"GLASS CLEARANCE < {GLASS_CLEAR}: {c['id']} (front y={c['y1']})")
     # single-print fit on A1 mini (envelope of the largest single printed piece)
-    big = {"LW": (104, 168, 3), "RW": (78, 168, 3), "AR": (78, 176, 4.2), "SU": (75, 163.75, 20), "TV": (102, 16, 24)}
+    big = {"LW": (104, 168, 2.4), "RW": (78, 168, 2.4), "AR": (78, 176, 3), "SU": (75, 163.75, 12), "TV": (102, 10, 24)}
     for k, (a, b, t) in big.items():
         if max(a, b, t) > 180:
             out.append(f"BUILD VOLUME: {k}")
@@ -381,36 +390,36 @@ def draw(s, c, X, Z, sc):
 
 # ================================================================ SIDE SECTION (Y-Z) and PLAN (X-Y)
 def side_svg():
-    s, sc, m = svg_open(BOX["D"] + 40, BOX["H"], "SIDE SECTION (Y-Z) - depth allocation, all zones overlaid", sc=3.2, m=70)
+    s, sc, m = svg_open(BOX["D"] + 110, BOX["H"], "SIDE SECTION (Y-Z) - 25 mm depth, all zones overlaid", sc=3.2, m=70)
     Y = lambda y: m + 40 + y * sc
     Z = lambda z: m + 40 + (BOX["H"] - z) * sc
-    s.append(f'<rect x="{Y(0)}" y="{Z(200)}" width="{50*sc}" height="{200*sc}" fill="#f6f5f2" stroke="#111" stroke-width="3"/>')
-    s.append(f'<line x1="{Y(50)}" y1="{Z(200)}" x2="{Y(50)}" y2="{Z(0)}" stroke="#4aa3df" stroke-width="5"/>')
-    s.append(f'<text x="{Y(50)+6}" y="{Z(100)}" font-size="11" fill="#4aa3df">GLASS (y=50)</text>')
-    s.append(f'<rect x="{Y(42)}" y="{Z(200)}" width="{8*sc}" height="{200*sc}" fill="#4aa3df" opacity="0.08"/>')
-    s.append(f'<text x="{Y(42)+2}" y="{Z(60)}" font-size="9" fill="#4aa3df" transform="rotate(-90 {Y(42)+10} {Z(60)})">8 mm keep-out</text>')
+    s.append(f'<rect x="{Y(0)}" y="{Z(200)}" width="{D*sc}" height="{200*sc}" fill="#f6f5f2" stroke="#111" stroke-width="3"/>')
+    s.append(f'<line x1="{Y(D)}" y1="{Z(200)}" x2="{Y(D)}" y2="{Z(0)}" stroke="#4aa3df" stroke-width="5"/>')
+    s.append(f'<text x="{Y(D)+6}" y="{Z(100)}" font-size="11" fill="#4aa3df">GLASS (y=25)</text>')
+    s.append(f'<rect x="{Y(D-GLASS_CLEAR)}" y="{Z(200)}" width="{GLASS_CLEAR*sc}" height="{200*sc}" fill="#4aa3df" opacity="0.08"/>')
+    s.append(f'<text x="{Y(D-GLASS_CLEAR)+2}" y="{Z(60)}" font-size="9" fill="#4aa3df" transform="rotate(-90 {Y(D-GLASS_CLEAR)+10} {Z(60)})">3 mm keep-out</text>')
     for c in sorted(C, key=lambda c: -(c["z1"] - c["z0"]) * (c["y1"] - c["y0"])):
         col = COL[c["color"]]
         dash = ' stroke-dasharray="4 3"' if c["id"] == "LED" else ""
         s.append(f'<rect x="{Y(c["y0"])}" y="{Z(c["z1"])}" width="{(c["y1"]-c["y0"])*sc}" height="{(c["z1"]-c["z0"])*sc}" '
                  f'fill="{col}" fill-opacity="0.55" stroke="#333" stroke-width="0.7"{dash}/>')
-    labels = [("wall panels / arch 0-4.2", 0, 4.2, 185), ("shelves 3-15", 3, 15, 168), ("console 3-19", 3, 19, 30),
-              ("shelf unit 3-23", 3, 23, 120), ("coffee table 13-40", 13, 40, 22), ("floor plants 20-42", 20, 42, 62)]
+    labels = [("wall panels / arch 0-3", 0, 3, 185), ("shelves 2.4-10.4", 2.4, 10.4, 168), ("console 2.4-12.4", 2.4, 12.4, 30),
+              ("shelf unit 2.4-14.4", 2.4, 14.4, 120), ("coffee table 5-19", 5, 19, 22), ("floor plants 4-20", 4, 20, 62)]
     for t, a, b, z in labels:
-        s.append(f'<text x="{Y(50)+8}" y="{Z(z)}" font-size="10" fill="#c0392b">{t}</text>')
-        s.append(f'<line x1="{Y((a+b)/2)}" y1="{Z(z)}" x2="{Y(50)+6}" y2="{Z(z)-3}" stroke="#c0392b" stroke-width="0.5"/>')
-    dim_h(s, Y, 0, 50, Z(0) + 28, "50 internal depth")
+        s.append(f'<text x="{Y(D)+8}" y="{Z(z)}" font-size="10" fill="#c0392b">{t}</text>')
+        s.append(f'<line x1="{Y((a+b)/2)}" y1="{Z(z)}" x2="{Y(D)+6}" y2="{Z(z)-3}" stroke="#c0392b" stroke-width="0.5"/>')
+    dim_h(s, Y, 0, D, Z(0) + 28, "25 internal depth")
     s.append("</svg>")
     return "\n".join(s)
 
 
 def plan_svg():
-    s, sc, m = svg_open(BOX["W"], BOX["D"], "PLAN VIEW (X-Y) - footprints on floor tiles (back wall at top)", sc=3.2, m=70)
+    s, sc, m = svg_open(BOX["W"], BOX["D"] + 20, "PLAN VIEW (X-Y) - footprints on floor tiles (back wall at top)", sc=3.2, m=70)
     X = lambda x: m + x * sc
     Y = lambda y: m + 40 + y * sc
-    s.append(f'<rect x="{X(0)}" y="{Y(0)}" width="{300*sc}" height="{50*sc}" fill="{COL["floor"]}" fill-opacity="0.35" stroke="#111" stroke-width="3"/>')
+    s.append(f'<rect x="{X(0)}" y="{Y(0)}" width="{300*sc}" height="{D*sc}" fill="{COL["floor"]}" fill-opacity="0.35" stroke="#111" stroke-width="3"/>')
     for zn in ZONES[1:]:
-        s.append(f'<line x1="{X(zn["x0"])}" y1="{Y(0)}" x2="{X(zn["x0"])}" y2="{Y(50)}" stroke="#2c6fbb" stroke-width="2" stroke-dasharray="5 4"/>')
+        s.append(f'<line x1="{X(zn["x0"])}" y1="{Y(0)}" x2="{X(zn["x0"])}" y2="{Y(D)}" stroke="#2c6fbb" stroke-width="2" stroke-dasharray="5 4"/>')
     floor_items = [c for c in C if c["z0"] <= FLOOR_T + 0.01 and not c["id"].startswith("FL")]
     for c in floor_items:
         col = COL[c["color"]]
@@ -424,11 +433,11 @@ def plan_svg():
             s.append(f'<rect x="{X(c["x0"])}" y="{Y(c["y0"])}" width="{(c["x1"]-c["x0"])*sc}" height="{(c["y1"]-c["y0"])*sc}" '
                      f'fill="{col}" fill-opacity="0.6" stroke="#333"/>')
         s.append(f'<text x="{X(c["x0"])+2}" y="{Y(c["y1"])-3}" font-size="10" fill="#1d5fa8" font-weight="bold">{c["id"]}</text>')
-    s.append(f'<line x1="{X(0)}" y1="{Y(50-GLASS_CLEAR)}" x2="{X(300)}" y2="{Y(50-GLASS_CLEAR)}" stroke="#4aa3df" stroke-dasharray="6 4"/>')
-    s.append(f'<text x="{X(300)+4}" y="{Y(50)}" font-size="10" fill="#4aa3df">glass</text>')
-    dim_h(s, X, 0, 300, Y(50) + 26, "300")
+    s.append(f'<line x1="{X(0)}" y1="{Y(D-GLASS_CLEAR)}" x2="{X(300)}" y2="{Y(D-GLASS_CLEAR)}" stroke="#4aa3df" stroke-dasharray="6 4"/>')
+    s.append(f'<text x="{X(300)+4}" y="{Y(D)}" font-size="10" fill="#4aa3df">glass</text>')
+    dim_h(s, X, 0, 300, Y(D) + 26, "300")
     for zn in ZONES:
-        dim_h(s, X, zn["x0"], zn["x1"], Y(50) + 50, f'tile {zn["id"]}: {zn["x1"]-zn["x0"]:g} x 50 x {FLOOR_T:g}')
+        dim_h(s, X, zn["x0"], zn["x1"], Y(D) + 50, f'tile {zn["id"]}: {zn["x1"]-zn["x0"]:g} x {D:g} x {FLOOR_T:g}')
     s.append("</svg>")
     return "\n".join(s)
 
@@ -445,7 +454,7 @@ if __name__ == "__main__":
         json.dump(dict(box=BOX, floor_t=FLOOR_T, zones=ZONES, components=C), f, indent=1)
     issues = checks()
     print(f"{len(C)} components written.")
-    print("CHECKS:", "OK - all inside box, >= 8 mm glass clearance, all parts <= 180 mm" if not issues else issues)
+    print("CHECKS:", "OK - all inside box, >= 3 mm glass clearance, all parts <= 180 mm" if not issues else issues)
 
 
 def envelopes_md():
@@ -460,6 +469,6 @@ def envelopes_md():
 if __name__ == "__main__":
     with open(os.path.join(HERE, "..", "docs", "component_envelopes.md"), "w") as f:
         f.write("# Component envelopes (auto-generated by layout/layout.py - do not edit by hand)\n\n"
-                "Origin: inside bottom-left-back corner. X = width (left->right), Y = depth (back wall 0 -> glass 50), "
+                "Origin: inside bottom-left-back corner. X = width (left->right), Y = depth (back wall 0 -> glass 25), "
                 "Z = height (floor 0 -> top 200). All mm. Envelopes are bounding boxes incl. leaves/handles.\n\n")
         f.write(envelopes_md() + "\n")
