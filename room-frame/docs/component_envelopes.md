@@ -39,9 +39,9 @@ Origin: inside bottom-left-back corner. X = width (left->right), Y = depth (back
 | GO | Gold ornament (gold sphere pot + egg/leaf cluster) | R | 275-292 | 133.25-154.25 | 4-12 | 17 x 8 x 21 | Gold_Ornament |
 | CUP | Takeaway coffee cup with lid & sleeve (plain, unbranded) | R | 231-240 | 100.75-122.75 | 4-13 | 9 x 9 x 22 | Takeaway_Cup |
 | F8 | Photo frame - small landscape | R | 258.5-285.5 | 100.75-124.75 | 3-5.5 | 27 x 2.5 x 24 | Photo_Frame_Small |
-| DV | Donut vase + pampas spray | R | 232-244 | 68.25-94.25 | 5-10 | 12 x 5 x 26 | Donut_Vase + Pampas_Spray |
-| PQ | Message plaque (small frame, portrait) | R | 246.5-270.5 | 68.25-95.25 | 3-5.5 | 24 x 2.5 x 27 | Photo_Frame_Small (+ quote print) |
-| PD | Shelf plant D - small fern in swirl pot | R | 277.5-291.5 | 68.25-85.25 | 4-11 | 14 x 7 x 17 | Plant_Pot_04 + Plant_Leaves_04 |
+| DV | Donut vase + pampas spray | R | 232.25-244.25 | 68.25-94.25 | 5-10 | 12 x 5 x 26 | Donut_Vase + Pampas_Spray |
+| PQ | Message plaque (small frame, portrait) | R | 248.75-272.75 | 68.25-95.25 | 3-5.5 | 24 x 2.5 x 27 | Photo_Frame_Small (+ quote print) |
+| PD | Shelf plant D - small fern in swirl pot | R | 279.5-293.5 | 68.25-85.25 | 4-11 | 14 x 7 x 17 | Plant_Pot_04 + Plant_Leaves_04 |
 | BN | Bunny figurine (sitting) | R | 231.5-244.5 | 35.75-59.75 | 4-12 | 13 x 8 x 24 | Bunny |
 | F9 | Photo frame - small landscape | R | 257.5-284.5 | 35.75-59.75 | 3-5.5 | 27 x 2.5 x 24 | Photo_Frame_Small |
 | BK2 | Book stack (2 books, same parts as BK) | R | 240-264 | 3.25-14.25 | 3.5-11 | 24 x 7.5 x 11 | Book_01 + Book_02 |

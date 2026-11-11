@@ -139,7 +139,7 @@ ROW_Z = [2.0, 34.5, 67.0, 99.5, 132.0, 164.5]      # board centre heights bottom
 ROWS = [
     (7, 75, [51]),        # row 5 (bottom): books | elephant
     (3, 69, [27]),        # row 4: bunny | photo
-    (7, 75, [23, 48]),    # row 3: donut vase | plaque | plant D
+    (7, 75, [23.5, 52]),  # row 3: donut vase | plaque | plant D  (Rev B: plaque cell widened to fit 24 mm frame)
     (0, 73, [25]),        # row 2: cup | photo
     (3, 73, [48]),        # row 1 (top): photo | gold ornament
 ]

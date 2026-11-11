@@ -1,0 +1,234 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Store Versile room preview</title>
+<style>html,body{margin:0;background:#c9b49a;overflow:hidden}canvas{display:block}</style>
+<script type="importmap">
+{ "imports": { "three": "./node_modules/three/build/three.module.js",
+               "three/addons/": "./node_modules/three/examples/jsm/" } }
+</script>
+</head>
+<body>
+<script type="module">
+// Preview renderer for the Store Versile miniature room.
+// Geometry = the real exported part meshes (cad/build/installed/*.stl) placed by
+// cad/build/scene.json. Photos / prints are PLACEHOLDERS (no customer images).
+import * as THREE from 'three';
+import { STLLoader } from 'three/addons/loaders/STLLoader.js';
+import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
+
+const qs = new URLSearchParams(location.search);
+const W = +(qs.get('w') || 1800), H = +(qs.get('h') || 1200);
+const VIEW = qs.get('view') || 'front';
+
+const renderer = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true });
+renderer.setSize(W, H);
+renderer.setPixelRatio(1);
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 1.15;
+renderer.outputColorSpace = THREE.SRGBColorSpace;
+document.body.appendChild(renderer.domElement);
+
+const scene = new THREE.Scene();
+scene.background = new THREE.Color('#bfa58a');
+const pmrem = new THREE.PMREMGenerator(renderer);
+scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
+
+// ------------------------------------------------------------- materials
+const M = (c, o = {}) => new THREE.MeshStandardMaterial(Object.assign({ color: c, roughness: 0.6, metalness: 0 }, o));
+const MATS = {
+  floor: M('#b9824c'), slat: M('#efcba7', { roughness: 0.55, metalness: 0.08 }), ivory: M('#f6ecdf', { roughness: 0.55 }),
+  white: M('#f7f6f2', { roughness: 0.5 }), gold: M('#e0b850', { roughness: 0.3, metalness: 0.75, envMapIntensity: 2.2 }),
+  black: M('#1f2024', { roughness: 0.45 }), brown: M('#4b3226', { roughness: 0.6 }), green: M('#4d8c34', { roughness: 0.65 }),
+  green2: M('#79a35a', { roughness: 0.65 }), wood: M('#d6ac78', { roughness: 0.6 }), beige: M('#ead3a2', { roughness: 0.6 }),
+  silver: M('#e4e6ea', { roughness: 0.32, metalness: 0.6, envMapIntensity: 2.5 }), pampas: M('#ece2cc', { roughness: 0.9 }),
+};
+for (const m of Object.values(MATS)) m.side = THREE.DoubleSide;
+
+// ------------------------------------------------------------- canvas textures (placeholders)
+function canvasTex(w, h, draw) {
+  const c = document.createElement('canvas'); c.width = w; c.height = h;
+  draw(c.getContext('2d'), w, h);
+  const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace; t.anisotropy = 8; return t;
+}
+function figure(g, w, h, outfit, skin = '#d9a88c', hair = '#2b1d17', scale = 1) {
+  // generic silhouette (no real person)
+  const cx = w / 2, top = h * 0.16, s = h * 0.82 * scale;
+  g.fillStyle = hair; g.beginPath(); g.ellipse(cx, top + s * 0.07, s * 0.075, s * 0.085, 0, 0, 7); g.fill();
+  g.fillStyle = skin; g.beginPath(); g.ellipse(cx, top + s * 0.085, s * 0.058, s * 0.07, 0, 0, 7); g.fill();
+  g.fillRect(cx - s * 0.02, top + s * 0.14, s * 0.04, s * 0.05);
+  g.fillStyle = outfit; g.beginPath();
+  g.moveTo(cx - s * 0.11, top + s * 0.19); g.lineTo(cx + s * 0.11, top + s * 0.19);
+  g.lineTo(cx + s * 0.17, top + s * 0.95); g.lineTo(cx - s * 0.17, top + s * 0.95); g.closePath(); g.fill();
+}
+function photoTex(outfit, landscape) {
+  return canvasTex(landscape ? 540 : 480, landscape ? 480 : 540, (g, w, h) => {
+    g.fillStyle = '#ffffff'; g.fillRect(0, 0, w, h);                       // printed white mat
+    const m = w * 0.08; const grd = g.createLinearGradient(0, 0, 0, h);
+    grd.addColorStop(0, '#f1dfd4'); grd.addColorStop(1, '#e2c7b5');
+    g.fillStyle = grd; g.fillRect(m, m, w - 2 * m, h - 2 * m);
+    g.save(); g.beginPath(); g.rect(m, m, w - 2 * m, h - 2 * m); g.clip();
+    figure(g, w, h, outfit, undefined, undefined, 0.95); g.restore();
+  });
+}
+const quoteTex = canvasTex(480, 540, (g, w, h) => {
+  g.fillStyle = '#fff'; g.fillRect(0, 0, w, h); g.fillStyle = '#222'; g.textAlign = 'center';
+  g.font = 'bold 50px Inter, sans-serif';
+  ['A SMILE', 'IS', 'ALWAYS', 'THE', 'BEST', 'MAKE UP'].forEach((t, i) => g.fillText(t, w / 2, 110 + i * 68));
+});
+const marbleTex = canvasTex(780, 1760, (g, w, h) => {
+  g.fillStyle = '#f3f0ee'; g.fillRect(0, 0, w, h);
+  for (let i = 0; i < 900; i++) { g.fillStyle = `rgba(190,180,185,${Math.random() * 0.05})`; g.beginPath();
+    g.ellipse(Math.random() * w, Math.random() * h, 40 + Math.random() * 120, 10 + Math.random() * 40, Math.random() * 3, 0, 7); g.fill(); }
+  g.strokeStyle = '#d4ad4a'; g.lineWidth = 5; g.beginPath(); g.moveTo(120, 120);
+  g.bezierCurveTo(260, 400, 160, 600, 420, 760); g.bezierCurveTo(560, 860, 480, 1000, 640, 1120); g.stroke();
+  g.lineWidth = 2.5; g.beginPath(); g.moveTo(300, 470); g.bezierCurveTo(420, 560, 380, 640, 520, 700); g.stroke();
+  // customer portrait placeholder
+  g.save(); g.globalAlpha = 0.95; figure(g, w, h * 1.02, '#f2d3c9', '#d7a487', '#2a1c16', 0.86);
+  g.fillStyle = 'rgba(214,120,140,0.55)'; g.beginPath(); g.moveTo(w * 0.42, h * 0.33); g.lineTo(w * 0.63, h * 0.33);
+  g.lineTo(w * 0.66, h * 0.8); g.lineTo(w * 0.55, h * 0.8); g.closePath(); g.fill(); g.restore();
+});
+const woodTex = canvasTex(2048, 256, (g, w, h) => {
+  const pl = 26;
+  for (let y = 0; y < h; y += pl) {
+    let x = -Math.random() * 400;
+    while (x < w) {
+      const L = 300 + Math.random() * 500, base = 165 + Math.random() * 30;
+      g.fillStyle = `rgb(${base + 25},${base - 25},${base - 85})`; g.fillRect(x, y, L, pl - 1.5);
+      for (let k = 0; k < 6; k++) { g.strokeStyle = `rgba(90,50,20,${0.08 + Math.random() * 0.1})`; g.lineWidth = 1;
+        g.beginPath(); const yy = y + Math.random() * pl; g.moveTo(x, yy); g.bezierCurveTo(x + L / 3, yy + 3, x + 2 * L / 3, yy - 3, x + L, yy); g.stroke(); }
+      g.fillStyle = 'rgba(60,35,15,0.6)'; g.fillRect(x + L - 1.5, y, 1.5, pl); x += L;
+    }
+    g.fillStyle = 'rgba(60,35,15,0.6)'; g.fillRect(0, y + pl - 1.5, w, 1.5);
+  }
+});
+function spineTex(text, bg, fg) {
+  return canvasTex(512, 120, (g, w, h) => { g.fillStyle = bg; g.fillRect(0, 0, w, h); g.fillStyle = fg;
+    g.font = 'bold 54px Georgia, serif'; g.textAlign = 'center'; g.textBaseline = 'middle'; g.fillText(text, w / 2, h / 2 + 4); });
+}
+
+// ------------------------------------------------------------- helpers
+const loader = new STLLoader();
+const geomCache = {};
+async function geom(name) {
+  if (!geomCache[name]) geomCache[name] = new Promise((res, rej) =>
+    loader.load(`../cad/build/installed/${name}.stl`, g => { g.computeVertexNormals(); res(g); }, undefined, rej));
+  return geomCache[name];
+}
+function place(obj, t, r) {
+  obj.position.set(t[0], t[1], t[2]);
+  obj.rotation.set(THREE.MathUtils.degToRad(r[0]), THREE.MathUtils.degToRad(r[1]), THREE.MathUtils.degToRad(r[2]), 'ZYX');
+}
+function plane(w, h, mat) { const m = new THREE.Mesh(new THREE.PlaneGeometry(w, h), mat); m.rotation.x = Math.PI / 2; return m; } // faces +Y
+const FRAME_SIZE = { Photo_Frame_Small_P: [24, 27], Photo_Frame_Small_L: [27, 24], Photo_Frame_Large_P: [30, 39] };
+const OUTFITS = { F1: '#3a3f4c', F2: '#c0262d', F3: '#1f1f22', F4: '#e9cc6d', F5: '#2c2c30', F7: '#cbb98d', F8: '#5a5560', F9: '#e9e6e0' };
+
+// ------------------------------------------------------------- build
+const sceneDef = await (await fetch('../cad/build/scene.json')).json();
+const room = new THREE.Group(); scene.add(room);
+
+for (const inst of sceneDef.instances) {
+  const g = await geom(inst.part);
+  const matKey = sceneDef.parts[inst.part];
+  let mesh;
+  const split = sceneDef.splits[inst.part];
+  if (split) {                                         // two-colour-by-layer part
+    const [axis, v, below, above] = split; const gg = g.clone(); const pos = gg.attributes.position;
+    const cA = new THREE.Color(MATS[above].color), cB = new THREE.Color(MATS[below].color);
+    const k = axis === 'z' ? 2 : 1; const col = [];
+    for (let i = 0; i < pos.count; i += 3) {             // per-face colour (STL is non-indexed)
+      const m = (pos.getComponent(i, k) + pos.getComponent(i + 1, k) + pos.getComponent(i + 2, k)) / 3;
+      const c = m > v ? cA : cB;
+      for (let j = 0; j < 3; j++) col.push(c.r, c.g, c.b);
+    }
+    gg.setAttribute('color', new THREE.Float32BufferAttribute(col, 3));
+    mesh = new THREE.Mesh(gg, M('#ffffff', { vertexColors: true, roughness: 0.5, side: THREE.DoubleSide }));
+  } else mesh = new THREE.Mesh(g, MATS[matKey]);
+  mesh.castShadow = true; mesh.receiveShadow = true;
+  const grp = new THREE.Group(); grp.add(mesh); place(grp, inst.t, inst.r); room.add(grp);
+
+  // photo prints in the frames
+  if (FRAME_SIZE[inst.part]) {
+    const [fw, fh] = FRAME_SIZE[inst.part];
+    const tex = inst.label === 'PQ' ? quoteTex : photoTex(OUTFITS[inst.label] || '#777', fw > fh);
+    const p = plane(fw - 2.0, fh - 2.0, new THREE.MeshStandardMaterial({ map: tex, roughness: 0.35 }));
+    p.position.set(fw / 2, -1.25, fh / 2); p.receiveShadow = true; grp.add(p);
+  }
+  // book spine labels
+  const SP = { BK_1: ['HISTORY PROJECT', '#ffffff', '#222'], BK_2: ['DREAM COUNT', '#232428', '#eee'], BK_3: ['JOURNAL', '#ffffff', '#222'],
+               BK2_1: ['POETRY', '#ffffff', '#222'], BK2_2: ['MEMORIES', '#232428', '#eee'] };
+  if (SP[inst.label]) {
+    const dims = { Book_01: [24, 8], Book_02: [22.5, 7.5], Book_03: [23.5, 8] }[inst.part];
+    const p = plane(dims[0] * 0.8, 3.2, new THREE.MeshStandardMaterial({ map: spineTex(...SP[inst.label]), roughness: 0.5 }));
+    p.position.set(dims[0] / 2, -(dims[1] + 0.42), 2.75); grp.add(p);
+  }
+  // arch print (marble + portrait placeholder) inside the raised border
+  if (inst.part === 'Central_Arch') {
+    const w = 78 - 5, h = 176 - 2.5, r = w / 2; const s = new THREE.Shape();
+    s.moveTo(0, 0); s.lineTo(w, 0); s.lineTo(w, h - r); s.absarc(r, h - r, r, 0, Math.PI, false); s.lineTo(0, 0);
+    const sg = new THREE.ShapeGeometry(s, 48); const uv = sg.attributes.uv, ps = sg.attributes.position;
+    for (let i = 0; i < ps.count; i++) uv.setXY(i, ps.getX(i) / w, ps.getY(i) / h);
+    const pm = new THREE.Mesh(sg, new THREE.MeshStandardMaterial({ map: marbleTex, roughness: 0.4 }));
+    pm.rotation.x = Math.PI / 2; pm.position.set(2.5, -1.02, 0); pm.receiveShadow = true; grp.add(pm);
+  }
+}
+
+// wood-grain sticker on the floor tiles
+woodTex.wrapS = woodTex.wrapT = THREE.RepeatWrapping; woodTex.repeat.set(1, 0.5);
+const floor = new THREE.Mesh(new THREE.PlaneGeometry(300, 25), new THREE.MeshStandardMaterial({ map: woodTex, roughness: 0.55 }));
+floor.position.set(150, -12.5, 2.02); floor.receiveShadow = true; room.add(floor);
+
+// ------------------------------------------------------------- shadow-box (not printed)
+const boxMat = M('#ffffff', { roughness: 0.85, side: THREE.DoubleSide });
+const back = new THREE.Mesh(new THREE.PlaneGeometry(300, 200), boxMat); back.rotation.x = Math.PI / 2; back.position.set(150, 0.02, 100); back.receiveShadow = true; room.add(back);
+const sideL = new THREE.Mesh(new THREE.PlaneGeometry(25, 200), boxMat); sideL.rotation.set(Math.PI / 2, Math.PI / 2, 0); sideL.position.set(0, -12.5, 100); room.add(sideL);
+const sideR = sideL.clone(); sideR.position.x = 300; room.add(sideR);
+const ceil = new THREE.Mesh(new THREE.PlaneGeometry(300, 25), boxMat); ceil.position.set(150, -12.5, 200); ceil.rotation.x = Math.PI; room.add(ceil);
+const bot = new THREE.Mesh(new THREE.PlaneGeometry(300, 25), boxMat); bot.position.set(150, -12.5, 0); room.add(bot);
+const frameMat = M('#16171a', { roughness: 0.35, metalness: 0.1 });
+const FW = 22, FD = 12;
+for (const [x, z, w, h] of [[150, -FW / 2, 300 + 2 * FW, FW], [150, 200 + FW / 2, 300 + 2 * FW, FW], [-FW / 2, 100, FW, 200], [300 + FW / 2, 100, FW, 200]]) {
+  const b = new THREE.Mesh(new THREE.BoxGeometry(w, FD, h), frameMat); b.position.set(x, -(25 + FD / 2 - 2), z); b.castShadow = true; room.add(b);
+}
+const shell = new THREE.Mesh(new THREE.BoxGeometry(344, 27, 244), frameMat); shell.position.set(150, 11, 100);
+const shellBack = new THREE.Mesh(new THREE.BoxGeometry(344, 2, 244), frameMat); shellBack.position.set(150, 3, 100); room.add(shellBack);
+// LED strip (warm) under the top front lip
+const led = new THREE.Mesh(new THREE.BoxGeometry(296, 1.5, 1), new THREE.MeshBasicMaterial({ color: '#fff2d6' }));
+led.position.set(150, -21, 198.5); room.add(led);
+const backdrop = new THREE.Mesh(new THREE.PlaneGeometry(4000, 3000), M('#c6ab8e', { roughness: 1 }));
+backdrop.rotation.x = Math.PI / 2; backdrop.position.set(150, 40, 100); scene.add(backdrop);
+const table = new THREE.Mesh(new THREE.BoxGeometry(4000, 3000, 10), M('#c49a6a', { roughness: 0.8 }));
+table.position.set(150, 0, -12 - 5); table.receiveShadow = true; scene.add(table);
+
+// ------------------------------------------------------------- lights
+scene.add(new THREE.HemisphereLight('#fff6ea', '#8a6a4a', 0.55));
+for (const x of [40, 110, 190, 260]) {               // the LED strip, as 4 soft spot lights
+  const s = new THREE.SpotLight('#ffe9c7', 9000, 0, Math.PI / 2.4, 0.9, 2);
+  s.position.set(x, -21, 197); s.target.position.set(x, -4, 60); s.castShadow = true;
+  s.shadow.mapSize.set(2048, 2048); s.shadow.bias = -0.0004; s.shadow.radius = 4; s.shadow.camera.near = 1; s.shadow.camera.far = 400;
+  room.add(s); room.add(s.target);
+}
+const key = new THREE.DirectionalLight('#fff4e6', 0.9); key.position.set(120, -600, 300); key.target.position.set(150, 0, 100);
+key.castShadow = true; key.shadow.mapSize.set(4096, 4096); Object.assign(key.shadow.camera, { left: -200, right: 200, top: 150, bottom: -150, near: 100, far: 1200 });
+key.shadow.bias = -0.0003; scene.add(key); scene.add(key.target);
+
+// ------------------------------------------------------------- cameras
+const VIEWS = {
+  front:  { pos: [150, -820, 100], tgt: [150, 0, 100], fov: 18 },
+  angle:  { pos: [460, -560, 330], tgt: [150, -8, 92], fov: 22 },
+  left:   { pos: [55, -260, 125], tgt: [55, -6, 105], fov: 36 },
+  centre: { pos: [162, -230, 62], tgt: [162, -8, 52], fov: 30 },
+  right:  { pos: [262, -290, 110], tgt: [262, -8, 86], fov: 36 },
+  table:  { pos: [150, -95, 75], tgt: [158, -10, 34], fov: 32 },
+};
+const v = VIEWS[VIEW];
+const cam = new THREE.PerspectiveCamera(v.fov, W / H, 1, 5000);
+cam.up.set(0, 0, 1); cam.position.set(...v.pos); cam.lookAt(...v.tgt);
+renderer.render(scene, cam);
+window.__done = true;
+</script>
+</body>
+</html>
